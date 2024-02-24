@@ -1,0 +1,173 @@
+{
+  "main": {
+    "id": "a060c71a948b7f89",
+    "type": "split",
+    "children": [
+      {
+        "id": "a61bee8c538c9d2c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "16f85251b109b608",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "networking/Ifconfig.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "01716c39ccb7efca",
+    "type": "split",
+    "children": [
+      {
+        "id": "a6db5e93cd488ba4",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3bc0f3df05f54627",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "7bbd641763312c58",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "bab453c9dc4e6f44",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "68ff23b3c54fe645",
+    "type": "split",
+    "children": [
+      {
+        "id": "0eac6103f20c31ab",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "fd7bc88eb6f5e16e",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "networking/Ifconfig.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "45d6b2d11adeee6c",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "networking/Ifconfig.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "c0c22f402d894310",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "8251947f7d38202c",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "networking/Ifconfig.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "16f85251b109b608",
+  "lastOpenFiles": [
+    "cryptography/TTM 4135 - Practical.md",
+    "networking/Ifconfig.md",
+    "cryptography/images/Pasted image 20240224133524.png",
+    "cryptography/images/Pasted image 20240224132544.png",
+    "cryptography/images/Pasted image 20240224125012.png",
+    "cryptography/images/Pasted image 20240224124430.png",
+    "cryptography/images/Pasted image 20240214133446.png",
+    "cryptography/images/Pasted image 20240214132558.png",
+    "cryptography/images/Pasted image 20240214132546.png",
+    "cryptography/images/Pasted image 20240214131621.png",
+    "cryptography/images/Pasted image 20240214124446.png",
+    "cryptography/images/Pasted image 20240214115736.png",
+    "cryptography/images",
+    "cryptography/Cryptography concepts and theory.md",
+    "README.md",
+    "networking",
+    "hackthebox/Experiences.md",
+    "Webhacking.md",
+    "hackthebox/images",
+    "hackthebox",
+    "experiences"
+  ]
+}

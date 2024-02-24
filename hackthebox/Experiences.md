@@ -1,3 +1,11 @@
+
+---
+tags:
+- #hacking
+- #hackthebox
+- #IT
+---
+
 ### 12.01.2024
 
 Finding subdomains:
@@ -148,3 +156,75 @@ RECONFIGURE;
 ```
 
 
+### 20-21.01.2024
+
+Hacking the ignition box. Wanting to check the http status code when we try connecting to the site:
+
+```
+curl -I -v http://10.129.76.89
+```
+
+Could not find anyting useful when exploring the landing page so we try to look for directories on the site with gobuster:
+
+```
+gobuster dir -w directory-list-2.3-big.txt -u http://ignition.htb
+```
+
+After we find a login page, we try to login as the admin. Optimally we would try to extract some credential information from fuzzing the site, but since there was nothing useful, we try brute forcing with some usual passwords. 
+
+we know the password is required to be: min 7 chars,  including a number.
+
+Trying some of them, we find admin: qwerty123  is correct.  
+
+### 22 - 31.01.2024
+
+Hacking "Bike".
+
+We find a site which is vulnerable to **Server-Side Template Injection**:
+
+Possible ways to identify vulnerability:
+```
+{{7*7}}
+${7*7}
+<%= 7*7 %>
+${{7*7}}
+#{7*7}
+*{7*7}
+```
+
+If the SSTL exists, the website would detect the expressions over, and try to execute them as code
+
+Can be similar to XSS, but we differentiate by using mathematical operators when testing SSTL.
+
+
+SSTI occurs when user input is not properly sanitized or validated on the server side, and thus get executed as code within the context of a template engine. This vulnerability can occur when user input is concatenated directly into a template. This is for the note, a typical vulnerability for Node.js websites. 
+
+Template engine being used: Handlebars.
+
+Allows the site to define templates with placeholders, and then fill those placeholders with actual data during runtime.  
+
+Looking for ways to exploit Handlebars SSTL we go to:https://book.hacktricks.xyz/pentesting-web/ssti-server-side-template-injection#handlebars-nodejs
+
+And send the URL encoded version as the payload for the post parameter: email.
+
+We meet an error, that is that the site do not accept the require() statement in our payload.  Doing some digging we find out that we can use:
+
+```
+{{this.push "return process.mainModule.require('child_process');"}}
+```
+instead of: 
+```
+{{this.push "return process;"}}
+```
+
+This lets us execute code on server side, so doing some basic cat, ls, whoami commands, we find recognize are ourselfs as root user, and find the content of flag.txt.  
+
+### 31.01.2024
+Hacking  htb Funnel.
+
+After we scan we find a ftp service and a SSH. Start with connecting to the ftp:
+```
+ftp ftp://10.129.228.195:21
+```
+
+We find some file with some mails, and a mail explaining the password policy. 
