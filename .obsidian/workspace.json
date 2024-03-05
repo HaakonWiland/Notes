@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "networking/Ifconfig.md",
+                "file": "cryptography/Cryptography concepts and theory.md",
                 "mode": "source",
                 "source": false
               }
@@ -65,11 +65,13 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "68ff23b3c54fe645",
@@ -85,7 +87,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "networking/Ifconfig.md",
+                "file": "cryptography/Cryptography concepts and theory.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +104,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "networking/Ifconfig.md",
+                "file": "cryptography/Cryptography concepts and theory.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +127,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "networking/Ifconfig.md"
+                "file": "cryptography/Cryptography concepts and theory.md"
               }
             }
           }
@@ -148,21 +150,24 @@
   },
   "active": "16f85251b109b608",
   "lastOpenFiles": [
-    "cryptography/TTM 4135 - Practical.md",
-    "networking/Ifconfig.md",
-    "cryptography/images/Pasted image 20240224133524.png",
-    "cryptography/images/Pasted image 20240224132544.png",
-    "cryptography/images/Pasted image 20240224125012.png",
-    "cryptography/images/Pasted image 20240224124430.png",
-    "cryptography/images/Pasted image 20240214133446.png",
-    "cryptography/images/Pasted image 20240214132558.png",
-    "cryptography/images/Pasted image 20240214132546.png",
-    "cryptography/images/Pasted image 20240214131621.png",
-    "cryptography/images/Pasted image 20240214124446.png",
-    "cryptography/images/Pasted image 20240214115736.png",
-    "cryptography/images",
+    "cryptography/images/Pasted image 20240305182516.png",
+    "cryptography/images/Pasted image 20240305180600.png",
+    "cryptography/images/Pasted image 20240304111951.png",
+    "cryptography/images/Pasted image 20240304111932.png",
+    "cryptography/images/Pasted image 20240304111524.png",
+    "cryptography/images/Pasted image 20240304111354.png",
+    "cryptography/images/Pasted image 20240229152332.png",
+    "cryptography/images/Pasted image 20240229150351.png",
+    "cryptography/images/Pasted image 20240229150205.png",
+    "cryptography/images/Pasted image 20240229145834.png",
+    "cryptography/images/Pasted image 20240229145452.png",
+    "cryptography/Cryptocurrency/Monero.md",
     "cryptography/Cryptography concepts and theory.md",
+    "cryptography/Cryptocurrency",
     "README.md",
+    "networking/Ifconfig.md",
+    "cryptography/TTM 4135 - Practical.md",
+    "cryptography/images",
     "networking",
     "hackthebox/Experiences.md",
     "Webhacking.md",

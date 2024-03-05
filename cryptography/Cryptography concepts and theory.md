@@ -292,16 +292,16 @@ General: if we choose around √M values from a set of size M, the probability o
 -> Iterated hashes split the input into blocks of fixed size and operate on each block sequentially using a function. 
 
 **Merkle-Damgård construction:** 
-1. Break message m into n-bit blocks m1 , m2 , .... ml.
+1. Break message m into n bit-blocks m1 , m2 , .... ml.
 2. Add padding and encoding of the length of m (may or may not add one block)
-3. Input each block into compression function h along with chained output(Use an IV to start)
+3. Input each block into compression function h along with chained output(Use an IV to start). Note the compression function is a function that takes in two k-bit strings and sends out one k-bit string.  
 
 ![[Pasted image 20240214131621.png]]
 
-Note: If compression function h is collision-resistant, then hash function h is collision-resistant. (CHECK UP PROOF)
+Note: If compression function h is collision-resistant, then hash function h is collision-resistant. (CHECK UP PROOF) #TODO
 
 Possible weaknesses:
-- Length extension attack: Once you have one collision -> easy to find more.
+- Length extension attack: Once you have one collision -> easy to find more. e.i. we would have two inputs, that when send into the hash function would yield the same output: H(M1) = H(M2). <=>  two different messages with the same hash. 
 - Second-preimage attacks: Generally not as hard as they should be. 
 
 Hash functions using M-D Construction: MD5, SHA-1, SHA-2-family. 
@@ -336,34 +336,411 @@ Formula: MAC(M,K) = T
 
 MAC PROPERTIES:
 - Unforgeability: Impossible to find tag T without knowing key K.
-- #TODO
+- 
 
 While hiding messages is important, we also want to develop integrity in the communication. e.i. Ensuring that the message came from the correct person and that the message is not modified. 
 
-HMAC:
+Keyed-hash Message Authentication Code (HMAC):
 TYPE: Iterated cryptographic hash function 
 USES: Standardized in applications such as TLS and IPsec 
 
 Construction:
-![[Pasted image 20240224132544.png]]
+![[Pasted image 20240226113844.png]]
 
-Combining encryption and message authentication: #TODO
+Properties: 
+- Secure if function H is collision resistant or if H is psudorandom. 
+- Designed to resist length extension attacks 
 
-Authenticated encryption with associated data(AEAD): #TODO 
+
+***Combining encryption and message authentication:**
+3 possible ways of doing this:
+
+M: Message
+K = key
+K1 , K2: K split into two parts. 
+
+- Encrypt and MAC: Encrypt M and apply MAC to M, e.i. the MAC take is M as an input NOT C. Then we send C,T to the receiver. 
+- MAC then encrypt: Apply MAC to M to get tag T, then encrypt M || T => C. Then send C to the receiver. 
+- (Safest approach) Encrypt then MAC: C = enc(M, K1) , T = MAC(C, K2) => Then we send C and T to the receiver. 
+
+Since the MAC does not guarantee anything about secrecy (only integrity), there may be possible to find information about M based on the MAC(M,K). Hence encrypting before applying the MAC is considered safest. 
+
+Also MAC then Encrypt might lead to decryption errors since we pad M with the tag T: Padding may be incorrect or tag may not verify. An attacker may also intercept the message, and distinguish between the failures and exploit this. 
+
+
+**Authenticated encryption with associated data(AEAD):** #MORE?
+TYPE: Symmetric key cryptosystem 
+![[Pasted image 20240226123534.png]]
+
+
 Galois Counter Mode(GCM):
+TYPE: Block cipher mode providing AEAD
+USED: In web-based TLS 
+INVOLVES: CTR mode on block cipher,  with a keyed hash  function called GHASH.
+
+Article: https://csrc.nist.gov/pubs/sp/800/38/d/final
+
+Exploitation of GCM and GHASH: #TODO
+
+More about storing passwords:
+- Storing the password hash with the salt good, but will not slow down per-password attacks. Possible solution is PBKDF2 = Password based key derivation function 2.
+
+PBKDF2:
+Explain how it works #TODO 
 
 
 ### Number Theory for public key cryptography:
 
+Related theorems:
+- Chinese remainder 
+- Fermat 
+- Euler 
 
-### Public key cryptography 
+Testing for primiality:
+- Brute force / trial division is slow, and is not practical
+- More practical is Fermat Test and Miller-Rabin Test
+
+**Fermat primiality test:**
+
+Concept:
+We know: If a number p is prime then a^(p−1) (mod p) = 1 for all a with gcd(a, p) = 1.
+We can use this to examine a number n and check that a^(n-1) (mod n) != 1 => we know n is not prime. Else we assume its a prime. 
+
+This method can fail with some probability, hence to work around this, we repeat the test with different base values a.
+
+Example, for some numbers, the algorithm will always output probable prime for every a with gcd(a,n) = 1, such numbers we call *Carmichael numers*. Examples of this is 561, 1105,...
+
+Algorithm:
+![[Pasted image 20240226140908.png]]
+
+Miller-Rabin test:
+USES: Check if a number is prime. Generate large primes.
+Most widely used test for generating large prime numbers. 
+
+Concept:
+![[Pasted image 20240226141407.png]]
+
+Algorithm:
+![[Pasted image 20240226141622.png]]
+
+#TODO Explain in own words, and why it works. 
+
+Notes on complexity theory:
+![[Pasted image 20240226143151.png]]
 
 
-### RSA:
+Can categorize: 
+- O(m^t), for some int t: Polynomial time function
+- O(b^m), for some number b>1: Exponential time function. In cryptography we view a problem of this type as hard. Example: Brute force key search is exponential (keys is a bit string of m elements, then there is 2^m possible keys).
 
+Problem classification:
+We classify a problem according to the MINIMUM time and space needed to solve the HARDEST instance of the problem on a deterministic computer.
+
+Some important problems:
+1. Integer factorization: Given an int, find its prime factors. Best solution is using *Number field sieve*. 
+2. Discrete logarithm problem(DLP): Given base g, prime p and integer 0< y < p, find x such that: y = g^x mod p 
+
+Solutions to such problems on conventional computers are sub-exponential, slower then polynomial but faster then any exponential. 
+
+We can compare other problems in crypto, for example brute force key search, with the int-factorization problem or DLP. This gives some context to how difficult something would be. Example: 
+![[Pasted image 20240226145803.png]]
+
+
+So brute force search of 128-bit key(Example AES key), would take roughly same computational effort as factorization of 3072 bit number(two factors) or finding discrete logs in Z*p with p of length 3072.  
+
+### Public key cryptography(PKC) = asymmetric cryptography:
+PKC provides some features which cannot be achieved with symmetric key cryptography, and is widely applied for key management in protocols such as TLS and IPSec. 
+
+Advantages compared to symmetric cryptography:
+1. Key management: no need to transported confidentially. 
+2. Digital signatures can be obtained.
+
+
+Characterized by:
+- Encryption and decryption keys are different
+- ENCRYPTION KEY is public, DECRYPTION KEY is private 
+- Finding the private key from knowledge of public key must be a hard computational problem.
+
+
+Prerequisite:
+- One way functions: a function that is easy to compute f(x) for a given x, but is computationally hard to compute f^-1 (y) = x, given a y. HOT TOPIC if such function actually exist. Believed one-way functions: multiplication of large primes, Exponentiation(invest is discrete logarithms). 
+- Trapdoor one way functions: A one way function, that when given additional information(trapdoor) then the inverse is easy to compute. 
+
+Concept:
+A stores her public key PKa in a public directory, anyone can find HER key, and encrypt a message that one SHE can decrypt. We have cipher C = Enc(M, PKa) and recovery of message M = Dec(C, SKa).  
+
+PKC is more computationally expensive then SKC, so a typical use case is combining them, we call this *Hybrid encryption*:
+![[Pasted image 20240226153610.png]]
+
+
+### RSA (Example of PKC):
+TYPE: Public key cryptography 
+USES: 
+- Message encryption
+- Digital signatures
+- Distributing keys in SKC(ref hybrid encryption)
+- User authentication by providing knowledge of private key
+
+Concept:
+![[Pasted image 20240226170601.png]]
+
+![[Pasted image 20240226170622.png]]
+
+#TODO Proof of RSA correctness, refresh this such that you can explain it easily. 
+
+Implementation issues:
+- Key generating: Choice of e, generating large primes 
+- Encryption and decryption algorithms: 
+- Formatting data(padding)
+
+**Generating p and q:**
+- Recommended at least 1024 bits 
+![[Pasted image 20240226171850.png]]
+
+**Choice of e:**
+- Optimally: chosen at random 
+- For practical reasons e should be small(efficiency).
+- 65537 is a common choice of e 
+
+**Fast exponentiation (encryption/decryption):**
+- Square and multiply modular exponentiation algorithm. https://en.wikipedia.org/wiki/Exponentiation_by_squaring
+- Can also use Chinese remainder theorem: #TODO  How and why, fill in.
+
+**Formatting data:**
+- Using RSA on a messages directly, where the message is just encoded as numbers is a weak cryptosystem: Vulnerable to dictionary-known-plaintext-attacks, Guessing plaintext and checking if it encrypts to the correct cipher, Håstands attack. 
+- Hence, we need to use padding on the message before we encrypt. 
+- Two ways we add padding: PKCS #1, Optimal asymmetric encryption padding OAEP.
+
+PKCS number 1: 
+![[Pasted image 20240226173805.png]]
+
+
+OAEP: #TODO powerpoint very simply explain this, do own reading or do not prioritize.  
+
+
+Håstands attack:
+![[Pasted image 20240226173437.png]]
+
+Side channel attacks: Attacks that do not directly attack the mathematics behind RSA, but rather unintended leakage of information from physical implementations of the algorithm. 
+- Timing attacks: Exploit time taken to execute cryptographic operations 
+- Power analysis: Exploit power usage of private key operations to gain information about private key.
+- Fault analysis: Measure effect of interfering with the private key operations.  
+
+End notes:
+- Security of RSA depend on n being hard to split into p,q. Hence, breaking RSA is not harder then the factorization problem.  
+- Finding the private key from the public key is as hard as factorizing the modulus, and its not possible to find the private key WITHOUT factorizing the modulus. (See Miller, and Millers algorithm).
+- Quantum computers can use Shors algo to factorize in polynomial time. 
+- Poor random number generation can and have caused problems using RSA. 
+
+
+
+### PKC based on Discrete Logarithms:
+
+Main version PKC, these versions are often more efficient then RSA.
+
+**Diffie-Hellman key exchange:**
+GOAL: A,B wants to share a secret using only public communications.
+Public knowledge: There is a generator g of a multi group G of order t
+
+step 1: A,B each select random value a,b respectively where 0 < a,b < t.
+step 2: A sends g^a to B, and B sends g^b to A. (over insecure channel)
+step 3: They both find the secret key Z = g^ab
+=> They now have a common secret key. 
+
+Common choice today for G is an elliptic curve group.  
+
+Example with Z*p:
+![[Pasted image 20240229143525.png]]
+
+Attack on Diffie-Hellman:
+-> Intercept the value of g^a, and take the discrete log to obtain a. (Can do the same for b). 
+
+Note: This setup of D-H protocol does not use authentication, hence A,B does not know who the secret Z is shared with. This can enable man-in-the-middle attack, where an adversary sets up two keys, one with A and one with B, then he could relay messages between the two. 
+
+**Static Diffie-Helleman:**
+Keys are made to longtime use. 
+
+step 1: A chooses long-term private key XA with corresponding public key YA = g^XA, B does the same.
+step 2: A,B find a shared secret S  = g^XAXB by looking up each other public keys. #CHECK What stops attacker from doing the same?
+
+**Elgamal cryptosystem:** Turns D-H protocol into cryptosystem. 
+
+Setup example:
+![[Pasted image 20240229145221.png]]
+![[Pasted image 20240229145452.png]]
+
+#TODO Why it works. 
+
+Breaking the cryptosystem is equivelent to solving the DLP: 
+![[Pasted image 20240229145834.png]]
+
+In general, we think of solving DLP as difficult as the factoring n problem, where n is the product of two primes. Hence, we think of both methods of having the same level of security. 
+
+
+**Elliptic curves:**
+Basic explanation:
+![[Pasted image 20240229150205.png]]
+![[Pasted image 20240229150351.png]]
+
+
+We can generate new elliptic curves at any time, but in general we use standard curves that have proven to have certain properties.
+
+Check out: https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-186.pdf
+
+Generally: Cryptosystems based on descrete logarithms can be constructed by elliptic curves as well as Z*p. 
+
+Note: Post quantum most PKC would not be considered safe. Mainly due to Shors algo for factorization being speed up, which can be used both on factorization problem or DLP.
+
+Read more about PQC: https://csrc.nist.gov/Projects/post-quantum-cryptography/post-quantum-cryptography-standardization
 
 ### Digital Signatures:
 
+PKC make obtaining digital signatures possible, and is widely deployed in authentication protocols. 
 
-### Key Establishment and Certificates:
+Remember: MACs allow only an entity with the shared secret to generate a valid MAC tag, provides data integrity and data authentication. 
 
+Digital signatures: uses PKC to provide the properties of MAC and more. 
+![[Pasted image 20240229152332.png]]
+
+Schemes of digital signatures:
+- key generation: Generates two keys, one for signing and one for verifying. 
+- signature generation
+- signature verification 
+
+Note: There is should be computationally infeasible for anyone without signing key to construct a signature that gets verified. (unforgeability)
+
+
+Possible attacks: #MORE 
+- Key recovery:
+- Selective forgery:
+- Existential forgery:
+
+We consider a digital signature secure only if they can resist existential forgery under a chosen message attack.   
+
+**RSA signatures:** #MORE  Explain how and why it works.
+
+Steps - generating keys:
+1. The modulus, n = pq is defined, p and q being large primes.
+2. Two exponents e,d are generated, where ed mod phi(n) = 1
+3. Private signing key sk = (d,p,q), Public verification key pk = (e,n). 
+
+signature generation:
+input message m and modulus n, and private exponent d, and apply hash function h: ![[Pasted image 20240304111354.png]]
+Signature verification:
+input message m, and claimed signature sigma and the public key (e,n):
+![[Pasted image 20240304111524.png]]
+
+
+**Discrete logarithm signatures:** #TODO Explain and understand all of these.
+
+
+**Elgamal signatures:**
+![[Pasted image 20240304111932.png]]
+![[Pasted image 20240304111951.png]]
+
+
+
+**Schnorr signatures:**
+
+**DSA - standard by NIST:**
+
+**ECDSA - (DSA with elliptic curves):**
+
+### Key Establishment:
+Setting up keys in a cryptographic protocol, to protect a subsequent communication session. 
+
+We break up key management into 4 phases:
+1. Key generation: Ideally keys are random
+2. Key distribution: keys must be distributed in a secure fashion
+3. Key storage: keys must be accessible for use but not to unauthorized users
+4. Key destruction: removing a key from memory is not always easy 
+
+Type of keys:
+- **Long term keys:** Intended to be used for a long period. Can ether be symmetric or asymmetric keys depending on how they are used.  
+- **Ephemeral keys:** Single use, then deleted. Example Diffie-Hellman. Both Ephemeral - and Long term keys are used in establishment of session keys.  
+- **Session keys:** Intended for one communication session. Ususally symmetric keys used to protect communications in a session with ciphers. Also, keys for different sessions should be independent and have no effect on other sessions. 
+
+Security goals:
+- Authentication: A and B have a session key Kab, then Kab should not be shared with a different party.
+- Confidentiality: Adversary is unable to obtain the session key accepted by a particular party. 
+
+Note that both parties can achieve authentication, or only on side achieve this(unilateral). 
+
+
+**Categories of key establishment protocols:**
+
+**Key pre-distribution: Keys set in advance.****
+HOW: Trusted authority (TA) generates and distributes long term keys to all users when joining a system. TA only need to be "online" in the pre-distribution phase. 
+
+EXAMPLE: Simplest version assigns a secret key to each pair of users(poor scalability).
+
+**Key transport: One party chooses the key and distributes it.** #MORE Get a better understanding of this.
+
+HOW: TA share long-term shared key with each user. TA generates and sends session keys to users when requested and protected by the long term keys. 
+
+WEAKNESS: Scalability can be a problem, and TA is a single point of attack and needs to be trusted. 
+
+EXAMPLE: Kerberos.  
+https://datatracker.ietf.org/doc/html/rfc4120
+
+VERSIONS:
+Asymmetric version: One user chooses key material and sends it encrypted with the other party's public key. Then each party can include a random nonce value to ensure that the key is new. A key derivation function (KDF, often a HMAC) binds the secret key material with other protocol elements to prevent certain attacks. 
+
+note: not forward secure. 
+![[Pasted image 20240305180600.png]]
+
+
+
+**Key agreement: Two or more parties contribute the session key.** 
+HOW: Two parties each provide input to the keying material. Then usually add authentication with public keys, for example by signing the exchanged messages. 
+
+EXAMPLE: Diffie-Hellman protocol(Included in TLS).
+
+Signed Diffie-Hellman example: #TODO 
+Note: Forward secure. 
+![[Pasted image 20240305182516.png]]
+
+**Needham-Schroeder protocol:**
+- Basis from many protocols, example Kerberos. 
+- Vulnerable to replay attacks. 
+
+Key exchange protocol for secure communication over an insecure network, achieved by establishing a session key between two parties wanting to communicate. #MORE Explain and understand, include discussion about replay attacks. 
+
+**Kerberos:** #TODO 
+
+
+**(Perfect) Forward secrecy:**
+Property of protocols that ensures that past communication sessions remain secure even if long term secret keys used in the protocol is compromised in the future.  
+
+**Post compromise security (PCS):**
+If long term key "evolve" over time, an attacker cannot take advantage of capturing the long term key unless his is fast. 
+
+EXAMPLE: Send a new Diffie-Hellman share every message and change the session key also after each message. (ref Signal).
+
+
+
+
+
+
+### Digital Certificates (DC) & Public key infrastructure (PKI):
+While similar to digital signatures, Digital CERTIFICATES serves as a tool to verify the identity of users and establish trust. Remember Digital SIGNATURES is used to ensure the authenticity and integrity of digital documents/messages. 
+
+DCs normally contain a users Public key and the owners identity. Then the certificate is digitally signed by a trusted party, refereed to as certification authority(CA). 
+
+**Public key infrastructure:**
+*A framework that established in issue, maintain, and revoke public-key certificates.*
+
+Role of the CA: 
+- Create, issues and revokes certificates for users and other CAs.
+
+X.509:
+A standard format for public key certificates and key management in a PKI, defining structure of DCs, rules of issuance, distribution and validation. 
+
+Using a certificate:
+- Validating a certificate: Checking that the CA signatures is valid and that any conditions set in the certificate are correct. This is done with the public key of the CA. 
+
+### TLS:
+
+### IPsec:
+
+### Email security and secure messaging: 
