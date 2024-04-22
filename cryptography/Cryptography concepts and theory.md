@@ -739,7 +739,41 @@ A standard format for public key certificates and key management in a PKI, defin
 Using a certificate:
 - Validating a certificate: Checking that the CA signatures is valid and that any conditions set in the certificate are correct. This is done with the public key of the CA. 
 
-### TLS:
+### TLS (Transport Layer Security):
+Most widely used security protocol, used to secure communications with banks, online shops, email providers etc.
+
+Main versions: TLS 1.2 and TLS 1.3
+
+Designed to provide: secure reliable end to end services over TCP. 
+
+TLS protocol stack:
+![[Pasted image 20240306145016.png]]
+
+TLS handshake:
+- Client and server agree on encryption parameters, and general setup of the session.
+
+TLS change cipher spec: 
+- Normally used after the handshake protocol to indicate commencement of secure traffic. e.i. saying that the data being send from this point on is encrypted.
+
+TLS Alert:
+- Handles connection by sending an "alert" message of various degrees of severity 
+
+TLS cipersuites: (within TLS handshake protocol)
+- Sets cryptographic algorithms and parameters used during TLS handshake protocol, and the symmetric algorithms used in the record protocol.
+- Many different ciphersuits exist.
+
+Record protocol:
+- Message confidentiality: Ensure that the message contents cannot be read in transit 
+- Message integrity: Ensure that the receiver can detect if a message is modified in transit. 
+- These services can be provided by a symmetric encryption algorithm and a MAC. 
+- Format:
+![[Pasted image 20240306152016.png]]
+
+
+
+
+
+
 
 ### IPsec:
 
