@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "cryptography/Cryptography concepts and theory.md",
+                "file": "hackthebox/Experiences.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "cryptography/Cryptography concepts and theory.md",
+                "file": "hackthebox/Experiences.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "cryptography/Cryptography concepts and theory.md",
+                "file": "hackthebox/Experiences.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "cryptography/Cryptography concepts and theory.md"
+                "file": "hackthebox/Experiences.md"
               }
             }
           }
@@ -148,9 +148,9 @@
   },
   "active": "16f85251b109b608",
   "lastOpenFiles": [
+    "cryptography/Cryptography concepts and theory.md",
     "cryptography/images/Pasted image 20240423084753.png",
     "cryptography/images/Pasted image 20240205140251.png",
-    "cryptography/Cryptography concepts and theory.md",
     "cryptography/PGP.md",
     "README.md",
     "cryptography/Cryptocurrency/Monero.md",
@@ -162,7 +162,6 @@
     "cryptography/images/Pasted image 20240304111932.png",
     "cryptography/images/Pasted image 20240304111524.png",
     "cryptography/images/Pasted image 20240304111354.png",
-    "cryptography/images/Pasted image 20240229152332.png",
     "cryptography/Cryptocurrency",
     "networking/Ifconfig.md",
     "cryptography/TTM 4135 - Practical.md",
