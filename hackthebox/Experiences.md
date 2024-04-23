@@ -229,4 +229,3 @@ ftp ftp://10.129.228.195:21
 
 We find some file with some mails, and a mail explaining the password policy.
 
----> test for error!
