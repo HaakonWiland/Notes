@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Experiences.md",
+                "file": "hackthebox/Experiences.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Experiences.md",
+                "file": "hackthebox/Experiences.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Experiences.md",
+                "file": "hackthebox/Experiences.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Experiences.md"
+                "file": "hackthebox/Experiences.md"
               }
             }
           }
@@ -167,7 +167,7 @@
     "cryptography/TTM 4135 - Practical.md",
     "cryptography/images",
     "networking",
-    "Experiences.md",
+    "hackthebox/Experiences.md",
     "Webhacking.md",
     "hackthebox/images",
     "hackthebox",
