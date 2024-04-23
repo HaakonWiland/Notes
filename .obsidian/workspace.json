@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "cryptography/PGP.md",
+                "file": "cryptography/Cryptography concepts and theory.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "cryptography/PGP.md",
+                "file": "cryptography/Cryptography concepts and theory.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "cryptography/PGP.md",
+                "file": "cryptography/Cryptography concepts and theory.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "cryptography/PGP.md"
+                "file": "cryptography/Cryptography concepts and theory.md"
               }
             }
           }
@@ -148,12 +148,14 @@
   },
   "active": "16f85251b109b608",
   "lastOpenFiles": [
+    "cryptography/images/Pasted image 20240423084753.png",
+    "cryptography/images/Pasted image 20240205140251.png",
     "cryptography/Cryptography concepts and theory.md",
-    "README.md",
     "cryptography/PGP.md",
+    "README.md",
     "cryptography/Cryptocurrency/Monero.md",
-    "Pasted image 20240306152016.png",
-    "Pasted image 20240306145016.png",
+    "cryptography/images/Pasted image 20240306152016.png",
+    "cryptography/images/Pasted image 20240306145016.png",
     "cryptography/images/Pasted image 20240305182516.png",
     "cryptography/images/Pasted image 20240305180600.png",
     "cryptography/images/Pasted image 20240304111951.png",
@@ -161,7 +163,6 @@
     "cryptography/images/Pasted image 20240304111524.png",
     "cryptography/images/Pasted image 20240304111354.png",
     "cryptography/images/Pasted image 20240229152332.png",
-    "cryptography/images/Pasted image 20240229150351.png",
     "cryptography/Cryptocurrency",
     "networking/Ifconfig.md",
     "cryptography/TTM 4135 - Practical.md",
