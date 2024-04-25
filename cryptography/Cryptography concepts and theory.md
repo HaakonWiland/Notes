@@ -191,7 +191,7 @@ Different purpose:
 - Provide confidentiality -> Often done by introducing randomization.
 - Integrity -> often by Authentication 
 
-Mods can also have different features for practial reasons:
+Mods can also have different features for practical reasons:
 - Parallel processing: multiple plaintexts etc.
 - Error propagation: Bit errors result in multiple bit errors -> Easier to detect modifications 
 - Padding: To complete blocks, is added before encryption, and removed when decryption. 
@@ -768,12 +768,6 @@ Record protocol:
 - These services can be provided by a symmetric encryption algorithm and a MAC. 
 - Format:
 ![[Pasted image 20240306152016.png]]
-
-
-
-
-
-
 
 ### IPsec:
 
