@@ -24,6 +24,16 @@ Definitions:
 - **Confusion:** Substitution to make the relationship between the key and ciphertext as complex as possible. 
 - **Diffusion:** Transformations that dissipate the statistical properties of the plaintext across the ciphertext. 
 - **Differental cryptoanalysis:** Attack based on difference between two input plaintexts that can be correlated to differences in their ciphertext. 
+- Collision resistance:
+- Second preimage resistance:
+- One-wayness:
+- Birthday paradox:
+- HMAC:
+- GCM mode:
+- Big O Notation:
+- Fermat test:
+- Miller-Rabin test:
+- Factorization and discrete log. problems: 
 
 ### **Basic encryption:**
 - **Caesar cipher:**

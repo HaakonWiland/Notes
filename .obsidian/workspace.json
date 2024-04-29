@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "cryptography/Cryptography concepts and theory.md",
+                "file": "cryptography/TTM4135 Exercises.md",
                 "mode": "source",
                 "source": false
               }
@@ -97,7 +97,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "cryptography/Cryptography concepts and theory.md",
+                "file": "cryptography/TTM4135 Exercises.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -114,7 +114,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "cryptography/Cryptography concepts and theory.md",
+                "file": "cryptography/TTM4135 Exercises.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -137,7 +137,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "cryptography/Cryptography concepts and theory.md"
+                "file": "cryptography/TTM4135 Exercises.md"
               }
             }
           }
@@ -160,9 +160,11 @@
   },
   "active": "16f85251b109b608",
   "lastOpenFiles": [
-    "README.md",
-    "cryptography/TTM4135 Exams.md",
     "cryptography/Cryptography concepts and theory.md",
+    "cryptography/TTM4135 Exercises.md",
+    "cryptography/images/Pasted image 20240429113433.png",
+    "cryptography/images/Pasted image 20240429110607.png",
+    "README.md",
     "cryptography/images/Pasted image 20240425084134.png",
     "hackthebox/Experiences.md",
     "cryptography/PGP.md",
@@ -174,8 +176,6 @@
     "cryptography/images/Pasted image 20240305182516.png",
     "cryptography/images/Pasted image 20240305180600.png",
     "cryptography/images/Pasted image 20240304111951.png",
-    "cryptography/images/Pasted image 20240304111932.png",
-    "cryptography/images/Pasted image 20240304111524.png",
     "cryptography/Cryptocurrency",
     "networking/Ifconfig.md",
     "cryptography/TTM 4135 - Practical.md",

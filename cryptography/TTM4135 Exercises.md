@@ -16,4 +16,10 @@ b) As mentioned in a) the one time pad is by design set to only use each key onc
 For the AES-128-ECB the security would also be reduced by reusing the key. Since we encrypt each block independently, patterns can be identified if an attacker has access to multiple ciphertexts that has been encrypted with the same key.     
  **Conclusion:** While reusing the key for multiple messages with AES-ECB would reduce its security property, it would not break the encryption scheme in the same way it does for the one time pad.
 
-   
+
+**Worksheet 4.**
+![[Pasted image 20240429110607.png]]
+**Answer:** 
+Brute force AES128 key requires roughly 2^128 computations. Due to the birthday paradox, we need around 2^128 computations to find a collision for a SHA256 hash. 
+
+![[Pasted image 20240429113433.png]]
