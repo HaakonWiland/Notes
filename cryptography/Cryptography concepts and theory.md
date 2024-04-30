@@ -18,22 +18,29 @@ Definitions:
 - **Known plaintext attack:** Attacker has info about ciphertext and the plaintext generating them. 
 - **Chosen plaintext attack:** Attacker knows some the ciphertext of his own chosen plaintexts. 
 - **Chosen ciphertext attack:** Attacker can take arbitrary ciphertexts, and find the corresponding plaintext. 
-- **Kerckhoffs principle:** Security of the cryptosystem myst lie in the choice of its keys only, everything else should be considered public knowledge. 
+- **Kerckhoffs principle:** Security of the cryptosystem must lie in the choice of its keys only, everything else should be considered public knowledge. 
 - **Passive attacks:** Attack that attempts to learn/make use of, the information from a system. Examples: **Release of message**, **Traffic analysis**.
 - **Active attacks:** Attack that attempts to alter system resources / affect their operation. Examples: **Replay, Data modification, Masquerade, Denial of service**
 - **Confusion:** Substitution to make the relationship between the key and ciphertext as complex as possible. 
 - **Diffusion:** Transformations that dissipate the statistical properties of the plaintext across the ciphertext. 
 - **Differental cryptoanalysis:** Attack based on difference between two input plaintexts that can be correlated to differences in their ciphertext. 
-- Collision resistance:
-- Second preimage resistance:
-- One-wayness:
-- Birthday paradox:
-- HMAC:
-- GCM mode:
-- Big O Notation:
-- Fermat test:
-- Miller-Rabin test:
-- Factorization and discrete log. problems: 
+- **Collision resistance:** Hard to find h(x) = h(y), x != y
+- **Second preimage resistance:** Given x, its hard to find y st. h(y) = h(x)
+- **One-wayness:** Function that is easy one way, but hard the other way. ex: Factorization of big numbers. 
+- **Birthday paradox:** Surprisingly high chance for two people in a set to have the same birthday. Relatable to hash collisions. 
+- **HMAC:** Construction for creating a MAC by using a hash function and a secret key.  
+- **GCM mode:** Symmetric encryption mode of operation which provides confidentiality and data integrity. 
+- **Big O Notation:** Upper bound for time/space complexity. 
+- **Fermat test:** a^(p-1) = 1 mod p => if p satisfy for all 1 < a < p, p is probably prime else its composite.  
+- **Miller-Rabin test:** More reliable but slower test of prim then fermat test. 
+- **Factorization:** Decomposing number into prime factors is hard. 
+- **Discrete log. problems:** Find exponent that satisfy a equation with a base, moduli and a number. 
+- **Trapdoor oneway function:** A one way function, that when given some key information is easy to invert. (else its hard)
+- **RSA padding:** Extra bits (redundance and random), which results in encrypting the same plaintext twice results in different ciphertexts. This prevents dict-attacks and Håstand attacks.
+- **Prime number theorem:** Primes are rarer as the numbers grow larger.  
+- **Square and multiply algo.:** Algo. for faster decryption / encryption in RSA. 
+- **Håstads attack:** Can be done if SAME massage m is encrypted with the SAME public modulus but different ciphertext moduli (assumed to be relative prime, else we can just use Euclidean algo). Can then use CTR, see EX. 5.5.  Same exponent e also make it easier. 
+- **Millers theorem:** Find discrete logarithm is as hard as to factor. 
 
 ### **Basic encryption:**
 - **Caesar cipher:**
