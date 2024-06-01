@@ -41,6 +41,15 @@ Definitions:
 - **Square and multiply algo.:** Algo. for faster decryption / encryption in RSA. 
 - **Håstads attack:** Can be done if SAME massage m is encrypted with the SAME public modulus but different ciphertext moduli (assumed to be relative prime, else we can just use Euclidean algo). Can then use CTR, see EX. 5.5.  Same exponent e also make it easier. 
 - **Millers theorem:** Find discrete logarithm is as hard as to factor. 
+- **Disc. log problem:**
+- **Generator of Zp*:** 
+- **Diffie Hellman key exhange:**
+- **Elgamal cryptosystem:**
+- **Digital Signature:**
+- **Existential forgery and Selective forgery**
+- **Digital signature algorithm (DSA):**
+- **ECDSA:**
+- **Ephemeral Diffie Hellman (EDH):** DH key exchange protocol with forward secrecy. Keys use for key exchange is only used once per session. 
 
 ### **Basic encryption:**
 - **Caesar cipher:**
@@ -254,20 +263,20 @@ Often we use a TRNG as seed for a PRNG.
 Entropy Sources for random bit generation: https://csrc.nist.gov/pubs/sp/800/90/b/final
 -> Give examples where we can find physical sources for true randomness, and how to validate them. 
 
-**Deterministic Random Bit Generators (DRBG)**: (Fill inn later)
+**Deterministic Random Bit Generators (DRBG)**: 
 
 Functions:
-- Instantiate:
-- Generate:
-- Reseed:
-- Test:
-- Uninstantiate: 
+- Instantiate: Sets initial state of DRBG using a seed.(seed from TRNG)
+- Generate: Provides an output bit string 
+- Reseed: inputs new random seed and updates the state 
+- Test: Checks correct operation of the other functions 
+- Uninstantiate: Deletes the state of the DRBG
 
 Properties of secure DRBG:
-- Backtrack risistance:
-- Forward prediction resistance: 
+- Backtrack resistance: Attacker who obtains the current state of the DRBG should not be able to distinguish between the output of EARLIER calls to the DRBG generate function and random string.  
+- Forward prediction resistance: Backtrack resistance: Attacker who obtains the current state of the DRBG should not be able to distinguish between the output of LATER calls to the DRBG generate function and random string.  
 
-Examples:
+We define the security of a DRBG in terms of the ability of an attacker to distinguish reliably between its output and a true random string.
 
 **CTR_DRBG:**
 
@@ -588,7 +597,7 @@ Setup example:
 
 #TODO Why it works. 
 
-Breaking the cryptosystem is equivelent to solving the DLP: 
+Breaking the cryptosystem is equivalent to solving the DLP: 
 ![[Pasted image 20240229145834.png]]
 
 In general, we think of solving DLP as difficult as the factoring n problem, where n is the product of two primes. Hence, we think of both methods of having the same level of security. 
@@ -609,6 +618,13 @@ Generally: Cryptosystems based on descrete logarithms can be constructed by elli
 Note: Post quantum most PKC would not be considered safe. Mainly due to Shors algo for factorization being speed up, which can be used both on factorization problem or DLP.
 
 Read more about PQC: https://csrc.nist.gov/Projects/post-quantum-cryptography/post-quantum-cryptography-standardization
+
+
+### Key establishment protocols:
+
+**Needham–Schroeder protocol:**
+
+
 
 ### Digital Signatures:
 
@@ -786,6 +802,66 @@ Record protocol:
 - Format:
 ![[Pasted image 20240306152016.png]]
 
+TLS 1.3 improvements:
+- Saves one round trip time in the handshake.
+- Can setup follow-on session with 0-RTT: allows user to start sending encrypted data to server immediately, without waiting for full handshake. 
+- ONLY forward secret key exchange is now allowed
+- Excluding mange legacy cipher suits 
+- Renegotiation option removed -> protects against downgrade attack.
+
 ### IPsec:
 
+What is it: **Secure communication protocol at the network layer.** Think of it as TLS, but in the lower part of the stack. (TLS is in the application layer). 
+
+How it works: Authenticating and encrypting IP packets in a communication session.
+
+Common use case: VPNs 
+
+![[Pasted image 20240522132454.png]]
+
+Different types of architecture:
+
+Gateway to Gateway:
+- Provides secure network communications between two networks 
+- "Two secure networks establish a secure way to communicate with each other".
+
+Host to Gateway:
+- Used to provide secure remote access. Hosts is on unsecured networks, but want to se resources on secured networks. 
+- Org. deploys VPN gateway onto their network 
+- Each remote user establishes a vpn connection (Host to gateway)
+
+Host to Host:
+- Special cases such as admin working remote on a single server. 
+- Only version providing data protection throughout its transit (end 2 end)
+
+Modes of operation:
+- Transport mode: Maintains IP header of original packet and protects payload (Generally only used in Host 2 Host).
+- Tunnel mode: Original packet encapsulated into a new one, payload is original packet. (Gateway to Gateway)
+
+-> Transport mode protects only the payload of the IP packet, while Tunnel mode protects the entire IP packet 
+
 ### Email security and secure messaging: 
+
+Two ways we can provide email security:
+- Link by link basis with protocols such as: STARTTLS and DKIM. This is not end to end protected,  since the emails are only encrypted while in transit. 
+- Client to Client(End to end), using protocols such as PGP and S/MIME. In this case the clients is responsible for the encryption / decryption, which can be hard for some users. 
+
+STARTTLS:
+- Extension to mail protocols SMTP, POP and IMAP to run over TLS 
+- Email server using STARTTLS needs to support SMTP and TLS, they also may need to preform key exchange, encryption and authentication on the TLS connection. 
+- Widely used by "norme" email providers such as Gmail and Outlook
+- Vulnerable to STRIPTLS attacks: Attacker interrupts TLS negotiation and the connection falls back to plaintext transmission. 
+
+DKIM (Domain keys identified mail):
+- Adding authenticity to the email massage and detect forged sender addresses. 
+- Email has a signature made from the sending domains private key, and the receiving domain can verify the signing with the senders public key in the DNS records. 
+
+PGP:
+- End to end encryption
+- Optional to sign the encrypted message 
+- Some criticism: Outdated cryptography, no support for SHA3 or GCM, does not take care of metadata, no forward secrecy 
+
+Message ratcheting: 
+- When a messaging session starts both users generates a set of encryption keys, usually for a shard secret.
+- When the users exchange messages, the encryption keys are updated based on the the value of the previous keys, the content of the exchanged message and an algorithm. We call this process "ratcheting".
+- Message ratcheting is a way to ensure forward secrecy  
