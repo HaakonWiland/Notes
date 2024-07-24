@@ -29,3 +29,13 @@ Measurement of the amount of memory an algorithm needs to run as a function of t
 5. **Check for optimization:**
 6. **Verify Correctness:** 
 - Algorithm sorts correctly for various test cases. 
+
+
+![[Pasted image 20240724091904.png]]
+
+![[Pasted image 20240724100631.png]]
+![[Pasted image 20240724100827.png]]
+
+Useful log rules I tend to forget: 
+![[Pasted image 20240724105034.png]]
+![[Pasted image 20240724105400.png]]

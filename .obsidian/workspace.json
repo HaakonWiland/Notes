@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Malware/C.md",
+                "file": "Algorithms/Properties & Analysis of Algorithms.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Malware/C.md",
+                "file": "Algorithms/Properties & Analysis of Algorithms.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Malware/C.md",
+                "file": "Algorithms/Properties & Analysis of Algorithms.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Malware/C.md"
+                "file": "Algorithms/Properties & Analysis of Algorithms.md"
               }
             }
           }
@@ -148,9 +148,21 @@
   },
   "active": "16f85251b109b608",
   "lastOpenFiles": [
+    "Algorithms/images/Pasted image 20240724105400.png",
+    "Algorithms/images/Pasted image 20240724105034.png",
+    "Algorithms/images/Pasted image 20240724100827.png",
+    "Algorithms/images/Pasted image 20240724100631.png",
+    "Algorithms/NP.md",
+    "Algorithms/Breadth-First Search.md",
+    "Algorithms/Depth-First Search.md",
+    "Algorithms/To_Be_deleted.md",
+    "Algorithms/Properties & Analysis of Algorithms.md",
+    "Algorithms/images/Pasted image 20240724091904.png",
+    "Algorithms/Network Flow problems.md",
+    "Malware/RAT (Remote Access Trojan).md",
+    "Malware/C.md",
     "Malware/History of malware.md",
     "Malware/Malware Development Basics.md",
-    "Malware/RAT (Remote Access Trojan).md",
     "Malware/Socket programming.md",
     "Malware/Windows API.md",
     "Algorithms/Gale-Shapley Algorithm.md",
@@ -163,15 +175,9 @@
     "cryptography/Cryptocurrency/Monero.md",
     "Assembly/Crash Course.md",
     "Assembly",
-    "Algorithms/NP.md",
-    "Algorithms/Network Flow problems.md",
     "Algorithms/Graphs.md",
     "Algorithms/Dynamic Programming.md",
-    "Algorithms/Breadth-First Search.md",
-    "Algorithms/Depth-First Search.md",
-    "Algorithms/Properties & Analysis of Algorithms.md",
     "Algorithms/Divide and Conquer.md",
-    "Malware/C.md",
     "hackthebox/Experiences.md",
     "cryptography/Cryptography concepts and theory.md",
     "cryptography/PGP.md",
@@ -181,13 +187,8 @@
     "Malware/images",
     "Malware",
     "cryptography/images/Pasted image 20240522132454.png",
-    "cryptography/TTM4135 Exercises.md",
     "cryptography/images/Pasted image 20240505140140.png",
     "cryptography/images/Pasted image 20240505132120.png",
-    "cryptography/images/Pasted image 20240505125839.png",
-    "cryptography/images/Pasted image 20240505123114.png",
-    "cryptography/images/Pasted image 20240429113433.png",
-    "cryptography/images/Pasted image 20240429110607.png",
     "cryptography/Cryptocurrency",
     "cryptography/images",
     "networking",
