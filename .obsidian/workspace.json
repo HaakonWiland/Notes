@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Algorithms/Properties & Analysis of Algorithms.md",
+                "file": "Algorithms/Breadth-First Search.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Algorithms/Properties & Analysis of Algorithms.md",
+                "file": "Algorithms/Breadth-First Search.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Algorithms/Properties & Analysis of Algorithms.md",
+                "file": "Algorithms/Breadth-First Search.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Algorithms/Properties & Analysis of Algorithms.md"
+                "file": "Algorithms/Breadth-First Search.md"
               }
             }
           }
@@ -148,15 +148,17 @@
   },
   "active": "16f85251b109b608",
   "lastOpenFiles": [
+    "Algorithms/Graphs.md",
+    "Algorithms/Breadth-First Search.md",
+    "Algorithms/images/Pasted image 20240725112830.png",
+    "Algorithms/Properties & Analysis of Algorithms.md",
     "Algorithms/images/Pasted image 20240724105400.png",
     "Algorithms/images/Pasted image 20240724105034.png",
     "Algorithms/images/Pasted image 20240724100827.png",
     "Algorithms/images/Pasted image 20240724100631.png",
     "Algorithms/NP.md",
-    "Algorithms/Breadth-First Search.md",
     "Algorithms/Depth-First Search.md",
     "Algorithms/To_Be_deleted.md",
-    "Algorithms/Properties & Analysis of Algorithms.md",
     "Algorithms/images/Pasted image 20240724091904.png",
     "Algorithms/Network Flow problems.md",
     "Malware/RAT (Remote Access Trojan).md",
@@ -175,7 +177,6 @@
     "cryptography/Cryptocurrency/Monero.md",
     "Assembly/Crash Course.md",
     "Assembly",
-    "Algorithms/Graphs.md",
     "Algorithms/Dynamic Programming.md",
     "Algorithms/Divide and Conquer.md",
     "hackthebox/Experiences.md",
@@ -187,8 +188,6 @@
     "Malware/images",
     "Malware",
     "cryptography/images/Pasted image 20240522132454.png",
-    "cryptography/images/Pasted image 20240505140140.png",
-    "cryptography/images/Pasted image 20240505132120.png",
     "cryptography/Cryptocurrency",
     "cryptography/images",
     "networking",
