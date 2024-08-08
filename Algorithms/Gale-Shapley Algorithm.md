@@ -4,7 +4,8 @@ Also known as: Deferred Acceptance algorithm.
 - Stability: No pair of elements prefer each other over their assigned matches, preventing "blocking pairs", which is guaranteed by the Algorithm! 
 - Optimality: **Can** be optimal for one side of the matching parties. In **GS where men propose**, each man receives best valid partner! 
 - Fairness: Aims to create a fair matching based on the preferences provided. 
-- Runtime: O(n^2)
+- **Time complexity:** O(n^2)
+- A stable match must always lie in between a man-optimal solution and women optimal solution, hence if a solution is both man-and-women optimal, it is the ONLY valid solution. 
 
 **Definitions:**
 - Valid partners: W is a valid partner of m if there exist some stable matching where m and w are paired. 

@@ -1,6 +1,4 @@
-
-
-Spørsmål til kevin: 
-
-- Assignment 8 Task 1a): Diskuter flere slike oppgaver
-- 
+- Implemetering av merge sort
+- Ford fulkersen 
+- make a heap time complexity 
+- bellman ford tebale notation
