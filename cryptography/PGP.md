@@ -1,4 +1,4 @@
-
+#Privacy
 Commands using GPG for PGP:
 
 ```
@@ -42,6 +42,8 @@ For more practical application, one could use extensions of email clients, ref E
 
 Note: PGP does not protect metadata.
 
-Temp: 
+- login to ubuntu server:  
+```
+ssh ubuntu@<ip-address> -i haakwil.pem
+```
 
-- login to ubuntu server: ssh ubuntu@129.241.150.251 -i haakwil.pem
