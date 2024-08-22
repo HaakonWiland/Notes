@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "cryptography/TMA4160/TMA4160 - Lecture Notes.md",
+                "file": "networking/Working with networks.md",
                 "mode": "source",
                 "source": false
               }
@@ -85,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "cryptography/TMA4160/TMA4160 - Lecture Notes.md",
+                "file": "networking/Working with networks.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -102,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "cryptography/TMA4160/TMA4160 - Lecture Notes.md",
+                "file": "networking/Working with networks.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -125,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "cryptography/TMA4160/TMA4160 - Lecture Notes.md"
+                "file": "networking/Working with networks.md"
               }
             }
           }
@@ -148,25 +148,28 @@
   },
   "active": "16f85251b109b608",
   "lastOpenFiles": [
+    "cryptography/TTM4205/TTM4205 - Lecture notes.md",
+    "networking/Working with networks.md",
+    "cryptography/TTM4205/images/Pasted image 20240820110959.png",
+    "cryptography/TTM4205/images/Pasted image 20240820110914.png",
+    "cryptography/TTM4205/images/Pasted image 20240820110813.png",
+    "cryptography/TTM4205/images/Pasted image 20240820110805.png",
+    "cryptography/TTM4205/images",
+    "cryptography/TMA4160/TMA4160 - Lecture Notes.md",
+    "cryptography/TTM4205",
     "cryptography/TMA4160/images/Pasted image 20240819125451.png",
     "cryptography/TMA4160/images/Pasted image 20240819124931.png",
     "cryptography/TMA4160/images",
     "cryptography/Cryptography concepts and theory.md",
-    "cryptography/TMA4160/TMA4160 - Lecture Notes.md",
     "cryptography/TMA4160",
     "Cryptography.md",
     "Algorithms/images/Pasted image 20240808110645.png",
     "Algorithms/images/Pasted image 20240808110459.png",
     "Algorithms/images/Pasted image 20240731154549.png",
     "Algorithms/images/Pasted image 20240731152355.png",
-    "Algorithms/images/Pasted image 20240731141638.png",
-    "Algorithms/images/Pasted image 20240731123615.png",
-    "Algorithms/images/Pasted image 20240731120908.png",
     "Algorithms/Breadth-First Search.md",
     "Algorithms/Graphs.md",
-    "Algorithms/images/Pasted image 20240725112830.png",
     "Algorithms/Properties & Analysis of Algorithms.md",
-    "Algorithms/images/Pasted image 20240724105400.png",
     "Algorithms/NP.md",
     "Algorithms/Depth-First Search.md",
     "Algorithms/To_Be_deleted.md",
@@ -187,12 +190,9 @@
     "Assembly",
     "Algorithms/Dynamic Programming.md",
     "Algorithms/Divide and Conquer.md",
-    "hackthebox/Experiences.md",
     "Algorithms",
     "Malware/images",
     "Malware",
-    "cryptography/Cryptocurrency",
-    "cryptography/images",
-    "networking"
+    "cryptography/Cryptocurrency"
   ]
 }
