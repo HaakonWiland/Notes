@@ -5,7 +5,7 @@
 
 #### Lingo:
 - **Randomness:** Absence of predictable pattern 
-- **Entropy:** Quantifying the amount of randomness / unpredictability, often measured in bits. 
+- **Entropy:** Quantifying the amount of randomness / unpredictability, often measured in bits. In the case of low entropy, we usually have a smaller - or biased set of possibilities. 
 - **Random Oracle:** Theoretical model used to describe in idealized function that produces truly random output for every unique input. (But it is deterministic). In practice, there are not truly random oracles, the concept is mainly used to prove security of cryptosystems.
 
 
@@ -77,3 +77,8 @@ Some PRNGs that might be predictable given some samples or statistical testing:
 
 #### Qualities of a RNG that we need to ensure:
 #TODO 
+
+
+### Randomness 3: Breaking ECDSA
+
+Very technical, and much math notation. Will look into later if its needed. 
