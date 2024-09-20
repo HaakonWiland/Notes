@@ -25,7 +25,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "cryptography/TTM4205/Elliptic Curves.md",
+                "file": "cryptography/Crypto CTF  Tricks.md",
                 "mode": "source",
                 "source": false
               }
@@ -98,7 +98,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "cryptography/TTM4205/Elliptic Curves.md",
+                "file": "cryptography/Crypto CTF  Tricks.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,7 +115,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "cryptography/TTM4205/Elliptic Curves.md",
+                "file": "cryptography/Crypto CTF  Tricks.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -138,7 +138,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "cryptography/TTM4205/Elliptic Curves.md"
+                "file": "cryptography/Crypto CTF  Tricks.md"
               }
             }
           }
@@ -161,6 +161,13 @@
   },
   "active": "63166fa518de48cb",
   "lastOpenFiles": [
+    "Malware/RAT (Remote Access Trojan).md",
+    "BinaryExploit/Heap 0 - Pico CTF.md",
+    "Reverse Engineering/babyrev_level1.1.md",
+    "BinaryExploit",
+    "cryptography/Crypto CTF  Tricks.md",
+    "cryptography/Cryptography concepts and theory.md",
+    "cryptography/TTM4205/Elliptic Curves.md",
     "cryptography/TTM4205/images/Pasted image 20240909131237.png",
     "cryptography/TTM4205/images/Pasted image 20240909131108.png",
     "cryptography/TTM4205/images/Pasted image 20240909130759.png",
@@ -168,12 +175,9 @@
     "cryptography/TTM4205/images/Pasted image 20240909124246.png",
     "cryptography/TTM4205/images/Pasted image 20240909123926.png",
     "cryptography/TTM4205/images/Pasted image 20240909123220.png",
-    "cryptography/Crypto CTF  Tricks.md",
-    "cryptography/TTM4205/Elliptic Curves.md",
     "Assembly/Basics.md",
     "Assembly/images/Pasted image 20240905160016.png",
     "Assembly/images",
-    "Reverse Engineering/babyrev_level1.1.md",
     "cryptography/TTM4205/TTM4205 - Lecture notes.md",
     "Reverse Engineering",
     "networking/Working with networks.md",
@@ -181,11 +185,9 @@
     "cryptography/TTM4205/TTM4205 - Lecture Notes.md",
     "cryptography/TTM4205/images/Pasted image 20240820110959.png",
     "cryptography/TTM4205/images/Pasted image 20240820110914.png",
-    "cryptography/TTM4205/images/Pasted image 20240820110813.png",
     "cryptography/TTM4205/images",
     "cryptography/TMA4160/images",
     "cryptography/TTM4205",
-    "cryptography/Cryptography concepts and theory.md",
     "cryptography/PGP.md",
     "Cryptography.md",
     "cryptography/TMA4160",
@@ -202,10 +204,8 @@
     "Algorithms/To_Be_deleted.md",
     "cryptography/TTM4135 Exams.md",
     "cryptography/TTM4135 Exercises.md",
-    "cryptography/Cryptocurrency/General Theory.md",
     "Malware/images",
     "Malware",
-    "Algorithms/images",
-    "Algorithms"
+    "Algorithms/images"
   ]
 }

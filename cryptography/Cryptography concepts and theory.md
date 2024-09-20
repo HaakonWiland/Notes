@@ -304,6 +304,13 @@ General:
 Terminology:
 - Compression function: Takes two n-bit input strings x1 and x2 and produces an n-bit output string y. 
 
+**Hashing with Diffie hellman (DH):**
+The shared secret can be of different lengths, and the key-length of many encryption algorithms have standardized length. Hence we can use the hash of the shared secret to derive the key.   
+
+
+
+
+
 Definition: Public function with properties: 
 1. It is simple and fast to compute
 2. It takes in a message of arbitrary length, and returns a result of fixed length.
