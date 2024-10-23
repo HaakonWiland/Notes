@@ -8,31 +8,20 @@
         "type": "tabs",
         "children": [
           {
-            "id": "62a938edee49cc33",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Reverse Engineering/babyrev_level1.1.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
             "id": "63166fa518de48cb",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "cryptography/Crypto CTF  Tricks.md",
+                "file": "hackthebox/Funnel.md",
                 "mode": "source",
                 "source": false
-              }
+              },
+              "icon": "lucide-file",
+              "title": "Funnel"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -52,7 +41,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical"
-              }
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
             }
           },
           {
@@ -67,7 +58,9 @@
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical"
-              }
+              },
+              "icon": "lucide-search",
+              "title": "Search"
             }
           },
           {
@@ -75,7 +68,9 @@
             "type": "leaf",
             "state": {
               "type": "bookmarks",
-              "state": {}
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
             }
           }
         ]
@@ -98,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "cryptography/Crypto CTF  Tricks.md",
+                "file": "hackthebox/Funnel.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -106,7 +101,9 @@
                 "searchQuery": "",
                 "backlinkCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Funnel"
             }
           },
           {
@@ -115,10 +112,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "cryptography/Crypto CTF  Tricks.md",
+                "file": "hackthebox/Funnel.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
-              }
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Funnel"
             }
           },
           {
@@ -129,7 +128,9 @@
               "state": {
                 "sortOrder": "frequency",
                 "useHierarchy": true
-              }
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
             }
           },
           {
@@ -138,8 +139,10 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "cryptography/Crypto CTF  Tricks.md"
-              }
+                "file": "hackthebox/Funnel.md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Funnel"
             }
           }
         ]
@@ -161,30 +164,33 @@
   },
   "active": "63166fa518de48cb",
   "lastOpenFiles": [
+    "hackthebox/General.md",
+    "hackthebox/Funnel.md",
+    "hackthebox/Experiences.md",
+    "hackthebox/images/Pasted image 20241023220239.png",
+    "hackthebox/images/Pasted image 20241023220227.png",
+    "hackthebox/images/Pasted image 20241023214916.png",
+    "hackthebox/images/Pasted image 20241023214235.png",
+    "hackthebox/images/Pasted image 20241023214223.png",
+    "hackthebox/images/Pasted image 20241023212145.png",
+    "cryptography/Crypto CTF  Tricks.md",
+    "cryptography/images/Pasted image 20240925162413.png",
+    "cryptography/images/Pasted image 20240925162143.png",
     "Malware/RAT (Remote Access Trojan).md",
     "BinaryExploit/Heap 0 - Pico CTF.md",
     "Reverse Engineering/babyrev_level1.1.md",
     "BinaryExploit",
-    "cryptography/Crypto CTF  Tricks.md",
     "cryptography/Cryptography concepts and theory.md",
     "cryptography/TTM4205/Elliptic Curves.md",
     "cryptography/TTM4205/images/Pasted image 20240909131237.png",
     "cryptography/TTM4205/images/Pasted image 20240909131108.png",
-    "cryptography/TTM4205/images/Pasted image 20240909130759.png",
-    "cryptography/TTM4205/images/Pasted image 20240909124323.png",
-    "cryptography/TTM4205/images/Pasted image 20240909124246.png",
-    "cryptography/TTM4205/images/Pasted image 20240909123926.png",
-    "cryptography/TTM4205/images/Pasted image 20240909123220.png",
     "Assembly/Basics.md",
-    "Assembly/images/Pasted image 20240905160016.png",
     "Assembly/images",
     "cryptography/TTM4205/TTM4205 - Lecture notes.md",
     "Reverse Engineering",
     "networking/Working with networks.md",
     "cryptography/TMA4160/TMA4160 - Lecture Notes.md",
     "cryptography/TTM4205/TTM4205 - Lecture Notes.md",
-    "cryptography/TTM4205/images/Pasted image 20240820110959.png",
-    "cryptography/TTM4205/images/Pasted image 20240820110914.png",
     "cryptography/TTM4205/images",
     "cryptography/TMA4160/images",
     "cryptography/TTM4205",
@@ -200,10 +206,6 @@
     "Algorithms/Dynamic Programming.md",
     "Algorithms/Divide and Conquer.md",
     "Algorithms/Depth-First Search.md",
-    "Algorithms/Breadth-First Search.md",
-    "Algorithms/To_Be_deleted.md",
-    "cryptography/TTM4135 Exams.md",
-    "cryptography/TTM4135 Exercises.md",
     "Malware/images",
     "Malware",
     "Algorithms/images"
