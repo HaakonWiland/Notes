@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "hackthebox/Funnel.md",
+                "file": "Tryhackme/Networks.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Funnel"
+              "title": "Networks"
             }
           }
         ]
@@ -164,16 +164,25 @@
   },
   "active": "63166fa518de48cb",
   "lastOpenFiles": [
-    "hackthebox/General.md",
-    "hackthebox/Funnel.md",
+    "Tryhackme/images/Pasted image 20241113214250.png",
+    "Tryhackme/images/Pasted image 20241113213301.png",
+    "Tryhackme/images/Pasted image 20241113213159.png",
+    "Tryhackme/images",
+    "Tryhackme/Windows.md",
+    "Tryhackme/Networks.md",
+    "Tryhackme/Untitled 1.md",
+    "hackthebox/Pennywoth.md",
+    "Tryhackme",
     "hackthebox/Experiences.md",
+    "hackthebox/General.md",
+    "cryptography/Crypto CTF  Tricks.md",
+    "hackthebox/Funnel.md",
     "hackthebox/images/Pasted image 20241023220239.png",
     "hackthebox/images/Pasted image 20241023220227.png",
     "hackthebox/images/Pasted image 20241023214916.png",
     "hackthebox/images/Pasted image 20241023214235.png",
     "hackthebox/images/Pasted image 20241023214223.png",
     "hackthebox/images/Pasted image 20241023212145.png",
-    "cryptography/Crypto CTF  Tricks.md",
     "cryptography/images/Pasted image 20240925162413.png",
     "cryptography/images/Pasted image 20240925162143.png",
     "Malware/RAT (Remote Access Trojan).md",
@@ -182,8 +191,6 @@
     "BinaryExploit",
     "cryptography/Cryptography concepts and theory.md",
     "cryptography/TTM4205/Elliptic Curves.md",
-    "cryptography/TTM4205/images/Pasted image 20240909131237.png",
-    "cryptography/TTM4205/images/Pasted image 20240909131108.png",
     "Assembly/Basics.md",
     "Assembly/images",
     "cryptography/TTM4205/TTM4205 - Lecture notes.md",
@@ -202,12 +209,6 @@
     "Algorithms/Network Flow problems.md",
     "Algorithms/Greedy Algorithms.md",
     "Algorithms/Graphs.md",
-    "Algorithms/Gale-Shapley Algorithm.md",
-    "Algorithms/Dynamic Programming.md",
-    "Algorithms/Divide and Conquer.md",
-    "Algorithms/Depth-First Search.md",
-    "Malware/images",
-    "Malware",
-    "Algorithms/images"
+    "Malware/images"
   ]
 }
