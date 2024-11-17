@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Tryhackme/Networks.md",
+                "file": "Tryhackme/Metasploit.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Networks"
+              "title": "Metasploit"
             }
           }
         ]
@@ -164,12 +164,26 @@
   },
   "active": "63166fa518de48cb",
   "lastOpenFiles": [
-    "Tryhackme/images/Pasted image 20241113214250.png",
-    "Tryhackme/images/Pasted image 20241113213301.png",
-    "Tryhackme/images/Pasted image 20241113213159.png",
-    "Tryhackme/images",
-    "Tryhackme/Windows.md",
+    "Tryhackme/images/Pasted image 20241117205823.png",
+    "Tryhackme/Hashes.md",
+    "Tryhackme/Metasploit.md",
     "Tryhackme/Networks.md",
+    "Tryhackme/images/Pasted image 20241115234018.png",
+    "Tryhackme/images/Pasted image 20241115233631.png",
+    "Tryhackme/images/Pasted image 20241115233321.png",
+    "Tryhackme/images/Pasted image 20241115232709.png",
+    "Tryhackme/images/Pasted image 20241115224637.png",
+    "Tryhackme/images/Pasted image 20241115223259.png",
+    "Tryhackme/images/Pasted image 20241115220015.png",
+    "Tryhackme/images/Pasted image 20241114201909.png",
+    "Tryhackme/images/Pasted image 20241114194722.png",
+    "Tryhackme/Windows.md",
+    "README.md",
+    "networking/Ifconfig.md",
+    "Cryptography.md",
+    "networking/Working with networks.md",
+    "Tryhackme/images/Pasted image 20241113214250.png",
+    "Tryhackme/images",
     "Tryhackme/Untitled 1.md",
     "hackthebox/Pennywoth.md",
     "Tryhackme",
@@ -177,14 +191,6 @@
     "hackthebox/General.md",
     "cryptography/Crypto CTF  Tricks.md",
     "hackthebox/Funnel.md",
-    "hackthebox/images/Pasted image 20241023220239.png",
-    "hackthebox/images/Pasted image 20241023220227.png",
-    "hackthebox/images/Pasted image 20241023214916.png",
-    "hackthebox/images/Pasted image 20241023214235.png",
-    "hackthebox/images/Pasted image 20241023214223.png",
-    "hackthebox/images/Pasted image 20241023212145.png",
-    "cryptography/images/Pasted image 20240925162413.png",
-    "cryptography/images/Pasted image 20240925162143.png",
     "Malware/RAT (Remote Access Trojan).md",
     "BinaryExploit/Heap 0 - Pico CTF.md",
     "Reverse Engineering/babyrev_level1.1.md",
@@ -195,20 +201,14 @@
     "Assembly/images",
     "cryptography/TTM4205/TTM4205 - Lecture notes.md",
     "Reverse Engineering",
-    "networking/Working with networks.md",
     "cryptography/TMA4160/TMA4160 - Lecture Notes.md",
     "cryptography/TTM4205/TTM4205 - Lecture Notes.md",
     "cryptography/TTM4205/images",
     "cryptography/TMA4160/images",
     "cryptography/TTM4205",
     "cryptography/PGP.md",
-    "Cryptography.md",
     "cryptography/TMA4160",
     "Algorithms/Properties & Analysis of Algorithms.md",
-    "Algorithms/NP.md",
-    "Algorithms/Network Flow problems.md",
-    "Algorithms/Greedy Algorithms.md",
-    "Algorithms/Graphs.md",
     "Malware/images"
   ]
 }
