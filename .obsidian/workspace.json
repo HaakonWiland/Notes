@@ -77,7 +77,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "68ff23b3c54fe645",
@@ -164,10 +165,10 @@
   },
   "active": "63166fa518de48cb",
   "lastOpenFiles": [
+    "Tryhackme/Networks.md",
+    "Tryhackme/Metasploit.md",
     "Tryhackme/images/Pasted image 20241117205823.png",
     "Tryhackme/Hashes.md",
-    "Tryhackme/Metasploit.md",
-    "Tryhackme/Networks.md",
     "Tryhackme/images/Pasted image 20241115234018.png",
     "Tryhackme/images/Pasted image 20241115233631.png",
     "Tryhackme/images/Pasted image 20241115233321.png",
@@ -182,7 +183,6 @@
     "networking/Ifconfig.md",
     "Cryptography.md",
     "networking/Working with networks.md",
-    "Tryhackme/images/Pasted image 20241113214250.png",
     "Tryhackme/images",
     "Tryhackme/Untitled 1.md",
     "hackthebox/Pennywoth.md",
