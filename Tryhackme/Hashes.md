@@ -29,7 +29,7 @@ john --format=<format> --wordlist=<wordlist> <file with hash to crack>
 
 Finding the correct format option for a given hash:
 ```
-john list=formats | grep -iF <the hash type>
+john --list=formats | grep -iF <the hash type>
 ```
 
 

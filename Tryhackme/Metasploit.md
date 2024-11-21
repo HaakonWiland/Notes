@@ -81,3 +81,34 @@ Usefull:
 backgroud: background the current session
 session: lists the current sessions
 ```
+
+
+### meterpreter:
+
+- Runs on the target system and act as a reverse shell.
+- Runs in the memory of the target, not on disk.
+
+We have different versions of meterpreter, that fits different targets. List possible meterpreter payloads:
+
+`msfvenom --list payloads | grep meterpreter`
+
+Relevant questions to answer when picking the correct meterpreter payload:
+- The target operating system (Is the target operating system Linux or Windows? Is it a Mac device? Is it an Android phone? etc.)
+- Components available on the target system (Is Python installed? Is this a PHP website? etc.)
+- Network connection types you can have with the target system (Do they allow raw TCP connections? Can you only have an HTTPS reverse connection? Are IPv6 addresses not as closely monitored as IPv4 addresses? etc.)
+
+ When we have a meterpreter "shell" on the target, we have lots of commands to use:
+```
+help: Since commands vary from different meterpreters
+ps: Lists the current processes 
+sysinfo: Lists systeminfo
+hashdump: outputs the hashed found in the SAM (Security Account Manager) database (Windows)
+
+....
+```
+
+
+
+
+
+
