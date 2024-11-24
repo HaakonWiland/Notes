@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Tryhackme/Web.md",
+                "file": "Tryhackme/Offensive Tools.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Web"
+              "title": "Offensive Tools"
             }
           }
         ]
@@ -164,8 +164,16 @@
   },
   "active": "63166fa518de48cb",
   "lastOpenFiles": [
-    "Tryhackme/Linux.md",
+    "Tryhackme/images/Pasted image 20241124200929.png",
     "Tryhackme/Web.md",
+    "Tryhackme/Offensive Tools.md",
+    "Malware/C.md",
+    "Malware/History of malware.md",
+    "Malware/Malware Development Basics.md",
+    "Malware/RAT (Remote Access Trojan).md",
+    "Malware/Socket programming.md",
+    "Malware/Windows API.md",
+    "Tryhackme/Linux.md",
     "Tryhackme/Hashes.md",
     "Tryhackme/images/Pasted image 20241123212052.png",
     "Tryhackme/SQL.md",
@@ -193,18 +201,10 @@
     "hackthebox/General.md",
     "cryptography/Crypto CTF  Tricks.md",
     "hackthebox/Funnel.md",
-    "Malware/RAT (Remote Access Trojan).md",
     "BinaryExploit/Heap 0 - Pico CTF.md",
-    "Reverse Engineering/babyrev_level1.1.md",
     "BinaryExploit",
-    "cryptography/Cryptography concepts and theory.md",
-    "cryptography/TTM4205/Elliptic Curves.md",
-    "Assembly/Basics.md",
     "Assembly/images",
-    "cryptography/TTM4205/TTM4205 - Lecture notes.md",
     "Reverse Engineering",
-    "cryptography/TMA4160/TMA4160 - Lecture Notes.md",
-    "cryptography/TTM4205/TTM4205 - Lecture Notes.md",
     "cryptography/TTM4205/images",
     "cryptography/TMA4160/images",
     "cryptography/TTM4205",

@@ -51,11 +51,26 @@ http://10.10.85.194/note.php?note_id=0 , and we can change parameter: http://10.
 
 
 -  **Cryptographic Failures**: Communication done with bad implemented cryptography 
--  **Injection**
--  **Insecure Design**
--  **Security Misconfiguration**
--  **Vulnerable and Outdated Components**
--  **Identification and Authentication Failures**
--  **Software and Data Integrity Failures**
--  **Security Logging & Monitoring Failures**
--  **Server-Side Request Forgery (SSRF)**
+
+-  **Injection**: XXS and such, input fields on site can be exploited. 
+
+-  **Insecure Design**: Stupid design, ex. we can reset another uses password.
+
+-  **Security Misconfiguration**: Bad configuration of the site, ex. unnecessary features enabled, have existing default accounts on the site, not using HTTP security headers, etc..
+
+-  **Vulnerable and Outdated Components**: Not updating software the site depend on, attacker can find the software version and google for exploits. 
+
+-  **Identification and Authentication Failures**: There is possible to get credentials of other users, ex. site allows weak passwords, weak session cookies -> steal another users cookies and become them on the site. 
+
+-  **Software and Data Integrity Failures**: Data of software can be modified because we do not validate integrity.
+
+Site to validate integrity: https://www.srihash.org/ 
+Then we can include integrity for this site in our code: 
+```
+<script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+
+```
+
+-  **Security Logging & Monitoring Failures**: Services not logging activity on their application
+
+-  **Server-Side Request Forgery (SSRF)**: Attacker can get the web application to send requests on their behalf.  
