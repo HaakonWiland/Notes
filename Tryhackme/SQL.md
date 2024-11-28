@@ -90,9 +90,6 @@ SELECT name FROM hacking_tools WHERE category="Network intelligence" AND amount 
 
 ```
 
-
-
-
 Gets name and name_length in descending order:
 - SELECT name, LENGTH(name) AS length FROM hacking_tools ORDER BY length DESC;
 

