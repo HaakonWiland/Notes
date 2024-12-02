@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Tryhackme/Defense Fundamental.md",
+                "file": "Tryhackme/Security Frameworks.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Defense Fundamental"
+              "title": "Security Frameworks"
             }
           }
         ]
@@ -164,15 +164,17 @@
   },
   "active": "63166fa518de48cb",
   "lastOpenFiles": [
+    "Untitled.md",
+    "Tryhackme/Security Frameworks.md",
+    "Tryhackme/Offensive Tools.md",
+    "Tryhackme/Defense Fundamental.md",
+    "Tryhackme/Windows.md",
     "Tryhackme/images/Pasted image 20241128213807.png",
     "Tryhackme/images/Pasted image 20241128142800.png",
     "Tryhackme/Networks.md",
-    "Tryhackme/Defense Fundamental.md",
     "Tryhackme/images/Pasted image 20241127212654.png",
     "Tryhackme/images/Pasted image 20241127211206.png",
-    "Untitled.md",
     "Tryhackme/images/Pasted image 20241127205904.png",
-    "Tryhackme/Offensive Tools.md",
     "Tryhackme/SQL.md",
     "Tryhackme/Web.md",
     "Tryhackme/images/Pasted image 20241124200929.png",
@@ -185,13 +187,11 @@
     "Tryhackme/Linux.md",
     "Tryhackme/Hashes.md",
     "Tryhackme/images/Pasted image 20241123212052.png",
-    "Tryhackme/Windows.md",
     "Tryhackme/Metasploit.md",
     "README.md",
     "Tryhackme/images/Pasted image 20241117205823.png",
     "Tryhackme/images/Pasted image 20241115234018.png",
     "Tryhackme/images/Pasted image 20241115233631.png",
-    "Tryhackme/images/Pasted image 20241115233321.png",
     "networking/Ifconfig.md",
     "Cryptography.md",
     "networking/Working with networks.md",

@@ -110,3 +110,9 @@ Then we can add flags such as
 --dump: Dump the content of a table
 
 ```
+
+
+#### OSINT:
+Overview of tools: https://osintframework.com/
+The Harvester: https://github.com/laramies/theHarvester
+email finder: https://hunter.io/
