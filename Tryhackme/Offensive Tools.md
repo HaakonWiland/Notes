@@ -116,3 +116,11 @@ Then we can add flags such as
 Overview of tools: https://osintframework.com/
 The Harvester: https://github.com/laramies/theHarvester
 email finder: https://hunter.io/
+
+
+#### Web applications and the browser 
+"Sometimes automated scanners miss vulnerabilities, that we could have identified doing manual work"
+
+- We can use the **inspector** tool to change the page it our browser, example change a css display property from "block" to "none".
+- Using the **debugger**, we can view the .js code running on the page, can even set breakpoints when fuzzing. 
+- The **network tab** shows us requests, can inspect these to understand the flow of the application. 

@@ -23,7 +23,7 @@
 - (Challenging) Tools
 - (Tough) TTP's - Tactics, Techniques and Procedures
 
-MITRE ATT&CK: https://attack.mitre.org - database of real world observed TTPs
+
 
 #### Cyber kill chain 
 "Framework adversaries often use when attacking"
@@ -35,3 +35,20 @@ MITRE ATT&CK: https://attack.mitre.org - database of real world observed TTPs
 5. Installation
 6. Command and Control
 7. Actions on objectives 
+
+#### Unified Kill Chain
+"Basically a broader cyber kill chain"
+https://www.unifiedkillchain.com/assets/The-Unified-Kill-Chain.pdf
+
+#### Diamond model
+"Details the  elements of any intrusion activity"
+https://www.activeresponse.org/wp-content/uploads/2013/07/diamond.pdf
+
+
+#### MITRE:
+
+MITRE ATT&CK: https://attack.mitre.org - database of real world observed TTPs
+MITRE CAR: https://car.mitre.org/ - "database with detection methods for different ATT&CK techniques"
+ATT&CK Emulation plans: https://github.com/center-for-threat-informed-defense/adversary_emulation_library/tree/master  - "Templates for emulating real APTs"
+D3FEND: https://d3fend.mitre.org/ - "Knowledge graph of TTP counter measures" 
+ENGAGE: https://engage.mitre.org/ , https://engage.mitre.org/wp-content/uploads/2022/04/EngageHandbook-v1.0.pdf- "Overview over countermeasures before under and after attack"
