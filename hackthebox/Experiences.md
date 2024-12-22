@@ -19,7 +19,7 @@ gobuster vhost -w ../../wordlists/SecLists/Discovery/DNS/subdomains-top1million-
 
 also, when running gobuster, the -u [URL] needs to be after the -w [wordlist], its stupide, but the 
 first one did not work for me. NOTE: Remember to use --append-domain.
-
+Confidentiality Integrity Availability
 ### 13.01.2024
 Working with AWS S3 buckets:
 Apparently we can use the AWS CLI tool without having real credentials, 
@@ -228,4 +228,5 @@ ftp ftp://10.129.228.195:21
 ```
 
 We find some file with some mails, and a mail explaining the password policy.
+
 

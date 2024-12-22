@@ -26,7 +26,7 @@ Shared secrets in D.H are usually hashed to derive the key (since keys are usual
 (ciphertext/moduli pairs) C (e) possible combinations to try    
 ```
 
-
+mod
 
 Sagemath tricks:
 ```
@@ -34,6 +34,7 @@ Generate finite field: F = GF(p)
 Finding generator of finite field: F.primitive_element()
 Modulo with exponent: power_mod(g,a,p)
 Compute x such that g^x = y: log(F(y), F(g))  
+CRT: crt([ci ... ], [n1 ....])
 
 ```
 
@@ -41,3 +42,16 @@ Useful cryptodome function:
 ```
 Finding modular inverse: numbers.inverse(x, N) 
 ```
+
+
+25.09.24
+
+Inverse of padding in RSA: 
+The message m is padded with 57 nullbytes, padding with a nullbyte is the same as multiplying the numerical representation of m by 2^8.  We can represent the ciphertext with this equation.
+
+![[Pasted image 20240925162413.png]]
+
+Then we just have to calculate the inverse of p^e, then we find a value for m^e. 
+
+![[Pasted image 20240925162143.png]]
+
