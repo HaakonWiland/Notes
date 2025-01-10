@@ -24,7 +24,6 @@
 - (Tough) TTP's - Tactics, Techniques and Procedures
 
 
-
 #### Cyber kill chain 
 "Framework adversaries often use when attacking"
 

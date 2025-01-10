@@ -29,6 +29,7 @@ TAXII: https://oasis-open.github.io/cti-documentation/taxii/intro
 - Abuse: https://abuse.ch/ - Hub for different tools which help identify and track malware and botnets. (Malware Bazarr, Feodo Tracker, Treat Fox and more)
 - Phishtool: https://www.phishtool.com/ - Analyzing potential phishing emails. 
 Random tip: it is possible to save the source code of an email, paste it into a .txt file and upload it to phishtool.
-
+- Virustotal: https://www.virustotal.com/gui/home/upload
+Random tip: Checking the hash of zip'ed file and the unzid'ed file gives different results. 
 
 

@@ -33,6 +33,8 @@ SELECT name, description FROM books;
 
 UPDATE books SET description = "An In-Depth Guide to Android's Security Architecture."  WHERE id = 1;
 
+insert into users (username,password) values ('bob','password123');
+
 
 ```
 
@@ -43,6 +45,7 @@ UPDATE books SET description = "An In-Depth Guide to Android's Security Architec
 - DISTICT:
 - GROUP BY:
 - ORDER BY: Often used with ASC or DESC
+- UNION
 - HAVING: Example HAVING name LIKE "%pyramide-jim%"
 
 
@@ -51,6 +54,8 @@ EXAMPLES:
 SELECT DISTINCT category FROM hacking_tools;
 
 SELECT name FROM hacking_tools ORDER BY name DESC;
+
+SELECT name,address,city,postcode from customers UNION SELECT company,address,city,postcode from suppliers;
 
 ```
 

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Tryhackme/Networks.md",
+                "file": "Tryhackme/Webhacking.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Networks"
+              "title": "Webhacking"
             }
           }
         ]
@@ -164,17 +164,19 @@
   },
   "active": "0cc9ae8f5e6c964e",
   "lastOpenFiles": [
-    "Tryhackme/Webhacking.md",
-    "Tryhackme/Networks.md",
-    "Tryhackme/Hashes.md",
     "Tryhackme/SQL.md",
-    "Tryhackme/Offensive Tools.md",
-    "Tryhackme/Pentesting.md",
-    "Tryhackme/Metasploit.md",
-    "Tryhackme/Linux.md",
-    "Tryhackme/Defense Fundamental.md",
+    "Tryhackme/Webhacking.md",
+    "Tryhackme/YARA.md",
+    "Tryhackme/images/Pasted image 20241217201406.png",
     "Tryhackme/Cyber Threat Intel (CTI).md",
+    "Tryhackme/Defense Fundamental.md",
+    "Tryhackme/Pentesting.md",
     "Tryhackme/Security Frameworks.md",
+    "Tryhackme/Metasploit.md",
+    "Tryhackme/Hashes.md",
+    "Tryhackme/Linux.md",
+    "Tryhackme/Networks.md",
+    "Tryhackme/Offensive Tools.md",
     "Tryhackme/images/Pasted image 20241210172432.png",
     "Tryhackme/images/Pasted image 20241210172410.png",
     "Tryhackme/images/Pasted image 20241205124158.png",
@@ -192,14 +194,12 @@
     "Malware/RAT (Remote Access Trojan).md",
     "Malware/Socket programming.md",
     "Malware/Windows API.md",
-    "Tryhackme/images/Pasted image 20241123212052.png",
     "README.md",
     "networking/Ifconfig.md",
     "Cryptography.md",
     "networking/Working with networks.md",
     "Tryhackme/images",
     "Tryhackme/Untitled 1.md",
-    "hackthebox/Pennywoth.md",
     "Tryhackme",
     "BinaryExploit",
     "Assembly/images",
