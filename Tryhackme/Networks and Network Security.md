@@ -1,4 +1,4 @@
-
+#networking 
 
 ### ISO OSI MODEL
 ![[Pasted image 20241113213159.png]]
@@ -75,3 +75,36 @@ The 3 ranges for private IP addresses:
 ![[Pasted image 20241115233631.png]]
 ![[Pasted image 20241115234018.png]]
 
+
+### Network Security:
+
+#### Passive recon:
+![[Pasted image 20250115131728.png]]
+
+
+Usefull commands:
+- **whois:** `whois <domain/ip>` Gives us lots of info on a spesific domain such as registry, whois-server, etc..
+- **nslookup:**  `nslookup OPTIONS DOMAIN_NAME SERVER` , finds the ip address of a domain. We can also specify different ISP-DNS-server: This command can be useful in a pentest setting, where we test the security of different IPs of the domain. 
+![[Pasted image 20250115125251.png]]
+- **dig:** `dig @SERVER DOMAIN_NAME TYPE` , Similar to nslookup, but usually gives more information and it has more options. 
+
+Useful sites:
+- **DNSdumpster:** Find subdomains.
+- **Shodan.io:** IP address, Hosting company, geo location, server type etc ... Checkout:  https://tryhackme.com/r/room/shodan
+
+
+#### Active recon:
+
+**Basic CLI tools:** 
+![[Pasted image 20250116123015.png]]
+
+
+**NMAP SCANNING:**
+
+Scanning range example: 
+```
+nmap 10.10.12.13/29
+-> Scans the range: 10.10.12.8 ... 10.10.12.15
+WHY: 32-29 = 3 and 2^3 = 8, so the block sizeis 8. Then the network address(the one we start to scan) is: ⌊13/8⌋⋅8=8 i.e we start at 10.10.12.8. 
+
+```
