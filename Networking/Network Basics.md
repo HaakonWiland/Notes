@@ -9,6 +9,7 @@
 - **Throughput:** Rate (bits/time) at which bits are being sent from sender to receiver. 
 
 
+
 ### Access Networks:
 Connects end systems to router, example home networks, enterprise networks, data center networks.  
 
