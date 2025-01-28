@@ -21,7 +21,7 @@
 #### Interact commands:
 ```
 - INSERT;
-- SELECT;
+- SELECT; 
 - UPDATE; 
 - DELETE;
 
@@ -45,7 +45,7 @@ insert into users (username,password) values ('bob','password123');
 - DISTICT:
 - GROUP BY:
 - ORDER BY: Often used with ASC or DESC
-- UNION
+- UNION: Can do multiple select statements, BUT they need to have the same length. 
 - HAVING: Example HAVING name LIKE "%pyramide-jim%"
 
 

@@ -27,8 +27,15 @@ The 3 ranges for private IP addresses:
 - Often used when sending streaming video or audio 
 
 #### TCP: 
+
+**TCP headers:**
+![[Pasted image 20250117153136.png]]
+
+
 - Connection oriented -> Need a TCP connection before data can be sent. 
 - Confirmation of packages 
+- A TCP package have different flags which can be set, which indicate different behaviors:
+![[Pasted image 20250117153103.png]]
 
 
 ### Encapsulation
@@ -108,3 +115,31 @@ nmap 10.10.12.13/29
 WHY: 32-29 = 3 and 2^3 = 8, so the block sizeis 8. Then the network address(the one we start to scan) is: ⌊13/8⌋⋅8=8 i.e we start at 10.10.12.8. 
 
 ```
+
+We can use NMAP to scan with different protocols, some protocols works better in certain senarios:
+![[Pasted image 20250117114948.png]]
+
+- Also, if we dont want to scan the ports of the host, i.e only host discovery we can add `-sn` for this property. 
+- Nmap by default uses a TCP SYN SCAN. 
+- In many systems, ICMP scans are blocked by firewalls -> something to consider. 
+
+![[Pasted image 20250117115510.png]]
+
+![[Pasted image 20250117155653.png]]
+
+
+**Advanced scans:**
+![[Pasted image 20250118143133.png]]
+
+![[Pasted image 20250118143201.png]]
+
+
+- By using different nmaps scans, we can take advantage of the individual targets nuances and how the handle network traffic. 
+- **Bypassing Firewalls:** ACK, Window, or Fragmented scans.
+- **Stealth Scanning:** Null, FIN, and XMAS scans are quieter and less likely to be detected by basic IDS. Notes these do not work well on windows targets, since it treats all such packages as invalid and sends RST. 
+- **Firewall Analysis:** ACK and Window scans are useful for determining firewall configurations.
+- **System Fingerprinting:** Null, FIN, and XMAS scans are helpful for fingerprinting non-Windows systems.
+
+**Other options for version detection and scripts:**
+![[Pasted image 20250118151543.png]]
+

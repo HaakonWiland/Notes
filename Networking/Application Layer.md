@@ -46,16 +46,84 @@ See: [[Transport Layer]] , [[Networks and Network Security]]
 ![[Pasted image 20250116112549.png]]
 
 
+
+**HTTP/1.1:**
+- Improvement: Multiple, pipelined GETs over single TCP connection. 
+- Problems: Server responds in-order (FCFS) -> meaning small object may have to wait for transmission behind larger objects. (HOL blocking)
+
+
 **HTTP/2:**
 Motivation: Decreased delay in multi-object HTTP requests. 
+- Improvement: Increased flexibility at server in sending objects to client.
+- Transmission order of objects from server to client now client specified i.e. can choose to prioritize smaller objects
+- Can now divide objects into frames, and schedule frames to mitigate HOL blocking. 
 
-
-
-
-
+![[Pasted image 20250120105855.png]]
 
 ####  Cookies:
-
+- Identify users, such that the site remembers the user next time he visits. 
+- Usecases: Authorization, shopping carts, recommendations etc.. 
+- Debate: "Third party cookies" tracks the users through multiple sites, which have privacy concerns. 
 
 #### Web Caches 
 
+- Goal: Want to satisfy client request without involving origin server-> Reduces response time for client, reduce traffic on origin server. 
+- Less and less common.
+![[Pasted image 20250120104918.png]]
+
+
+
+##### SMTP: Simple mail transfer protocol. 
+![[Pasted image 20250120110202.png]]
+
+- Sender uploads email message to her mail server
+- The email is sent to the receivers email sever, which the receivers can get via different protocols(Today often HTTP)
+
+
+##### DNS: Domain name system.
+Function: Translate IP-addresses to "site-names"
+
+- Possible to have multiple domains pointing to the same IP. 
+- By the same logic as having multiple layers to ISPs, we have different layers with DNS servers. Single server would not be able to handle the network load. 
+![[Pasted image 20250120110654.png]]
+- The top level domain server are responsible for translating all domain/IPs with "their ending, ex .com". 
+- In practice a client uses a local dns server to query the IP of a domain. We do this in 2 ways:
+**Iterated DNS query**
+![[Pasted image 20250123103931.png]]
+
+**Recursive query (default way):**
+![[Pasted image 20250123104147.png]]
+
+
+- We also do **Caching** of DNS records, and we specify the length of the caching by a **Time to live(TTL)** parameter in the DNS record. 
+- We also have different types of DNS record:
+![[Pasted image 20250123104608.png]]
+
+##### IMAP: Internet message access protocol. 
+
+#### Peer 2 Peer:
+**File distribution in Client-server:**
+![[Pasted image 20250123110108.png]]
+- The max function find the bottleneck in the process, from the server to the network or from the network to the client. It is hard to get a function for the exact distribution time, but we know for sure the bottleneck is a lower bound.  
+
+**File distribution in P2P:**
+![[Pasted image 20250123110928.png]]
+- The added term represents the case where the file which is to be distributed is on all other peers. This way we use all the peers in the network to distribute N copies of a file of size F. 
+
+
+#### Video streaming and content distribution
+- Video streaming ~80% of internet traffic 
+- Q: How to scale this with >1B users where each user may have different capabilities in terms of download speed and hardware? 
+- A: Distributed, application-level infrastructure
+
+**Multimedia - Video**
+- An image is an array of pixels, and each pixel is represented by bits.
+- When we have a video, we are streaming a sequence of images, in at least 24 images/sec 
+- There are different ways of coding this; the naive way: stream the video image by image, a smarter way:  Stream the change of pixels between each image. 
+
+One problem in sending video is the bandwidth variety from the server to the client, one fix is to:
+- Stream the video with delay, such that the client views early parts of the video while the server still sending the later parts. 
+
+**DASH: Dynamic Adaptive streaming over HTTP**
+
+**CDN: Content distribution networks**

