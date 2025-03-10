@@ -1,6 +1,5 @@
 #networking #TTM4100 #DHCP #Network-Layer
 
-
 Lingo:
 - **Datagram:** independent unit of data. Can think of it as a term for packets specifically in the network layer. 
 - **Switching rate:** Rate at which packets can transfer from input to output. Often a multiple of input/output line rate. 

@@ -1,4 +1,4 @@
-#networking #protocols #TTM4100
+#networking #protocols #TTM4100 #HTTP #DNS
 
 
 
@@ -23,7 +23,7 @@ Different application need different properties
 ![[Pasted image 20250116111305.png]]
 
 The need for different transport properties, introduces the need for different transport protocols:
-See: [[Transport Layer]] , [[Networks and Network Security]]
+See: [[Transport Layer - Layer 4]] , [[Networks and Network Security]]
 - TCP 
 - UDP
 
