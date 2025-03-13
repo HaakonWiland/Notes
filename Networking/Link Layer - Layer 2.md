@@ -79,6 +79,11 @@ NOTE: calculating CRC is relevant for EXAM!
 
 
 #### 3 Broad classes of MAC
+
+
+NEED TO KNOW: Difference between different MAC protocols, why we have them and benefits of each of them. Dont need to know everything in detail. 
+
+
 1. **Channel partitioning:**
 - Divide channel into smaller pices(time slots, freq, code etc)
 - Allocate piece to node for exclusive use 
@@ -134,15 +139,133 @@ It can be shown: at best channel used for useful transmission ~37% of time.
 - Best of both worlds of (1) and (2)
 
 **Polling:**
+- A master node "invites" other nodes to transmit in turn 
+- Typically for "dumb" devices 
+- Cons: Pooling overhead, latency, **single point of failure!** 
+![[Pasted image 20250313082825.png]]
+
 
 
 **Token passing:**
+- Control token passed from one node to next sequentially 
+- A client need to wait in turn to get the token to be able to "speak"
+- Same cons as pooling! (Think about what happens if a client which has the token goes down-> the network would go down)
+
+
+![[Pasted image 20250313082815.png]]
 
 
 
 
+### Cable access network:
+
+![[Pasted image 20250313083415.png]]
+
+**key point:** 
+- Use the exciting network, splitting it to provide network access for multiple devices 
 
 
 
+### LANs:
+
+**MAC-addresses:**
+- 48 bit address
+- Unique to the actual hardware 
+- Used to locally to get frame from one interface to another physically-connected inferface (Same subnet, in ip addressing sense)
+
+Private WiFi address option: "fake" MAC address, such that when we visit public networks, we dont give our unique mac to each network we connect to.  
+
+Q: How to determine interfaces MAC address, knowing it IP address?
+A: ARP table! -> Each ip node (host, router) on LAN has table **(IP, MAC, TTL)**
 
 
+#### ARP protocol example:
+
+**A wants to send datagram  to B:**
+
+![[Pasted image 20250313085423.png]]
+
+![[Pasted image 20250313085513.png]]
+
+![[Pasted image 20250313085551.png]]
+
+**ARP example 2  - Routing to another subnet:**
+
+QUESTIONS about this will come on exam! 
+
+![[Pasted image 20250313091759.png]]
+
+- The IP address of the first gateway probably gained by DHCP 
+- A gained information about the MAC address of R, probably did a ARP with the router previously 
+
+![[Pasted image 20250313092243.png]]
+
+- Once the datagram reaches the router, we remove the previous frame, and encapsulates it with another frame 
+
+![[Pasted image 20250313092414.png]]
+
+- In this example, we router already has the MAC of B, so the router can easily make the new frame 
+
+![[Pasted image 20250313092652.png]]
+
+
+#### Ethernet:
+- Dominant wire LAN technology 
+- Connectionless: No handshaking between sending and receiving NICs
+- Unreliable: Receiving NIC doesn't send ACKs or NAKs to sending NIC 
+
+**Physical topology:**
+![[Pasted image 20250313092953.png]]
+
+- Bus - NOT COMMON ANY LONGER
+- Switches 
+
+Sending interface via Ethernet encapsulates IP datagram in Ethernet Frame:
+![[Pasted image 20250313093419.png]]
+
+- Type: specifies higher layer protocol, usually IP
+- CRC: Just error detecting, no correction 
+
+**Ethernet standards:**
+There are multiple Ethernet standards, they differ in **Speed** and **Physical layer media.**
+
+#### Switches:
+- Store, forwards Ethernet frames 
+- Hosts is unaware of the presence of switches(If we do traceroute, we would not see the switching steps)
+- Full duplex
+- We can switch A-B and C-D simultaneously without collisions 
+
+Switch table contain (MAC, Interface in the switch, TLL):
+![[Pasted image 20250313102240.png]]
+
+**Switch vs router:**
+Both store and forwards
+- Routers: Network layer device
+- Switch: Link-layer device 
+
+
+### Steps in sending a web request:
+Setting: A pc wants to connect to a uni network, and from here request google.com.
+
+**STEP 1:** The PC need to get an IP on the network: Make use of DHCP 
+
+![[Pasted image 20250313102520.png]]
+
+![[Pasted image 20250313102530.png]]
+
+**STEP 2:** Before we can send a HTTP request, we need the IP address of google.com: Make use of DNS.
+Before we can send the DNS request, we need the MAC address of the router interface, so we need to use ARP:
+![[Pasted image 20250313102851.png]]
+
+- Now the client knows the MAC address of the first hop router, we it can now send the frame containing the DNS query.
+- The client sends the DNS query via the first router hop, which routes it to the ISP, which then answers with the ip address matching google.com
+![[Pasted image 20250313103231.png]]
+
+**STEP 3:** To send the HTTP request, the client first opens a TCP socket to the web server of google. They preform the 3-way handshake and establishes a TCP connection. 
+
+![[Pasted image 20250313103424.png]]
+
+**STEP 4:** Now we can finally send the HTTP request into the TCP socket, routed to google.com.
+- The google web server responds with a HTTP replay based on the request, containing the actual web page. 
+- The client can now view the web page from their browser
+![[Pasted image 20250313103637.png]]
