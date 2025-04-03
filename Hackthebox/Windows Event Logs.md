@@ -83,7 +83,8 @@ Windows Doc on sysmon event codes: https://learn.microsoft.com/en-us/sysinternal
 #### Other event ids:
 
 **Application and Services:**
-- **Event ID 7:** This event is generated whenever a process loads a module (DLL, EXE, or other executable file) into its address space. Essentially, it tracks which shared libraries (DLLs) or executable components are loaded into memory by a process.
+- **Event ID 7:** This event is generated whenever a process **loads a module** (DLL, EXE, or other executable file) into its address space. Essentially, it tracks which shared libraries (DLLs) or executable components are loaded into memory by a process.
+- **Event code 10 (sysmon):** A process attempts to **access another process** memory. Useful for monitoring unauthorized access to critical processes like LSASS 
 
 #### XML Queries in event viewer:
 
