@@ -7,7 +7,13 @@ Lingo:
 - **IP address:**
 - **Interface:** Connection between host/router and physical link. Routers typically have multiple interfaces. Hosts typically have 2, wired and wireless. 
 
----------
+--------
+
+#### Characteristics of IP protocol:
+- Connectionless 
+- Best effort 
+- => Does not guarantee packet delivery correct order or error recovery. 
+
 #### Key function of the network layer:
 - **Forwarding:** move packets from router input to router output'
 - **Routing:** Determine packet route from source to destination
@@ -44,7 +50,7 @@ Lingo:
 
 ##### Forwarding methods:
 **Destination based forwarding:** Forward based only on destination IP address.
-- longest prefix matching 
+- longest prefix matching (TODO)
 
 **Generalized forwarding:** Forward based on any set of header field values.
 
@@ -124,12 +130,63 @@ Subnet-mask:
 - Classic sizes of submask ranges: /24, /16, /8. 
 - But we also have: /32, /31, ..... for situations where we just need a few ip addresses in the subnet. 
 
+**Checking if a subnet is a valid network:**
+```
+1) 172.16.4.127/26
+
+
+6 bits for host addresses: 2^6 = 64
+Subnetmask for /26: 255.255.255.192
+
+So: 
+172.16.4.127 is the network address 
+172.16.4.128-190 are possible host addresses 
+172.16.4.191 is the broadcast address. 
+
+In general:
+A valid /26 network needs to have start address: XXX.XXX.XXX.0 , .64, .128, or .192 
+
+FROM THIS WE KNOW: The start address of the /26 subnet has to be a multiple of 64.
+
+So we can just check: 
+
+127 % 64 != 0 => its not a valid network. 
+
+2) 172.16.4.155 /26: 155 mod 64 != 0 => not valid. 
+3) 172.16.4.95 /27 95 mod 32 != 0 => not valid 
+4) 127.16.4.207 /27 207 mod 32 != 0 => not valid 
+
+```
+
+
+**More about subnets:**
+```
+1: 129.241.56.0/22      
+2: 129.241.60.0/23      
+3: 129.241.62.0/23
+
+Checking for collision:
+1: 
+has 1024 addresses 
+1024 / 256 = 4 =>
+Range:  129.241.56.0 - 129.241.59.255
+
+2: has 512 addresses
+512 / 256 = 2 =>
+Range: 129.241.60.0 - 129.241.62.255
+
+3: has 512 addresses
+512 / 256 = 2 =>
+Range: 129.241.62.0 - 129.241.63.255
+
+HENCE: THERE ARE NO OVERLAP IN THE SUBNETS
+```
 
 
 #### DHCP: Dynamic Host Configuration Protocol 
-GOAL: **Host dynamically optains IP address from network server when it joins the network - we dont want to manually assign an IP each time a new host connects.**
+GOAL: **Host dynamically obtains IP address from network server when it joins the network - we don't want to manually assign an IP each time a new host connects.**
 
-Default port: 68 
+Default port: 68 -> Uses UDP protocol 
 
 Note: The networks DHCP server will typically be co-located in the router 
 
@@ -141,3 +198,85 @@ Note: The networks DHCP server will typically be co-located in the router
 - Address of first-hop router for client 
 - Name and IP address of DNS server
 - Network mask 
+
+
+#### Network address translation (NAT):
+**All devices in our local network share just 1 IPv4 address as far as outside world is concerned - the NAT take case of the translation between local- and public addresses:**
+
+![[Pasted image 20250303124017.png]]
+
+**Advantages with this NAT:**
+- just 1 IP address needed from the provider ISP for ALL devices 
+- Can change addresses of host in local network without notifying outside world 
+- Can change ISP without changing addresses of devices in local network
+- Devices inside local network not directly addressable, visible by outside world -> good for security.
+
+The NAT router must:
+- Replace **outgoing source** (source IP,port) pair for each datagram to (NAT IP, new port)
+- Replace **incoming** desination (NAT IP, new port) pair for each datagram to (source IP, port)
+
+![[Pasted image 20250303124931.png]]
+
+**Disadvantages with NAT:**
+fill in later 
+
+
+#### IPv6:
+**Motivation: IPv4 is only 32bit, and we fear we will run out of addresses.**
+
+IPv6 addresses are of 128 bit length. 
+
+**IPv6 datagram format:**
+![[Pasted image 20250303125436.png]]
+
+Different from IPv4:
+- Fixed header length(40 bytes)
+- No checksum
+- No fragmentation/reassembly of packets in the router, only sender can preform fragmentation. This means routers do not have to check for fragment packets, which makes them more efficient. 
+- Replaces options headers with extension headers -> Improving efficiency 
+- IPv6 supports SLAAC, allowing devices to generate their own addresses automatically without using DHCP 
+
+
+**How will network operate with mixed IPv4 and IPv6 routers?**
+A: Tunneling IPv6 datagram carried as payload in IPv4 datagram among IPv4 routers
+
+![[Pasted image 20250303125822.png]]
+
+
+SIDENOTE: Google: ~30% of clients access services via IPv6. It will take long time before all is using IPv6.
+
+
+### Control plane:
+Goal: We want to understand principles behind network control plane. 
+
+
+**Network layer functions:**
+- Forwarding: move packets from routers input to appropriate router output (Data plane)
+- Routing: Determine route taken by packets from source to destination (Control plane)
+
+**Two approaches to structureing network control plane:**
+- **Per-router control(traditional):**
+Individual routing algorithm components in EACH AND EVERY ROUTER interact in the control plane. 
+- **Logically centralized control (Software defined networking)**
+
+#### Routing protocols:
+We want to determine "good path" from sending host to receiving host through network of routers. A good path can be:
+- Least cost 
+- Fastest 
+- Least congested 
+
+A comprehensive network problem, with multiple different strategies to solve. 
+
+**Centralized routing algorithms:**
+- Central authority to compute the routes 
+- Assumes the knowledge of the entire network topology 
+
+
+
+#### Internet control message protocol (ICMP):
+**Used by hosts and routers to communicate network-level information**
+
+**ICMP message:** Type, code and first 8 bytes of IP datagram causing error 
+![[Pasted image 20250303131924.png]]
+
+**Properties:**
