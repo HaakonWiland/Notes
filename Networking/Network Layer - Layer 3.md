@@ -1,4 +1,4 @@
-#networking #TTM4100 #DHCP #Network-Layer
+#networking #TTM4100 #DHCP #Network-Layer #ICMP 
 
 Lingo:
 - **Datagram:** independent unit of data. Can think of it as a term for packets specifically in the network layer. 
@@ -6,17 +6,25 @@ Lingo:
 - **Packet scheduling:** Deciding which packet to send next on link 
 - **IP address:**
 - **Interface:** Connection between host/router and physical link. Routers typically have multiple interfaces. Hosts typically have 2, wired and wireless. 
+- **Bandwidth:** Theoretical maximum data rate of the connection
+- **Throughput:** The actual data rate you're getting, which can be lower then bandwidth due to congestion, errors, etc. 
 
 --------
 
-#### Characteristics of IP protocol:
-- Connectionless 
-- Best effort 
-- => Does not guarantee packet delivery correct order or error recovery. 
 
 #### Key function of the network layer:
 - **Forwarding:** move packets from router input to router output'
 - **Routing:** Determine packet route from source to destination
+
+#### IP protocol:
+- Connectionless 
+- Best effort 
+- => Does not guarantee packet delivery correct order or error recovery. 
+- Uses IP addresses (IPv4 and IPv6)
+- Uses NAT to manage between the internet and local network 
+
+IP datagram format: 
+![[Pasted image 20250416122939.png]]
 
 #### We split the Network layer into two planes:
 
@@ -37,7 +45,8 @@ Lingo:
 
 #### Network service model 
 
-.....
+What services do we expect to get from a network:
+![[Pasted image 20250416124947.png]]
 
 ### Routers:
 **Overview of router architecture:**
@@ -217,8 +226,10 @@ The NAT router must:
 
 ![[Pasted image 20250303124931.png]]
 
-**Disadvantages with NAT:**
-fill in later 
+**Critic of NAT: NAT makes things messy, and complicates the peer-to-peer design**
+- Routers "should" only process up to layer 3. With NAT routers modifies the IP header and sometimes work with the transport layer. 
+- address "shortage" should be solved by IPv6. Since in this case all devices would have a unique address, which allows for end-to-end connectivity. This simplifies the architecture. 
+- NAT traversal: What if client wants to connect to server behind NAT?
 
 
 #### IPv6:
@@ -272,11 +283,18 @@ A comprehensive network problem, with multiple different strategies to solve.
 - Assumes the knowledge of the entire network topology 
 
 
-
 #### Internet control message protocol (ICMP):
-**Used by hosts and routers to communicate network-level information**
+**Routing protocol. Used by hosts and routers to communicate network-level information**
+
+Information it can communicate:
+- Error reporting: unreachable host, network, port, protocol etc 
+- Echo request/reply 
+- ICMP messages carried in IP datagrams 
+
+Goal: Determine "good" paths form sending hosts to receiving host through network of routers. 
+
 
 **ICMP message:** Type, code and first 8 bytes of IP datagram causing error 
 ![[Pasted image 20250303131924.png]]
 
-**Properties:**
+
