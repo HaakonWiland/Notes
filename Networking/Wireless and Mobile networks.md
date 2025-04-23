@@ -25,6 +25,15 @@ Note: Network taxonomy not impotent for exam
 - Large SNR - easier to extract signal from noise (GOOD)
 - When SNR increase: Receiver can more accurately interpret the transmitted bits, so BER(Bit error rate) reduces, leading to more reliable data transmission. 
 
+**Modulation scheme:**
+- A method used to encode information onto a carrier signal for transmission. It determines how digital/analog data is mapped onto changes in the amplitude, frequency or phase of signal. 
+
+Trivia:
+- **For a given modulation scheme; a lower SNR => higher BER**. (Lower SNR means signals are more affected by noise, increasing likelihood of bit errors)
+- **For given SNR, a modulation scheme with a higher bit transmission rate has higher BER.** ( Transmitting more bits per symbol, make it more susceptible to noise and leading to higher BER)
+
+
+
 **Hidden terminal problem:**
 ![[Pasted image 20250320085035.png]]
 

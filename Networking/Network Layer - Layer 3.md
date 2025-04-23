@@ -35,6 +35,20 @@ Lingo:
 - Alternative way to implement the control plane 
 - Centralized implementation 
 
+
+#### Error detection in Link Layer:
+EDC: Error detection and correction bits 
+
+Parity checking:
+**Single bit parity:**
+- Detect single bit errors, by checking for even number of 1-bits: ![[Pasted image 20250403122701.png]]
+
+**Two dimensional bit parity:**
+- Detect and **Correct** single bit error: ![[Pasted image 20250403122755.png]]
+
+
+
+
 #### Network service model 
 
 .....
