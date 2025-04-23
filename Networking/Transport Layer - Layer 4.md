@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 #TTM4100 #TransportLayer #TCP #UDP 
 
 
@@ -22,6 +22,8 @@ Basic idea:
 Segment structure:
 ![[Pasted image 20250414124426.png]]
 
+- **Sequence number:** Tells the recipient where this packets data belong in the full TCP stream.  
+- **Acknowledgement number:** Tells the the sender where the next packet in the TCP stream is expected to start. This ensures if a packet is lost, it is possible to backtrack to the last successfully delivered packet. 
 
 Q: How to set TCP timeout value? -> Has to be longer then RTT, but RTT varies. 
 A: Time multiple RTTs, and compute a exponential weighted moving average:
@@ -58,8 +60,34 @@ Congestion: "Too **many sources** sending **too much data too fast** for network
 Network assist with network congestion control: 
 - Routers provide direct feedback to sending/receiving host with flows passing through congested router
 
-START HERE! 2. siste powerpoint. 
+TCP flows have a connection phase and a transfer phase:
+- Connection phase: 3 way handshake 
+- Transfer phase: has a **Slow Start(SS)** - and a **Congestion Avoidence(CA)** period. 
 
+Lingo: **Congestion Windows(CongWin)**= the amount of data sender can transmit at any given time before waiting for an acknowledgement. 
+
+**Slow start(Exp growth):** After the initial connection the transfer phase initialize a **slow start**, then increase the CongWin exponentially(double CongWin every RTT/for every ACK received)
+
+**Congestion avoidance(Lin growth):** Additive increase in CongWin (add 1 MSS every RTT), then multiplicative decrease when loss is detected(cut CongWin in half). 
+
+Computing effective bandwidth:
+![[Pasted image 20250415121742.png]]
+- mss = message size? 
+
+**TCP Cubic:**
+A special version of TCP used in linux and webservers 
+
+
+**TCP fairness:**
+There might be a bottleneck between the sender and the receiver; a router can be full in the link layer. Sending rate is caped by the router, so we should have way to handle the traffic in the router fair.
+
+**fairness goal:** If K TCP sessions share same bottleneck link of bandwidth R, each should have average rate of R/K.
+
+TCP is fair under idealized assumptions: 
+- The sessions have same RTT
+- Fixed number of sessions only in congestion avoidance 
+
+Q: What stops a app for just requesting multiple TCP connections, and hence get multiple sessions with data? 
 
 #### UDP: User Datagram Protocol
 - **Unreliable, unordered delivery** (Think of it as sending a letter without tracking)
@@ -90,123 +118,23 @@ Host receive IP datagrams which contains
 - Host uses IP addresses and port numbers to direct segment to appropriate socket 
 ![[Pasted image 20250412104900.png]]
 
+
 **Connectionless demultiplexing:**
 - Uses UDP(since connectionless)
 - Datagram must spesify (Dest IP, Dest Port)
 - NOTE: UDP datagrams with same Dest Port, but different source IP (or source Port) will be directed to the same socket at receiving host 
 ![[Pasted image 20250412105824.png]]
-=======
-#TTM4100 #networking 
-
-
-Transport protocols actions in end systems:
-- Sender: Break application messages into **segments** and passes them to the network layer 
-- Receiver: Reassembles the segments into messages, passes them to the application layer 
-
-
-A way to think about it:
-- Network layer: Logical communication between hosts 
-- Transport layer: Logical communication between processes 
-
-
-### Transport layer protocols
-See also: [[Networks and Network Security]]
-
-#### TCP:
-- Point to point: 1 sender, 1 receiver 
-- Byte oriented: "View the communication as a continues stream of bytes, not independent packages". 
-- congestion control
-- flow control: Sender will not overwhelm receiver 
-- connection setup: handshaking before data exchange 
-- Pipelining: 
-- Cumulative ACKs:
-
-![[Pasted image 20250212125255.png]]
-
-
-- **Sequence number:** Tells the recipient where this packets data belong in the full TCP stream.  
-- **Acknowledgement number:** Tells the the sender where the next packet in the TCP stream is expected to start. This ensures if a packet is lost, it is possible to backtrack to the last successfully delivered packet. 
-
-Example:
-![[Pasted image 20250212133245.png]]
-
-
-**TCP round trip time and Timeouts:**
-- Since TCP is connection based, it needs to know when to "stop" the connection. 
-- The Timeout obviously has to be longer than RTT, but RTT varies. So how do we deal with this? 
-- The solution is to take the time from a segment has been transmitted until we receive a ACK, and average these out:
-![[Pasted image 20250212134756.png]]
-
-Think of alpha as the weigh of the last segment sample.  
-
-- But we can see there is still a lot of variation in the EstimatedRTT, so we want to have some safety margin for the timeout. 
-![[Pasted image 20250212135053.png]]
-
-
-
-#### UDP: User Datagram Protocol, (RFC 768)
-- unreliable, unordered delivery 
-- "no-frills": Segments may be lost, delivered out of order  
-- best effort service: "Send and hope for the best."
-- connectionless: No handshaking between UDP sender and receiver. Each UDP segment handled independently for the others. 
-
-**Packet structure:**
-
-![[Pasted image 20250206151047.png]]
-
-Checksum: Detect errors in transmitted segments.  Receiver recomputes the checksum and verify that its equal to the checksum in the packet. 
-
-NOTE: Adding bits:
-```
-0+0=0
-1+0=1
-0+1=1
-1+1=10
-```
-
-**Use cases:**
-- streaming multimedia. (not all services, some uses TCP)
-- DNS
-- SNMP
-- HTTP/3 
-
-
-### Multiplexing / Demultiplexing 
-
-**Demultiplexing of TCP:**
-- Uses a 4-tuple: (source IP, source PORT,  destination IP, destination PORT) 
-
-**Demultiplexing of UDP:**
-- Uses just destination port number. 
-
-
-### Reliable data transfer protocol (rdt):
-
-- Sending data over unreliable channel make cause errors and changes of the packets, rdt helps us detect and recover from said errors. 
->>>>>>> main
-
-
-
-**Connection-oriented demultiplexing:**
-- TCP socket identified by 4-tuple: (Source IP, Source port, Dest IP address, Dest port)
-- Demux: Receiver uses 4-tuple to direct segment to appropriate socket 
-- Server may support many simultaneous TCP sockets(Each socket associated with a different connecting client)
-![[Pasted image 20250412105432.png]]
 
 #### Principles of reliable data transfer:
+
+- Sending data over unreliable channel make cause errors and changes of the packets, rdt helps us detect and recover from said errors. 
 
 ![[Pasted image 20250412111352.png]]
 
 ![[Pasted image 20250206152107.png]]
-
-#### rdt1.0:
-#### rdt2.0:
-- Introduces the recovery of error
-
-#### rdt3.0:
-- What happens if the unreliable channel looses packets? 
-
-**RDT: Reliable data transfer protocol**
+#### RDT: Reliable data transfer protocol
+**rdt1.0:**
+- Just detection of error?
 
 **RDT 2.0:**
 Q: How to detect bit errors: -> Checksums 

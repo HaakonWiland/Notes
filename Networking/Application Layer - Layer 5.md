@@ -1,8 +1,5 @@
 #networking #protocols #TTM4100 #HTTP #DNS
 
-
-
-
 Topmost layer in the OSI and TCP/IP network model, responsible for directly interacting with user-facing software applications. 
 
 When writing a program that communicates over a network, we have different paradigms of how to implement the way the program interacts over the network. 
@@ -18,7 +15,7 @@ When writing a program that communicates over a network, we have different parad
 - Peers intermittently connected and change ip address. 
 
 
-####  Transport services:
+#### Transport services:
 Different application need different properties 
 ![[Pasted image 20250116111305.png]]
 
