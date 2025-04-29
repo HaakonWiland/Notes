@@ -151,3 +151,49 @@ Error for the Comp-Trap-rule:
 **Composite Simpsons rule:**
 ![[Pasted image 20250424135433.png]]
 TODO - Assignment 2. 
+
+
+### Numerical solution of ordinary differential equations:
+NOTE: In this course we are only working with initial value problems.
+
+
+
+#### Methods:
+- Higher order ODEs: Can be split up into a system of first order equations, then use a fitting method to solve each of them.  
+- One step methods: ![[Pasted image 20250429113627.png]]
+- We differ between **explicit one step methods and implicit**, where in explicit methods the increment function does NOT depend on y_(k+1).  
+- Euler and Heun are examples of one step methods
+
+
+
+##### (Explicit) Eulers method:
+- IDEA: Approximate a continuous but unknown function, by a discreate function. 
+- Based on a quadrature rule, with exactness equal to 0
+![[Pasted image 20250429110158.png]]
+![[Pasted image 20250429110645.png]]
+
+- How to choose tau? -> Easiest tau = (T-t_0) / N_max i.e (N_max + 1) evenly distributed points.  
+
+**Error study:**
+- Smaller step size in Euler => numerical solution is closer to the exact solution 
+- Consistency order: TODO
+- Lipschitz condition: TODO
+- Convergence of one step methods theorem:  ![[Pasted image 20250429121153.png]]
+- **A method is convergent**: When step size goes to 0, our approx approaches the exact solution
+- **Local truncation error**: Error made in a single step assuming perfect knowledge of the previous step. 
+- **Global error:** Accumulates over many steps and is generally one lower then LT error. 
+- Ex: Say Global error is of order 2( O(h^2) ), then a  halving in stepsize would reduce the error by a factor of 4; `(h/2)^2 = h^2/4`. 
+- **EOC: Experimental Order of Convergence**, numerical estimate of the convergence rate of the method, based on observed errors rather than theoretical. Example: A order 2 method could really behave as a order 1 method due to conditions as: Rounding errors, bad implementation, step size choice etc. 
+
+
+##### Heuns method:
+- More accurate then Eulers method 
+- Heuns method cost more to run, then Eulers (Heun has higher runtime)
+- Heuns method is convergent of order 2 (Global error behaves like O(stepsize^2)). 
+![[Pasted image 20250429112835.png]]
+
+
+##### Runge-Kutta:
+- A class of methods 
+- Both Euler and Heun are examples of Runge-Kutta methods 
+![[Pasted image 20250429115944.png]]
