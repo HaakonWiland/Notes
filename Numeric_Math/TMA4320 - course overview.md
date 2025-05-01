@@ -55,7 +55,9 @@ We have a formula for finding the error between the polynomial and the function:
 - Note: What is 'e' and how do we find it?
 
 **Chebyshev Interpolation:**
-- TODO 
+- Can reduce interpolation error
+- Distributed the nodes in the approximation differently; More nodes at the endpoints where the error is assumed to be bigger.  
+
 
 Error depend on:
 - The number of points
@@ -156,7 +158,7 @@ TODO - Assignment 2.
 ### Numerical solution of ordinary differential equations:
 NOTE: In this course we are only working with initial value problems.
 
-
+- TODO: Butcher table? 
 
 #### Methods:
 - Higher order ODEs: Can be split up into a system of first order equations, then use a fitting method to solve each of them.  
@@ -197,3 +199,15 @@ NOTE: In this course we are only working with initial value problems.
 - A class of methods 
 - Both Euler and Heun are examples of Runge-Kutta methods 
 ![[Pasted image 20250429115944.png]]
+
+**Adaptive time steps:**
+- Dynamically adjust step size during the numerical integration process 
+- GOAL: Balance accuracy and computational efficiency 
+- Increase when: Solution varies slowly
+- Decrease when: Solution changes rapidly 
+![[Pasted image 20250430145957.png]]
+
+
+### Discrete Fourier Transform and it applications:
+- Transforming periodic functions, into series of sin and cos
+![[Pasted image 20250430151048.png]]

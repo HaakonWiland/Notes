@@ -25,7 +25,26 @@ mov rax, rbx     // move the temp back into x
 #### Registers:
 
 ![[Pasted image 20240905160016.png]]
-
-
 - **RSP:** A pointer to the top of the stack, changes when data is pushed and popped to the stack. 
 - **RBP:** A pointer to the BASE of the stack (last value of stack?), usually do not change throughout the functions execution. 
+
+
+#### Division:
+64-128 bit division:
+- RAX and RDX always act as the **dividend**, where RDX is the 64 highest bits, and RAX the lower 64 bits. 
+- We always have to prepare both these registers before we do a division. 
+- We can use any register or memory address as **divisor.**
+
+Ex:
+```
+xor rax, rax,
+xor rdx, rdx
+
+mov rax, 100
+mov rcx, 2
+
+div rcx  <----- 100/2 
+---
+RAX = 50 (Quotient)
+RDX = 0 (Remainder)
+```

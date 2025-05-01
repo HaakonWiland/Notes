@@ -108,5 +108,111 @@ _start:
 Without using `pop`, please calculate the average of 4 consecutive quad words stored on the stack. Push the average on the stack.
 ```
 
+```
+_start:
+        xor rax, rax
+        xor rdx, rdx
+        xor rcx, rcx
 
+        add rax, [rsp]
+        add rax, [rsp+8]
+        add rax, [rsp+16]
+        add rax, [rsp+24]
+
+        mov rcx, 0x04
+        div rcx
+
+        push rax
+```
+
+
+
+**Absolute-jump:**
+```
+In this level, we will ask you to do an absolute jump. Perform the following: Jump to the absolute address `0x403000`.
+```
+Solution:
+```
+_start:
+        mov rax, 0x403000
+        jmp rax
+```
+
+**Relative-jump:**
+```
+- Make the first instruction in your code a `jmp`.
+- Make that `jmp` a relative jump to 0x51 bytes from the current position.
+- At the code location where the relative jump will redirect control flow, set `rax` to 0x1.
+```
+
+Solution:
+```
+_start:
+        jmp $ + 0x53
+        .rept 81
+        nop
+        .endr
+
+        mov rax, 0x1
+```
+- This was a weird one 
+- We jump from our current position `$` and 0x53 bytes forward. 
+- Then we have to fill in the gap between our jump instruction, and the address we land in.
+- To know how many bytes we have to fill in, we need to know how "big" the jump instruction is. From the disassembler, we can see that it is 2 bytes. 
+- So we need to add 0x53-2 = 81 = 0x51 nop-bytes 
+- I was confused, since the problem told us to jump 0x51 bytes.
+- Lesson: Read the output, check the memory addresses and change code from there. 
+
+**Jump-trampoline:**
+```
+Create a two jump trampoline:
+
+- Make the first instruction in your code a `jmp`.
+- Make that `jmp` a relative jump to 0x51 bytes from its current position.
+- At 0x51, write the following code:
+    - Place the top value on the stack into register `rdi`.
+    - `jmp` to the absolute address 0x403000.
+```
+
+Solution:
+```
+_start:
+        jmp $ + 0x53
+        .rept 81
+        nop
+        .endr
+
+        pop rdi
+        xor rax, rax
+        mov rax, 0x403000
+        jmp rax
+```
+- The same temple as the prev problem
+- To do the last jump, we have to put the memory address we want to jump to in a specific register first 
+- since `jmp 0x403000` will translate to: "jump to the instruction at instruction pointer + 0x403000", which not what we want. 
+
+
+**Conditional-jump:**
+```
+Using the above knowledge, implement the following:
+
+
+if [x] is 0x7f454c46:
+    y = [x+4] + [x+8] + [x+12]
+else if [x] is 0x00005A4D:
+    y = [x+4] - [x+8] - [x+12]
+else:
+    y = [x+4] * [x+8] * [x+12]
+
+
+Where:
+
+- `x = rdi`, `y = rax`.
+
+Assume each dereferenced value is a signed dword. This means the values can start as a negative value at each memory position.
+
+A valid solution will use the following at least once:
+
+- `jmp` (any variant), `cmp`
+```
 
