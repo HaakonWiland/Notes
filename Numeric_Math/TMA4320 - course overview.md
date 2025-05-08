@@ -52,11 +52,13 @@ The relevant question to ask:
 
 We have a formula for finding the error between the polynomial and the function:
 ![[Pasted image 20250424122255.png]]
-- Note: What is 'e' and how do we find it?
+- Note: What is 'e' and how do we find it? -> This is just some theoretical point, instead of find this value, we just **bound** the error to the max of `n+1-derivative of f(x)`.
 
 **Chebyshev Interpolation:**
+![[Pasted image 20250508145457.png]]
 - Can reduce interpolation error
 - Distributed the nodes in the approximation differently; More nodes at the endpoints where the error is assumed to be bigger.  
+- Often we have to translate the output nodes back to our original interval. 
 
 
 Error depend on:
@@ -129,10 +131,15 @@ Specific formula for estimating error on concrete methods:
 
 
 #### Newton-Cotes formulas 
-- Discuss Newton-Cotes formulas, including the issues with negative weights and their practical implications.
-TODO 
+- DEF: Newton-Cotes is a "class" of quadrature rules, where we have n equidistributed nodes, and have degree of exactness equal to n. 
+![[Pasted image 20250502143724.png]]
 
-
+- Trapezoidal rule and Simpsons rule are examples of **closed** Newton-Cotes 
+- The methods **Degree of exactness** referee to highest degree polynomial that the rule integrates exactly over the interval 
+- As we increase the degree of exactness(number of nodes), some weight must be negative to satisfy exactness 
+- The above is due to the **Runge phenomenon: high degree polynomial interpolation over equally spaces points becomes unstable.** 
+- The result is: Negative weights which amplify errors, and unstable solution. 
+- Generally: we use Newton-Cotes with degree of exactness <= 8. 
 
 #### Constructing quadrature rules:
 ![[Pasted image 20250424133710.png]]
@@ -147,10 +154,16 @@ TODO
 ![[Pasted image 20250424134654.png]]
 - Note: For the Comp-Trap-rule we have that a doubling of the number of subintervals, decrease the error by a forth! 
 
-Error for the Comp-Trap-rule:
+**Composite Simpsons rule:**
+![[Pasted image 20250508125245.png]]
+![[Pasted image 20250508125252.png]]
+- Always start with x_0 = a, and end with x_m=b. 
+- Compute h and h_half 
+- Then just remember: "1/6,0,4,2,0"
+**Error for the Comp-Trap-rule:**
 ![[Pasted image 20250424135006.png]]
 
-**Composite Simpsons rule:**
+**Error for Composite Simpsons rule:**
 ![[Pasted image 20250424135433.png]]
 TODO - Assignment 2. 
 
@@ -169,12 +182,17 @@ NOTE: In this course we are only working with initial value problems.
 
 
 ##### (Explicit) Eulers method:
-- IDEA: Approximate a continuous but unknown function, by a discreate function. 
-- Based on a quadrature rule, with exactness equal to 0
+- IDEA: Approximate a continuous but unknown function, by a discreate function. We approx. the next point with a tangent.
+- Fast and works for some functions, but is inaccurate if the functions is curvy 
+- Based on a quadrature rule, with degree of exactness equal to 0
 ![[Pasted image 20250429110158.png]]
 ![[Pasted image 20250429110645.png]]
 
 - How to choose tau? -> Easiest tau = (T-t_0) / N_max i.e (N_max + 1) evenly distributed points.  
+When computing by hand, we can express a step in **Eulers method** as:
+![[Pasted image 20250508161721.png]]
+
+
 
 **Error study:**
 - Smaller step size in Euler => numerical solution is closer to the exact solution 
@@ -192,9 +210,11 @@ NOTE: In this course we are only working with initial value problems.
 - More accurate then Eulers method 
 - Heuns method cost more to run, then Eulers (Heun has higher runtime)
 - Heuns method is convergent of order 2 (Global error behaves like O(stepsize^2)). 
+- Also go by the name improved Eulers 
 ![[Pasted image 20250429112835.png]]
 
-
+When computing by hand, we can express a step with **Heuns method** as:
+![[Pasted image 20250508161847.png]]
 ##### Runge-Kutta:
 - A class of methods 
 - Both Euler and Heun are examples of Runge-Kutta methods 
