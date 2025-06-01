@@ -54,7 +54,7 @@ Provides datagram-level encryption, authentication and integrity.
 - Only datagram payload is encrypted, authenticated 
 
 **Tunnel mode:**
-
+- Provide Integrity, Authentication and confidentiality. The most popular for VPNs 
 
 Two IPsec protocols:
 

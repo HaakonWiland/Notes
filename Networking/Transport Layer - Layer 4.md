@@ -41,8 +41,13 @@ Still, we want some safety margin, since this is an average:
 
 **TCP - flow control:**
 Q: What happens when network layer delivers data faster than application layer removes data from socket buffer? 
+
 A: Receiver control sender, so sender wont overflow receiver buffer by transmitting to much, too fast. 
 - Free buffer space is specified in the **Receive windows in the TCP packet**.
+
+Goal: Prevent a fast sender from overwhelming a slow receiver.
+- Scoped within end to end communication between sender and receiver 
+- If sender has "overwhelmed" the receiver, the sender reduces it sending speed to fit the receivers capabilities. 
 
 **TCP - Connection management:**
 2 way handshake does not work -> Why? 
@@ -56,6 +61,10 @@ closing a connection:
 
 **TCP - Congestion control:**
 Congestion: "Too **many sources** sending **too much data too fast** for network to handle"
+- To much data being injected into the network 
+- Scope: Entire network path, routers, links and buffers 
+- Relevant in the the network layer. 
+- To prevent congestion, the transport layer can slow down transfer speed of data in the network. 
 
 Network assist with network congestion control: 
 - Routers provide direct feedback to sending/receiving host with flows passing through congested router

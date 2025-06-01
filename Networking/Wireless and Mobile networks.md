@@ -36,6 +36,18 @@ Trivia:
 
 **Hidden terminal problem:**
 ![[Pasted image 20250320085035.png]]
+- Can cause a collision at B, since A and C are unaware of what is happening at B -> Both A and C might happen to transmit at the same time, causing a collision. 
+
+
+**RTS/CTS:**
+- RTS/CTS frames is used in WiFi (802.11)
+- Used to reduce collisions and deal with the hidden terminal problem 
+1. **Sender** sends an **RTS** frame to the intended receiver.
+2. **Receiver** responds with a **CTS** frame if the medium is clear.
+3. **All nearby nodes** that hear the CTS know that they **must stay silent** for the upcoming transmission.
+4. **Sender** then sends its actual data.
+
+
 
 **Signal attenuation:**
 ![[Pasted image 20250320085210.png]]
@@ -124,4 +136,5 @@ Goal:
 - 10x increase peak bitrate
 - 10x decrease in latency 
 - 100x increase in traffic capacity over 4G 
+- 5G has higher frequency bands, then those used by 4G.
 
