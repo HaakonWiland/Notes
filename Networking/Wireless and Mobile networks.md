@@ -25,8 +25,29 @@ Note: Network taxonomy not impotent for exam
 - Large SNR - easier to extract signal from noise (GOOD)
 - When SNR increase: Receiver can more accurately interpret the transmitted bits, so BER(Bit error rate) reduces, leading to more reliable data transmission. 
 
+**Modulation scheme:**
+- A method used to encode information onto a carrier signal for transmission. It determines how digital/analog data is mapped onto changes in the amplitude, frequency or phase of signal. 
+
+Trivia:
+- **For a given modulation scheme; a lower SNR => higher BER**. (Lower SNR means signals are more affected by noise, increasing likelihood of bit errors)
+- **For given SNR, a modulation scheme with a higher bit transmission rate has higher BER.** ( Transmitting more bits per symbol, make it more susceptible to noise and leading to higher BER)
+
+
+
 **Hidden terminal problem:**
 ![[Pasted image 20250320085035.png]]
+- Can cause a collision at B, since A and C are unaware of what is happening at B -> Both A and C might happen to transmit at the same time, causing a collision. 
+
+
+**RTS/CTS:**
+- RTS/CTS frames is used in WiFi (802.11)
+- Used to reduce collisions and deal with the hidden terminal problem 
+1. **Sender** sends an **RTS** frame to the intended receiver.
+2. **Receiver** responds with a **CTS** frame if the medium is clear.
+3. **All nearby nodes** that hear the CTS know that they **must stay silent** for the upcoming transmission.
+4. **Sender** then sends its actual data.
+
+
 
 **Signal attenuation:**
 ![[Pasted image 20250320085210.png]]
@@ -115,4 +136,5 @@ Goal:
 - 10x increase peak bitrate
 - 10x decrease in latency 
 - 100x increase in traffic capacity over 4G 
+- 5G has higher frequency bands, then those used by 4G.
 

@@ -3,6 +3,11 @@ ssh -i SSHpwncollege hacker@dojo.pwn.college
 ```
 
 
+**Download files from server (SCP):**
+```
+scp -i SSHpwncollege hacker@dojo.pwn.college:/challenge/cimg .
+```
+
 HOT TIPS: If you want to quickly ssh to a server.
 ```
 Host gluteus  # f.eks. dingseboms

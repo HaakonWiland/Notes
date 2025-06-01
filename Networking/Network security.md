@@ -73,6 +73,7 @@ Provides:
 - **Only datagram payload** is encrypted, authenticated 
 
 **Tunnel mode:**
+
 - **Entire datagram** is encrypted, authenticated 
 - Encrypted datagram encapsulated in new datagram with new IP, header, tunneled to destination 
 

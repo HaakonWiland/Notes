@@ -43,6 +43,20 @@ IP datagram format:
 - Alternative way to implement the control plane 
 - Centralized implementation 
 
+
+#### Error detection in Link Layer:
+EDC: Error detection and correction bits 
+
+Parity checking:
+**Single bit parity:**
+- Detect single bit errors, by checking for even number of 1-bits: ![[Pasted image 20250403122701.png]]
+
+**Two dimensional bit parity:**
+- Detect and **Correct** single bit error: ![[Pasted image 20250403122755.png]]
+
+
+
+
 #### Network service model 
 
 What services do we expect to get from a network:
@@ -59,7 +73,13 @@ What services do we expect to get from a network:
 
 ##### Forwarding methods:
 **Destination based forwarding:** Forward based only on destination IP address.
-- longest prefix matching (TODO)
+
+**Longest prefix matching**:
+- We have a table which matches destination IP address patterns, with network interfaces.
+- When the router gets a destination IP, and wants to know to what interface it should forward it to, it looks in this table.
+- It picks the interface which has most bits in common with the destination IP 
+![[Pasted image 20250526125512.png]]
+
 
 **Generalized forwarding:** Forward based on any set of header field values.
 
@@ -128,8 +148,6 @@ EX: Org 1 moves from on ISP to another, so the new ISP need to new include org 1
 
 **Structure of IP address:**
 *Detached islands of isolated networks.*
-
-
 - Subnet part: Devices in the same subnet have common high order bits.
 - Host part: The remaining low order bits that are not fixed for the subnet. 
 - EX: 192.168.1.0/24: means the first 24 bits are fixed(192.168.1), and the last 8 bits is the host part. So this subnet can manage 2^8=256 hosts. NB: 1 and 256 are reserved, so in actuality its 254 hosts on the network. 
@@ -165,11 +183,17 @@ So we can just check:
 3) 172.16.4.95 /27 95 mod 32 != 0 => not valid 
 4) 127.16.4.207 /27 207 mod 32 != 0 => not valid 
 
+So to check if a subnet is valid, just take the last octet, and check if it it divisible by the number of addresses in the subnet. 
 ```
 
 
 **More about subnets:**
 ```
+"A subnet has the have the prefix: 129.241.56/21", means: 
+
+The subnet is a part of the range:
+[129.241.56.0 - 129.241.63.255] (2048 values)
+
 1: 129.241.56.0/22      
 2: 129.241.60.0/23      
 3: 129.241.62.0/23
@@ -191,6 +215,32 @@ Range: 129.241.62.0 - 129.241.63.255
 HENCE: THERE ARE NO OVERLAP IN THE SUBNETS
 ```
 
+**What subnet is the IP address part of:**
+```
+Question: Given an IP: 172.29.13.61, what /30, /29,.../26 etc subnet is it part of?
+
+/30:
+- In /30, there is 4 addresses. 
+- floor(61/4)=15
+- 15*4 = 60
+- 172.29.13.61 could be in the 172.29.13.60/30 subnet. 
+
+Follow same fomula, for each of them:
+1. Find the total number of addresses in the subnet 
+2. Take the last octet, and floor-divide it by the number of addresses. 
+3. This is the octet in the CIDR subnet notation. 
+```
+
+
+**Create an IP plan with subnets:**
+```
+Things to think about:
+- Different "IP-families" for different things, linknetwork, router addresses, host addresses, etc.
+- We dont want to make the routing table bigger than nessesary, but we also want it to "mean something".
+
+- Consider the network ranges of the different subnets, and how many ip addresses a given "family" needs. 
+- Divide the subnets first roughly in families, then we can divide them more within the families to make it neater.  
+```
 
 #### DHCP: Dynamic Host Configuration Protocol 
 GOAL: **Host dynamically obtains IP address from network server when it joins the network - we don't want to manually assign an IP each time a new host connects.**
@@ -291,7 +341,7 @@ Information it can communicate:
 - Echo request/reply 
 - ICMP messages carried in IP datagrams 
 
-Goal: Determine "good" paths form sending hosts to receiving host through network of routers. 
+Goal: Determine "good" paths from sending hosts to receiving host through network of routers. 
 
 
 **ICMP message:** Type, code and first 8 bytes of IP datagram causing error 
