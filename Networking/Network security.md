@@ -32,8 +32,23 @@ So if Alice wants Bobs public key, she gets bob certificate. Ex: if bob is a web
 In major web browsers, a copy of the public key of some CAs exists, and when visiting a website, the browser check if any of public keys work. 
 
 
-#### TLS: 
-TODO HERE 
+#### Transport Layer Security(TLS):
+- Provides secure stream of ANY data. 
+- Protocol between TCP and application layer 
+![[Pasted image 20250417132010.png]]
+
+
+Provides:
+- Confidentiality: Via symmetric encryption
+- Integrity: Via hashing
+- Authentication: Via public key cryptography  
+
+Steps - roughly:
+1. Handshake: Use certificates and private keys to exchange shared secret 
+2. Key derivation: Alice and bob derive key from shared secret 
+3. Data transfer: Stream data transfer, as encrypted data 
+4. Connection closure: Special message to close the connection 
+
 
 ### Network layer security:
 
@@ -48,22 +63,30 @@ Solution: VPN - virtual private network
 #### IPsec
 For exam: Only need to understand the basic aspect and differences between options 
 
-Provides datagram-level encryption, authentication and integrity.
+Provides: 
+- Confidentiality (datagram encryption)
+- Origin authentication
+- data Integrity
+- Replay attack prevention 
 
 **Transport mode:**
-- Only datagram payload is encrypted, authenticated 
+- **Only datagram payload** is encrypted, authenticated 
 
 **Tunnel mode:**
-- Provide Integrity, Authentication and confidentiality. The most popular for VPNs 
 
-Two IPsec protocols:
+- **Entire datagram** is encrypted, authenticated 
+- Encrypted datagram encapsulated in new datagram with new IP, header, tunneled to destination 
 
-**Authentication Header (AH) protocol:**
-- Provices source authentication and data integrity but NOT CONFIDENTIALITY. 
 
-**Encapsulation Security Protocol (ESP):**
-- Most common version! 
+**Two IPsec protocols:**
+
+Authentication Header protocol (AH):
+- Provides source authentication and data integrity but **NOT CONFIDENTIALITY**. 
+
+Encapsulation Security Protocol (ESP):
 - Provides source authentication, data integrity and confidentiality 
+- Most common version! 
+
 
 
 ### Security in wireless and mobile networks:

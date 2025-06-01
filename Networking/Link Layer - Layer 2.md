@@ -1,4 +1,4 @@
-#networking #link-layer #TTM4100 #ARP
+#networking #LinkLayer #TTM4100 #ARP
 
  **Link layer has responsibility of transferring datagram from one node to physically adjacent node over a link**
 
@@ -41,7 +41,7 @@ Link layer packet: Frames that encapsulates datagrams.
 
 #### Parity checking:
 ![[Pasted image 20250310090545.png]]
-
+- Basically, just make each row and column have even amount of 1's.  
 
 
 #### Cyclic Redundancy check (CRC):
@@ -61,6 +61,11 @@ NOTE: calculating CRC is relevant for EXAM!
 ![[Pasted image 20250310090345.png]]
 
 ![[Pasted image 20250310085706.png]]
+
+Example:
+- We append 3 zeros to D, since g has order 3 
+![[Pasted image 20250417141021.png]]
+
 
 
 

