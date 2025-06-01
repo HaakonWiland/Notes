@@ -15,6 +15,7 @@ Link layer packet: Frames that encapsulates datagrams.
 
 **Flow control:**
 - Pacing between adjacent sending and receiving nodes 
+- Same concept as in the Transport layer 
 
 **Error detection:**
 - Errors caused by signal attenuation, noise.
@@ -78,8 +79,8 @@ NOTE: calculating CRC is relevant for EXAM!
 ![[Pasted image 20250310093508.png]]
 
 
-#### 3 Broad classes of MAC
-
+#### 3 Broad classes of MAC(Medium access control)
+- Used to manage how multiple devices share a communication medium. 
 
 NEED TO KNOW: Difference between different MAC protocols, why we have them and benefits of each of them. Dont need to know everything in detail. 
 
@@ -106,7 +107,7 @@ NEED TO KNOW: Difference between different MAC protocols, why we have them and b
 - Efficient at low load: Single node can fully utilize channel
 - High load: More collision overhead 
 
-**Slotted ALOHA:**
+**Slotted ALOHA (Improved Pure ALOHA):**
 ![[Pasted image 20250310101923.png]]
 
 Pros:
@@ -189,6 +190,13 @@ A: ARP table! -> Each ip node (host, router) on LAN has table **(IP, MAC, TTL)**
 
 ![[Pasted image 20250313085551.png]]
 
+Summarized:
+- If A wants to send a datagram to B, and they are on the same subnet, he can do so directly if A knows Bs MAC address
+- A uses ARP to find the MAC of B. 
+- A do not need to go via any router. 
+
+
+
 **ARP example 2  - Routing to another subnet:**
 
 QUESTIONS about this will come on exam! 
@@ -207,6 +215,13 @@ QUESTIONS about this will come on exam!
 - In this example, we router already has the MAC of B, so the router can easily make the new frame 
 
 ![[Pasted image 20250313092652.png]]
+
+Summarized:
+- If A wants to send B a datagram, and B is on another subnet, A cannot send the datagram directly to B.
+- Instead A has to send the datagram to the router.
+- To send the datagram to the router, A has to know the MAC of the router(Use ARP to find it, if A has not cached it)
+- A build a ethernet frame with destination IP of B, and the MAC address of the router.
+- Now the router can send the datagram to B (It need to know Bs MAC, can ARP to find it, if it is not cached)
 
 
 #### Ethernet:

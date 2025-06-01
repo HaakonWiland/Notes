@@ -58,6 +58,7 @@ The 3 ranges for private IP addresses:
 
 #### ARP: Address Resolution Protocol
 - Makes it possible to find the MAC address of another device on the Ethernet. (Works on both wired and wireless local networks)
+- Only works for hosts on the same subnet 
 
 #### ICMP: Internet Control Message Protocol
 - Used for network diagnostics and error reporting. 

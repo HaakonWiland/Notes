@@ -1,4 +1,4 @@
-
+ 
 Main topics:
 - Polynomial Interpolation
 - Numerical Integration - Interpolatory quadrature rules 
@@ -217,10 +217,15 @@ When computing by hand, we can express a step with **Heuns method** as:
 ![[Pasted image 20250508161847.png]]
 ##### Runge-Kutta:
 - A class of methods 
+- IDEA: Each timestep approximate the derivative at multiple places, these are the `k_i` values. The `k_(i+1)` values are computed also, based on the previous k values. 
+- The `a_ij` values are used to compute the `k_i` values
 - Both Euler and Heun are examples of Runge-Kutta methods 
 ![[Pasted image 20250429115944.png]]
+![[Pasted image 20250514161909.png]]
 
-**Adaptive time steps:**
+
+
+**Adaptive time steps:** (Not important for exam )
 - Dynamically adjust step size during the numerical integration process 
 - GOAL: Balance accuracy and computational efficiency 
 - Increase when: Solution varies slowly
@@ -231,3 +236,48 @@ When computing by hand, we can express a step with **Heuns method** as:
 ### Discrete Fourier Transform and it applications:
 - Transforming periodic functions, into series of sin and cos
 ![[Pasted image 20250430151048.png]]
+
+**Discrete Fourier transform:**
+![[Pasted image 20250512124123.png]]
+![[Pasted image 20250512125258.png]]
+
+![[Pasted image 20250512124248.png]]
+![[Pasted image 20250512125207.png]]
+
+
+**Inner products:**
+![[Pasted image 20250512124456.png]]
+
+
+**Trigonometric interpolation: (Maybe look at later)**
+- Given (x,y) data, we can interpolate the points, and approximate the underlying function using trig. 
+- 1. We need to find the DFT coefficients satisfying the matrix:
+- The **f** is the vector with the datapoints
+![[Pasted image 20250513170121.png]]
+
+- 2. we can find the N'th term approximation(polynomial) for the underlying function using the formula below:
+
+![[Pasted image 20250513164825.png]]
+- Here L is the period of the underlying function. 
+- Note that the order of the approximation is limited by the number of sample points 
+
+**Implementing discrete Fourier transform:**
+- When implementing, it is to slow to construct a FT as a matrix -> O(n^2)
+- So, we have the Fast Fourier transform (FFT) to implement the method -> `O(N*log(N))`.
+- FFT IDEA: Implement the FT with N (number of data points) being a power off 2 
+
+**Numerical Differentiation and Spectral derivatives:**
+Context: 
+- We have a cont. function f, periodic on `(0,L)`
+- Then get N equi-distributed sampling points, then define N output values of f evaluated in these N points, `f(l), l=0...N-1`.
+- From here we have 4 ways of approximating the derivative:
+![[Pasted image 20250512132756.png]]
+
+- Forward and backward difference have a **first order convergence rate** 
+- Central difference has **second order of convergence** 
+- Spectral derivative has higher convergence rate that the finite difference operators? -> Spectral not finite? 
+
+
+**Exercises:**
+![[Pasted image 20250512140402.png]]
+

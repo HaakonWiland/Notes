@@ -25,12 +25,15 @@ Packets and links that interconnects the Internets end-systems.
 
 - **Store and forward Transmission:** The whole packet data is first being sent to the packet switch, before being forwarded to the destination. 
 
-- **Packet switching:** Resources used for transmission is used on demand, and are not reserved. This means communication have to wait in queue for access to a communication link. 
+**Packet switching:** Resources used for transmission is used on demand, and are not reserved. This means communication have to wait in queue for access to a communication link. 
 ![[Pasted image 20250110114436.png]]
+- Usually cannot guarantee a certain amount of end to end bandwidth 
 
-- **Circuit switching:** Resources used for transmission are reserved for the duration of the communication session. 
+
+**Circuit switching:** Resources used for transmission are reserved for the duration of the communication session. 
 ![[Pasted image 20250110114325.png]]
-
+- Can guarantee a certain amount of end to end bandwidth 
+- Delay variation is also usually lower in circuit switching, than in packet switching. 
 
 ### Network performance:
 
