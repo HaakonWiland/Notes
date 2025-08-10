@@ -1,14 +1,14 @@
 
 Viktige tema:
 - **Feilkilder innen vitenskaplige beregninger:**  
-- Hvordan bruke interpolasjon for å komme fram til nye kvadraturer 
-- Typisk oppgave: Får oppgitt noen noder, og noen funksjoner, så konstuer en kvadraturregel som har minst "denne" error. Så evaluere funksjonen. Kan både komme i papirform eller i kode.
+- **Hvordan bruke interpolasjon for å komme fram til nye kvadraturer** 
+- **Typisk oppgave: Får oppgitt noen noder, og noen funksjoner, så konstuer en kvadraturregel som har minst "denne" error. Så evaluere funksjonen. Kan både komme i papirform eller i kode.**
 - **Degree of exactness, når er noe eksakt.** 
 - **Composit Quadrature rules**
 - **Convergens order, kommer oppgave om dette. Snakket noe om log log error?** 
 - **Ting som dukker opp flere ganger, større sannsynlighet for kommer på eksamen.** 
 - **Implementering av kvadraturregler, de ligger et par oppgaver rundt dette i manuskriptet.** 
-- Mulig oppgave: Gitt et feilestimat for en kvadraturregel, finn feilestimatet for den sammensatte kvadraturregelen
+- **Mulig oppgave: Gitt et feilestimat for en kvadraturregel, finn feilestimatet for den sammensatte kvadraturregelen**
 
 - **Må kunne løse lineære difflikninger, system av difflikninger og høyere ordens difflikninger. Høyere ordens difflikninger gjør vi om til system av lineære** 
 - **Typisk oppgave: Får oppgitt en type runge kutta metode, implimenter i python** 
