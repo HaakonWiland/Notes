@@ -1,4 +1,0 @@
-- Implemetering av merge sort
-- Ford fulkersen 
-- make a heap time complexity 
-- bellman ford tebale notation

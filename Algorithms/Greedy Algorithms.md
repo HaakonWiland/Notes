@@ -1,3 +1,4 @@
+#algorithms #programming 
 A class of Algorithms. 
 
 **Generally:**  An algrorithm that solves a problem by choosing the optimal choice at each step, without worrying about what is the best choice in the future steps.  

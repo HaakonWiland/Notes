@@ -1,4 +1,4 @@
-#web  #SQLi #AuthnenticationBypass 
+#web  #SQLi #AuthnenticationBypass #CMDi  #pwncollege
 
 **Path Traversal 1:**
 

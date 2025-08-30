@@ -1,4 +1,4 @@
-
+#RedTeaming #tryhackme
 #### Shells:
 
 If we get a shell on the target, our next goal should be to escalate our privileges such that we have a more reliable way of connecting to the target. This could be a "better" shell, or ideally a normal user on the target systems such that we can get a native shell. 

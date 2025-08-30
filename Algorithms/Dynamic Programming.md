@@ -1,3 +1,4 @@
+#algorithms #programming 
 A class of Algorithms with similar idea as divide and conquer, and is basically the opposite as greedy algorithms.
 
 **Idea:** Break up a problem into a series of overlapping sub-problems and build up solutions to larger and larger sub-problems. Hence we only need to solve each subproblem once. 

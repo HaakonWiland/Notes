@@ -1,4 +1,4 @@
-#IncidentHandeling #SOC 
+#IncidentHandeling #SOC #BlueTeaming #hackthebox
 
 
 Definitions:

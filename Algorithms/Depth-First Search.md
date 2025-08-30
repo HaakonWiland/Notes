@@ -1,3 +1,4 @@
+#algorithms #programming 
 **Time Complexity:** O(V+E)
 **Application:** Iterating over a graph, often used as building blocks for other functionalities such as: Counting connected components, Determine connectivity, Topological ordering etc..
 **Other:** DFS has same properties as BFS, but has for some problems one is better then the other. 

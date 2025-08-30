@@ -1,4 +1,4 @@
-
+#BlueTeaming #tryhackme
 
 ### People:
 SOC team with different responsibilities 

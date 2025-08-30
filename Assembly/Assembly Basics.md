@@ -1,9 +1,14 @@
+#assembly 
+#### Registers:
+![[Pasted image 20240905160016.png]]
+- **RSP:** A pointer to the top of the stack, changes when data is pushed and popped to the stack. 
+- **RBP:** A pointer to the BASE of the stack. Usually do not change throughout the functions execution. When working with function, RBP works as a reference point for the functions stack frame. 
+
+
 
 #### Lessons I learned:
 ```
 1. In x86-64 we are not allowed to 'mov' a 64 bit immediate directly into memory. So we have to 'mov' the immediate into a register, then move the content of the register into memory. 
-
-
 ```
 
 
@@ -20,14 +25,14 @@ mov rax, rbx     // move the temp back into x
 
 ```
 
-
-
-#### Registers:
-
-![[Pasted image 20240905160016.png]]
-- **RSP:** A pointer to the top of the stack, changes when data is pushed and popped to the stack. 
-- **RBP:** A pointer to the BASE of the stack. Usually do not change throughout the functions execution. When working with function, RBP works as a reference point for the functions stack frame. 
-
+#### Multiplication
+keyword: `mul`
+- Can we written in a short handed notion, multiplying by rax implicitly.
+- ex: `mul rdx` , multiplies the value of rdx with rax. 
+- The product is a 128-bit integer, stored as: 
+low 64 bits: RAX 
+high 64 bits: RDX 
+i.e RDX:RAX. 
 
 #### Division:
 64-128 bit division:
@@ -49,11 +54,8 @@ div rcx  <----- 100/2
 RAX = 50 (Quotient)
 RDX = 0 (Remainder)
 ```
-
-
 #### Jumping:
 ![[Pasted image 20250506212719.png]]
-
 
 #### Functions:
 In x86-64 assembly, defining a function involves setting up a label for the function, managing the stack frame, and adhering to the calling convention. The System V AMD64 ABI specifies that the first argument is passed in the `rdi` register, and the return value should be placed in the `rax` register.
@@ -82,4 +84,12 @@ my_function:
 `ret: Pops the top value of the stack and jumps to it.`
 
 - When a function i called, a new stack frame is created. It stores used local variables, function arguments, and return addresses 
-- 
+
+
+#### Wierd instructions:
+**shr:** "shift right" 
+- shifts all bytes to the right by some amount.
+- ex: `shr rax, 2`
+- In practice divides the registry by 2^count. 
+- so: `shr rax, 2`, would divide rax with 2^2=4. 
+

@@ -1,4 +1,4 @@
-#SOC #hackthebox 
+#SOC #hackthebox #BlueTeaming 
 
 
 Definitions:

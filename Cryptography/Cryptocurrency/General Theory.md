@@ -1,4 +1,4 @@
-
+#cryptography #cryptocurrency 
 
 ### Different ways of validating transactions:
 

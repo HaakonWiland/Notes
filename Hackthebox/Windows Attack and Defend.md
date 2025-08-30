@@ -1,4 +1,4 @@
-#ActiveDirectory #SOC #Pentesting #Windows
+#ActiveDirectory #SOC #pentesting #Windows #hackthebox
 
 Basic AD elements:
 A `domain` is a group of objects that share the same AD database, such as users or devices.

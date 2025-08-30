@@ -70,3 +70,17 @@ with open("a.cimg", "wb") as outfile:
      outfile.write(header)
      outfile.write(data)
 ```
+
+
+#### Interacting with pwntools:
+```python
+pip install pwntools
+
+from pwn import *
+```
+
+- **`recvline()`** → reads **until a newline (`\n`)**.
+- **`recv()`** → reads a fixed number of bytes (blocking until that many are available).
+- **`recvuntil(b"string")`** → keeps reading until it sees a delimiter.
+- **`recvall()`** → reads **everything until the process closes** (useful when the program just dumps data and exits).
+- **`interactive()`** → hands over stdin/stdout to you, so you can play with the binary like it’s running in your terminal.

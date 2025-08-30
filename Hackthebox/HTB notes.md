@@ -1,10 +1,4 @@
-
----
-tags:
-- #hacking
-- #hackthebox
-- #IT
----
+#hackthebox #RedTeaming 
 
 ### 12.01.2024
 
