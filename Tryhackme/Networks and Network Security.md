@@ -1,4 +1,4 @@
-#networking 
+#networking #tryhackme
 
 ### ISO OSI MODEL
 ![[Pasted image 20241113213159.png]]

@@ -1,4 +1,4 @@
-#SOC #hackthebox #eventcode #sysmon #eventviewer 
+#SOC #hackthebox #eventcode #sysmon #eventviewer #hackthebox #BlueTeaming 
 
 **Detection mindset**: "One of the key aspects of threat detection is having a good understanding of what is "normal" in our environment. Anomalies that might indicate a threat in one environment could be normal behavior in another. It's crucial to tune our monitoring and alerting systems to our environment to minimize false positives and make real threats easier to spot."
 

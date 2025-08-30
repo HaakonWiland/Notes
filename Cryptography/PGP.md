@@ -1,4 +1,4 @@
-#Privacy
+#privacy #cryptography 
 Commands using GPG for PGP:
 
 ```

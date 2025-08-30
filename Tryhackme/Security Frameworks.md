@@ -1,4 +1,4 @@
-
+#BlueTeaming #tryhackme 
 #### Bell-LaPadula (Model for confidentiality)
 "Write up, read down"
 

@@ -1,10 +1,6 @@
 
----
-tags:
-- #Cryptography 
-- #TTM4135
+#cryptography #TTM4135
 
---- 
 Definitions: 
 - **Confidentiality:** Prevent unauthorised disclosure of information.
 - **Integrity:** Prevent unauthorised modification of informaton.

@@ -1,4 +1,4 @@
-
+#algorithms #programming 
 A class of problems, where the problem cannot be solved efficiently. 
 
 Lingo and definitions:

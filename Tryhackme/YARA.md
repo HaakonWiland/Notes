@@ -1,3 +1,5 @@
+#tryhackme #BlueTeaming 
+
 "Programming language which we can make rules to identify certain strings within files. Used to scan files for malicious properties. "
 
 

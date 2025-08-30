@@ -1,4 +1,4 @@
-#SOC #ELK #KQL 
+#SOC #ELK #KQL #hackthebox #BlueTeaming 
 lingo:
 - **Adversary** 
 - **TTP:** Tactics, Techniques and Procedures 

@@ -1,3 +1,5 @@
+#tryhackme #hash
+
 Online cracking tools:
 - [https://crackstation.net/](https://crackstation.net/)
 - [https://hashes.com/en/decrypt/hash](https://hashes.com/en/decrypt/hash) 

@@ -1,6 +1,4 @@
-
-
-
+#databases #SQL #tryhackme 
 #### Basic commands:
 
 ```

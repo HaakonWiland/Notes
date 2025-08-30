@@ -1,4 +1,4 @@
-#Debugging #pwn #ReverseEngineering
+#debugging #pwn #ReverseEngineering
 
 Tips on configuration:
 - ~/.gdbinit file will contain information gdb uses each time it starts. 

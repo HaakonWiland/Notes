@@ -1,4 +1,5 @@
-eA class of problems, where we solve problems related to a directed graph with edges having capacities and receiving flow from other edges. 
+#algorithms #programming 
+A class of problems, where we solve problems related to a directed graph with edges having capacities and receiving flow from other edges. 
 
 Example algorithms:
 - Ford-Fulkerson Algorithm
