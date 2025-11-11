@@ -52,8 +52,6 @@ curl -v http://challenge.localhost/files%2F..%2F..%2Fflag
 And it gives us the flag. 
 
 
-
-
 **Path Traversal 2:**
 ```python
 #!/opt/pwn.college/python
