@@ -93,3 +93,9 @@ my_function:
 - In practice divides the registry by 2^count. 
 - so: `shr rax, 2`, would divide rax with 2^2=4. 
 
+**shl:** "Shift left"
+- Same idea, but shift all bytes to the left 
+- ex: `shl rax, 2`
+- In practice multiplicate the registry by 2^count 
+- so: `shl rax, 2` would multiply rax by 2^2 = 4. 
+

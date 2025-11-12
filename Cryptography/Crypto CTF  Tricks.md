@@ -1,4 +1,31 @@
-#cryptography #ctf 
+#cryptography #ctf
+
+
+#### Conversion tricks:
+**str to byte-str:**
+`byte_str = bytes(string, 'utf-8')`
+
+**Hex-str to int:**
+`number = int(hex_str, 16)`
+- NOTE: We can use the XOR-operator(^) on int.
+
+**Int to byte-str:**
+```
+length = max(1, (flag_int.bit_length() + 7) // 8)
+flag = flag_int.to_bytes(length, "big")
+```
+
+**hex-str to byte-str + xor of byte-str:**
+```
+key = bytes.fromhex(string1)
+secret = bytes.fromhex(string2)
+
+flag = bytes(a ^ b for a,b in zip(key,secret))
+```
+
+
+
+
 Convert hex-string to number we can do calculations with:
 ```
 c = "5ad94ceba849d..."
