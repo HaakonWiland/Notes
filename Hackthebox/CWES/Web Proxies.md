@@ -30,6 +30,13 @@ LESSON:
 
 - payloads: https://portswigger.net/burp/documentation/desktop/tools/intruder/configure-attack/payload-types 
 
+
+LESSON:
+- When fuzzing stuff and preforming processing(encoding etc), it can be useful to try different ways of the same thing 
+- Ex: encode with cli tool > list.txt, encode with python script write to file, or burp payload processor. 
+- There can be hard to spot differences in the way they handles things, which can make a difference. 
+
+
 ### ZAP
 - Can fuzz the same way as burp intruder, but is much faster 
 - Can also do processing of the payloads, ex. hashing username-cookies. 
