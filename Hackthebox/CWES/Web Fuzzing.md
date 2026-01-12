@@ -53,3 +53,72 @@ Example fuzzing post parameter:
 ffuf -u http://94.237.49.88:30318/post.php -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "y=FUZZ" -w common.txt -mc 200 -v
 ```
 - Change the Content-Type and wordlist on need. 
+
+Can also be useful to verify findings in parameters by sending curl request manually:
+- Example:
+```shell
+curl http://94.237.120.74:43318/post.php -X POST -d "y=SUNWmc"
+```
+
+
+#### Virtual hosting and subdomain fuzzing 
+- See [[Information Gathering]] 
+- Can use gobuster to fuzz and discover subdomains and virtual hosts 
+
+Examples of gobuster subdomain fuzzing:
+```shell
+gobuster dns --domain inlanefreight.com -w subdomains-top1million-5000.txt
+```
+
+Examples of gobuster vhost fuzzing:
+```shell
+gobuster vhost -w common.txt -u http://inlanefreight.htb:47521 --append-domain
+```
+
+Gobuster tips:
+- Filtering output
+![[Pasted image 20260111142606.png]]
+
+FFUF tips:
+- filter output
+![[Pasted image 20260111142926.png]]
+
+
+#### Fuzzing APIs:
+**Discovery:**
+- Check documentation! (But there can still be hidden apis not documented)
+- Network traffic analysis; check what apis are used by the application when we interact with it.  
+- Parameter name fuzzing 
+
+**Different types of APIs:**
+- REST
+- SOAP (xml bullshit)
+- GraphQL: Usually 1 endpoint, has its own query language. 
+
+**Ways to fuzz apis:**
+- **Parameter fuzzing:** Try different API endpoints, headers, request bodies 
+- **Data format fuzzing:** Try different formatting and encoding of the data sent to the apis, can reveal vuls related to parsing, buffer overflows, improper handling of special characters. 
+- **Sequence fuzing:** Looking at api response from sequences of requests. 
+
+**Tools for API fuzzing:**
+- https://github.com/PandaSt0rm/webfuzz_api.git
+
+```shell
+python3 api_fuzzer.py http://94.237.122.188:38651 --wordlist ~/wordlists/seclists/Discovery/Web-Content/common.txt
+```
+- Can be used to find hidden apis.
+- Can be used to fuzz parameters in the api?
+
+
+#### Skill assessment:
+- Have /admin dir, but give access denied. Else no interesting leve1-directories. 
+- We find this interesting level2-directory: /admin/panel.php, which tells us "Invalid parameter, please ensure accessID is set correctly"
+- We fuzz that parameter, and a value "getaccess" returns a site with a hint to fuzz a specific vhost: fuzzing_fun.htb
+
+```shell
+  curl http://94.237.55.124:43442 -H "Host: fuzzing_fun.htb"    
+Welcome to fuzzing_fun.htb!
+Your next starting point is in the godeep folder - but it might be on this vhost, it might not, who knows... 
+  ```
+- Fuzzing for vhosts, we find: hidden.fuzzing_fun.htb:43442/godeep/
+- Then we do a recursion-ffuf on hidden.fuzzing_fun.htb:43442/godeep/ , looking for directories -> which finds the site with the flag. 
