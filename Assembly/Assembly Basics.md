@@ -5,6 +5,9 @@
 - **RBP:** A pointer to the BASE of the stack. Usually do not change throughout the functions execution. When working with function, RBP works as a reference point for the functions stack frame. 
 
 
+#### Instructions:
+- **push:** ex: `push 0x45` - moves the value `0x45` onto the stack. Remember RSP and ESP is the stack pointer. 
+
 
 #### Lessons I learned:
 ```

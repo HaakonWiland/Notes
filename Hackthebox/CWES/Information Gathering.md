@@ -7,6 +7,10 @@
 - Analyzing attack surface 
 - Gather information: Information that can be used for further exploitation. 
 
+#### Info gathering automating tools:
+![[Pasted image 20251207140130.png]]
+
+
 **Active recon:** Attacker interact directly with the target system
 - Port scanning 
 - Vuln scanning (ex with nessus)
@@ -19,7 +23,7 @@
 
 **Passive recon:** Gather information about the target without interacting with it
 - google dorking 
-- WHOIS lookup: Find information about the domain 
+- WHOIS lookup: Find information about the domain, NOTE: ONLY WORKS FOR PUBLIC DOMAINS, will not work for domain inside a box. 
 - DNS: Analyze DNS records to identify subdomains, mail servers etc. Can use `dig` , `nslookup`, or other tools.
 - Web Archive analysis 
 - SOME analysis
@@ -113,7 +117,10 @@ secure.dev.facebook.com
 Example gobuster with vhost:
 `gobuster vhost -u "http://inlanefreight.htb:59327" -w DNS/subdomains-top1million-110000.txt --append-domain`
 
-- Keep in mind we might have to edit out /etc/hosts file, if the domain is "inside" the box. 
+Example gobuster with dir:
+`gobuster dir -u "http://inlanefreight.htb:53701" -w directory-list-2.3-small.txt`
+
+- **Keep in mind we might have to edit out /etc/hosts file, if the domain is "inside" the box.** 
 - Also, subdomains we find might to be visible in the browser, try to add them to /etc/hosts with the ip of the main domain
 
 #### Fingerprinting 
@@ -134,3 +141,45 @@ Example gobuster with vhost:
 **Tools:**
 ![[Pasted image 20251203180025.png]]
 - Nikto: Tries to identify old software, insecure files and configs.
+
+#### Crawling:
+- Exploring and mapping out the structure of the web application; different sites, directories, subdomains and so on. 
+- Can use tools or scripts to automate this process
+- There is also: **robots.txt**, **.Well-Known/** which are special files/directories which can have useful information. 
+
+
+#### Skill assessment:
+
+```
+http://web1337.inlanefreight.htb:38450/admin_h1dd3n
+
+HTTP/1.1 301 Moved Permanently
+Server: nginx/1.26.1
+Date: Sun, 07 Dec 2025 16:02:05 GMT
+Content-Type: text/html
+Content-Length: 169
+Location: http://web1337.inlanefreight.htb/admin_h1dd3n/
+Connection: keep-alive
+```
+
+- Go to the redirected site (WITH a trailing /, the browser cannot figure that out itself apparently)
+- We get an API key `e963d863ee0e82ba7080fbf558ca0d3f`
+
+Things i have tried:
+- Look for subdomains; but internal dns, cannot do a lookup 
+- OWASP spider to crawl: but no links to follow, dont find any directories 
+- gobuster dir: bruteforce dirs, 2-3-big.txt and common.txt, no findings 
+- gobuster vhosts: bruteforce vhosts, find web1337, find the robots.txt and the admin panel. 
+- gobuster dir the web1337-vhost: dont find anything with dirb/big.txt  , only robots.txt (without -f option)
+
+Getting some help:
+- **You can look for vhost, to the vhost!** (nested vhosts?), we try scanning for vhosts in the web1337 vhost. 
+- Speed up gobuster with -t 60, for more threads
+
+- We then find a dev.web1337, which has some html files and we find what we are looking for doing a systematic bruteforce. 
+- Could also have tried reconspider: 
+```
+python3 ReconSpider.py http://dev.web1337.inlanefreight.htb:52590
+```
+
+NOTE: Trailing slash, the normal thing to do is have the slash when it is a directory and remove it when it is a file. BUT is it not a rule 
