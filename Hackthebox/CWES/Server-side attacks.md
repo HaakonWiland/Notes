@@ -50,6 +50,28 @@ dateserver=http://10.129.85.188:8000
 ```
 - BUT notice that we cannot access the server via the VPN facing network ip. It does not work, most likely because it does not listens to this address. 
 
+Just like the example above, we could try to enumerate different subdirectories via SSRF:
+```shell
+ffuf -w raft-small-words.txt -u http://10.129.87.75/index.php -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "dateserver=http://dateserver.htb/FUZZ.php&date=2024-01-01" -fr "Server at dateserver.htb Port 80"
+```
+- This can be done via burp as well, but would be much slower. 
+- And again, the http://dateserver.htb is a site normal users are not allowed to visit, but the website server is trusted, hence we must do this enumeration via the SSRF. 
+
+Another way to enumerate this service would be to try different URL schemes, such as file or gopher. 
+- Useful resource: https://github.com/tarunkant/Gopherus  
+
+**Blind SSRF:**
+- There is also something called blind SSRF, where we cannot we the full response of our SSRF requests. 
+- They are harder to exploit and harder to detect, but we are still sending requests via the server, so there is potential harm to be made. 
+- A way to check for blind SSRF, so to forge a request to a site we know the server can reach - for example itself! So if ex: 127.0.0.1:80/index.php does not return the original site or any html, we are dealing with blind SSRF. 
+- Exploiting can be hard, but one way is to observer differences in the error messages when we try to visit different subdirectories / ports / files, by which we can deduce what is open/available. 
+
+**Prevention:**
+- If the server needs to make remote requests, it should have a whitelist of which it is allowed to fetch from. 
+- Whitelist URL schemes 
+- Sanitize userinput - as we always do with userinput. 
+- A firewall could also be configured to prevent SSRF.
+https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html 
 
  
  **SSTI: Server side template injection**
