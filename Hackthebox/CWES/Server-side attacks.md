@@ -128,15 +128,64 @@ Other tools that help automate this process: https://github.com/vladko312/SSTIma
 - User input should never be passed to the template engines rendering function in the template parameter. 
 - Remove dangerous functions from the engine which we do not need. 
 
-**SSI: Server side includes injection**
+**SSII: Server side includes injection**
 Similar to SSTI, can be used to generate html response from the server and include additional content dynamically. 
 
- 
+- SSI: Server side includes, lets web applications create dynamic content on HTML pages. 
+- Use of SSI can be inferred from file extensions, ex: .shtml, .shtm and .stm. 
+- SSI use directives to dyamically add static html content to a page, ex of such directive: 
+```
+<!--#name param1="value1" param2="value" -->
+```
+
+SSII occures when the attacker can inject SSI directives into a file that is then served by the web server, resulting in an execution of SSI directives. 
+
+We can confim and exploit SSII by trying to execute commands via the directory:
+```
+<!--#exec cmd="id" -->
+```
+
+
+**Prevention:**
+- Validate and sanitize user input 
+- Configure the web server to restrict the use of SSI to particular file extensions and even black/while list directives (ex. usually do not need the exec directory)
+
+
  **XSLT: Extensible stylesheet language transformations - server side injection** 
 XSTL is a language used to transform XML docs into other formats, example html. This vulnerability exploits this type of transformation. 
 
+- XSL can be used to process a xml document, with operations such as loops, if statements, sorting, and more. ex:
+```
+<?xml version="1.0"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    <xsl:template match="/fruits">
+        Here are all fruits of medium size ordered by their color:
+        <xsl:for-each select="fruit">
+            <xsl:sort select="color" order="descending" />
+            <xsl:if test="size = 'Medium'">
+                <xsl:value-of select="name"/> (<xsl:value-of select="color"/>)
+            </xsl:if>
+        </xsl:for-each>
+    </xsl:template>
+</xsl:stylesheet>
+```
+- The above code loops a xml document with fruits, loops all the elements, sorts them, then prints the specific fruit if it is of medium size. 
+- XSLT injections occures when user input is inserted into XSL data before the XSLT processor generates output. The injected data will then get executed during the process. 
+- It might not be so easy to spot this vulnerability, but we can try to inject payloads like this, and checking the response. Server errors could mean we have a vulnerability:
+```
+<
 
+<xsl:value-of select="unparsed-text('/etc/passwd', 'utf-8')" />
 
+<xsl:value-of select="php:function('file_get_contents','/etc/passwd')" />
 
+(if it runs php)
+<xsl:value-of select="php:function('system','id')" />
+```
+
+**Prevention:**
+- Again prevent user input from being inserted into XSL data before it is processed by the XSLT processor. 
+- Sanitize and validate user input 
+- HTML encoding before inserting user input into XSL data 
 
 
