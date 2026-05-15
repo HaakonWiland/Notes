@@ -1,5 +1,8 @@
 #CWES 
 
+#### Lessons:
+- Inline js code can be useful for finding vulnerabilities, dont overlook them 
+- Dont have a too narrow scope, when you are stuck on 1 idea that does not work, try to come up with a new theory on how to exploit the system. 
 
 ### Common types of server-side attacks:
 #### **SSRF: server side request forgery**
@@ -189,3 +192,14 @@ XSTL is a language used to transform XML docs into other formats, example html. 
 - HTML encoding before inserting user input into XSL data 
 
 
+#### Assessment:
+```shell
+ffuf -w ports.txt -u http://154.57.164.83:31382 -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "api=http://127.0.0.1:FUZZ" -fr "Failed to connect"
+```
+- We get a http 200 from port 3306 -> MySQL port. can use Gopherus to exploit? 
+
+```shell
+ffuf -w raft-small-directories.txt -u http://154.57.164.83:31382 -X POST -H "Content-Type: application/x-www-form-urlencoded" -d "api=http://truckapi.htb/FUZZ" -fr "Not Found"
+```
+- We also find a subdir, /server-status
+SSRF lost trail, real vuln is the SSTI in the id parameter. 
