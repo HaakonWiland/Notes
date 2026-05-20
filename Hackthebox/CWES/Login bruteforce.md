@@ -91,3 +91,47 @@ hydra -l administrator -x 6:8:abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX
 - 6 - 8 characters, from upper, lower and numbers 
 - specifying port, ip and protocol 
 
+#### Medusa
+
+Command format:
+```shell
+medusa [target_options] [credential_options] -M module [module_options]
+```
+
+- Can be used over FTP, HTTP, IMAP, MySQL, POP3, RDP, etc. 
+
+Medusa can also do attacks in parallell: 
+```shell
+medusa -H web_servers.txt -U usernames.txt -P passwords.txt -M http -m GET
+```
+- Here web_servers.txt contains a set of server addresses to attack, and for each it will attack with usernames.txt and passwords.txt 
+
+Can also be used to attack with empty or default passwords:
+```shell
+medusa -h 10.0.0.5 -U usernames.txt -e ns -M service_name
+```
+- Change service name with http,ssh,...
+
+Note: We can also do medusa scans locally, ie against localhost. Can be useful if we get access to 1 service and from there want to attack another service which is only available locally. 
+
+#### Tailored attacks
+Instead of attacking with the default wordlists such as rockyou.txt etc, a better way can be to tailor the wordlist to the target.
+
+If we do not know the username we can use username anarchy:
+https://github.com/urbanadventurer/username-anarchy.git
+- It generates username combinations if we know the first and last name of the target 
+
+Then we can use CUPP to generate passwords based on OSINT information:
+```shell
+sudo apt instal cupp 
+```
+
+Then we can filter this generated wordlist to match the company policy for passwords. Which can be somthing like:
+- Minimum Length: 6 characters
+- Must Include:
+    - At least one uppercase letter
+    - At least one lowercase letter
+    - At least one number
+    - At least two special characters (from the set `!@#$%^&*`)
+
+This wordlist will be relevant to the target and hopefully not too long. 
