@@ -57,6 +57,10 @@ RDX = 0 (Remainder)
 #### Jumping:
 ![[Pasted image 20250506212719.png]]
 
+
+#### Stack frame:
+
+
 #### Functions:
 In x86-64 assembly, defining a function involves setting up a label for the function, managing the stack frame, and adhering to the calling convention. The System V AMD64 ABI specifies that the first argument is passed in the `rdi` register, and the return value should be placed in the `rax` register.
 
