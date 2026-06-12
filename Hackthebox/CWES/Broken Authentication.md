@@ -1,5 +1,8 @@
 #CWES #AuthnenticationBypass 
 
+#### Lessons:
+- Even though we have not completed the 2fa check for a user, we still might be able to find authorized endpoints. Ref. gladys profile page. 
+
 
 ![[Pasted image 20260529044859.png]]
 
@@ -10,7 +13,7 @@
 **Ownership:**
 - User have to provide something the user owns, ex. physical object, id-card, token or smartphone with authentication app. 
 
-**Inherence:**
+**Inherent:**
 - Something the user is or does, ex. biometric factors such as fingerprint, facial patterns, signature. 
 
 #### Single factor vs multi factor:
@@ -86,3 +89,46 @@ Some sites have a password reset functionality that only require us to know the 
 ffuf -w ./city_wordlist.txt -u http://154.57.164.73:32364/security_question.php -X POST -H "Content-Type: application/x-www-form-urlencoded" -b "PHPSESSID=u3q5h1f41pvsdukae7o1aq3bse" -d "security_response=FUZZ" -fr "Incorrect response."
 ```
 
+#### Direct access 
+- Some resources does not check for authentication, even though they should have.
+- This mean we sometimes can access hidden resources if we just ask for them.
+- Thus could also manifest itself in parameters, ex. id parameters with no authentication check (IDOR)
+
+#### Attacking tokens:
+- If the authentication tokens use weak entropy, we might be able to manipulate the session tokens to gain authenticated access.
+- Examples could be: tokens based on hex or base64 encoding, weak algorithms, or bad JWT practices. 
+
+
+#### Other attacks:
+- Sessions fixation: Attacker forces a user to use a specific sessions token via sending a malicious link. Attacker can later access this user.
+- Sessions token timeout: If the token does not expire, it can be used to authenticated as the user later if it at any point gets leaked. Best practice for session timeouts can range from minutes to hours. 
+
+
+#### Assignment:
+Password does not meet our password policy:
+
+- Contains at least one digit
+- Contains at least one lower-case character
+- Contains at least one upper-case character
+- Contains NO special characters
+- Is exactly 12 characters long
+```shell
+grep '[[:upper:]]' rockyou.txt | grep '[[:lower:]]' | grep '[[:digit:]]' | grep -E '^[[:alnum:]]{12}$' > custom_wordlist.txt
+```
+
+
+
+haakon
+ZszQ55MUpXHv
+
+User does not exist
+Unknown username or password.
+
+User does exist 
+Invalid credentials:
+
+gladys
+Gladys
+dWinaldasD13
+
+timeout from opt check? Can only send 3 requests before i need to relogin.
