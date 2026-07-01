@@ -1,4 +1,4 @@
-#tryhackme #hash
+#tryhackme #hash #password
 
 Online cracking tools:
 - [https://crackstation.net/](https://crackstation.net/)
