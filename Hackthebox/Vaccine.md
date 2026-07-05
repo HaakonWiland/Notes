@@ -38,7 +38,11 @@ export TERM=xterm
 ```
 
 Once we have a good enough shell, we want to privsec. There are many ways to do this, but some staring points are:
-- looking for s-bits: `find / -prem -4000 -type f 2>/dev/`
+- looking for s-bits: 
+```
+find / -type f -perm -u=s 2>/dev/null
+```
+
 - sudo -l (Most likely require a password)
 - look at logs, config source code
 
