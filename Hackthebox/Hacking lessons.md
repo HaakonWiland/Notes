@@ -13,3 +13,6 @@
 cat * | grep -i passw*
 ```
 - Be aware of executables being called with filename and not calling the full path of the executable -> This is a potential vector. (PATH hijacking)
+
+#### Web hacking:
+- If we find a standardize application, like jenkins, redis, CMS stuff etc. look for CVEs and fuzz for common credentials.

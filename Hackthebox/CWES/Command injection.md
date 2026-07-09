@@ -1,4 +1,4 @@
-#CWES #injection 
+#CWES #injection #commandinjection 
 
 Payloads: https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection 
 

