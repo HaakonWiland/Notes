@@ -1,4 +1,4 @@
-#CWES #fileinclusion #LFI #phpwrappers #RFI #fileupload
+#CWES #fileinclusion #LFI #phpwrappers #RFI #fileupload #traversal
 
 #### Lessons:
 - If you get LFI one place, remember to use it to read source code

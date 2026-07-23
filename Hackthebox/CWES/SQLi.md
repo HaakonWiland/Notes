@@ -4,6 +4,12 @@
 - quotes matter a lot in our payload, sometimes table names need them sometimes they dont.
 - Be very aware of which schemes you are working in
 - group_concat() is very usefull in union based sqli, it lets us get multiples table/column names in one query.
+- Care aboute the comment-type we use, we can get different responses based on if we use `-- or -- - or #` as comment
+
+
+NOTE on comments in SQL:
+- In MySQL, `--` starts a comment **only when it is immediately followed by whitespace or a control character**. So `--` might not work, but `-- -` or `--%20` might work.
+- When using `#` as the comment sign and we send the payload via the browser, it might be handles as a **fragment identifier** and may not be sent to the backend. But if we url-endcode it, `%23` it might work.  
 
 #### Payloads:
 - https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection#authentication-bypass

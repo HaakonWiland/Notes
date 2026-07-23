@@ -2,11 +2,18 @@
 
 Payloads: https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection 
 
+#### Methodology
+1. If we can see output of the command, try to understand what os command is running. (should also do this with blind injection, but is harder)
+2. Check which characters and commands gets filtered out, find alternative ways to send the characters we want. Craft a POC. 
+3. Craft a payload which does what we want. 
+
 #### Lessons:
 - Enumerate all stuff on the page before you start exploiting - ENUMERATE
 - Injections attacks are way harder to find if the command we are exploiting does not return things to the page - ex. advanced search function did not show anything even if we had valid commands. 
 - Command injections: Deduce the characters and commands that we blacklisted. Once we find a way to chain commands via ; && || etc -> Try to get decoded base64 commands executed since its OP.  
 - Hypothesis: to suspect command injection, we should see some response on the page which correspond to the normal output of some command. no output or costume error messages  may indicate there is no command injection. 
+- Blind command injection is just hard, lots of trial and error.
+- Sometimes we need to add a "chaining character" at the end of our command in addition to at the start, ex: `|| <payload> ||` instead of  `|| <payload>`. This is because some times the suffix after our payload might get interpreted as input arguments for our command, adding || or ; or && at the end signify that we have finished out command. 
 
 
 #### Command injection types:
@@ -18,7 +25,7 @@ Payloads: https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Comman
 
 ##### Useful signs for command injection
 ![[Pasted image 20260317153456.png]]
-- The "or" sign can be useful, if we intentially break the first command or cannot make it return without an error. 
+- **The "or" sign can be useful, if we intentially break the first command or cannot make it return without an error. THIS CAN BE OP** 
 
 NOTE: If our input is sanitized by the application, it is interesting to check it it is only the frontend sanitizing or if the backend aswell. Of only frontend sanitization, we can exploit this by sending request directly to the backend. 
 
