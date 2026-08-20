@@ -45,9 +45,11 @@ done
 
 
 #### XXE
+More doc: https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/XXE%20Injection/README.md 
+
 
 **Methodology**:
-1. Check for internal entity inclusion 
+1. Check for internal entity inclusion, have a POC to verify that there exist a vulnerability
 2. Check for external entity inclusion, via referencing a file. Try php base64 encode if it does not work.
 3. Try to redirect output via blind extraction.
 
@@ -66,6 +68,12 @@ done
 **Note:** XXE is usually used to disclose sensitive local files and source code, which may reveal additional vulnerabilities or ways to gain code execution.
 
 - XXE can be used to gain RCE, the easiest way is to look for ssh key on the server and try leaking them.  We can also use the expect module if it is installed. 
+
+
+**Basic xxe poc, trying to read file:**
+```
+`<?xml version="1.0" encoding="UTF-8"?> <!DOCTYPE foo [ <!ENTITY xxe SYSTEM "file:///etc/passwd"> ]> <stockCheck><productId>&xxe;</productId></stockCheck>`
+```
 
 
 **Basic xml terminology:**

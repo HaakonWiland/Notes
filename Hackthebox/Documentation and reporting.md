@@ -95,7 +95,13 @@ It should include:
 - Recommendation for how to address the problem
 - Reference links with additional information about the finding and resolving it
 - Steps to reproduce the issue and the evidence that you collected
+- Include CWE and CVSS
 
 Tips and tricks:
 - Include more steps and explanations such that inexperienced readers understand how you did the compromise.
-- 
+- Include articles that are relevant and could give the reader more information about the finding. 
+- Terminal should be solid black, with white or green text, so that screenshots looks cleaner and more readable. 
+- You should have someone else review the report 
+
+Article on report writing:  https://www.blackhillsinfosec.com/how-to-not-suck-at-reporting-or-how-to-write-great-pentesting-reports/?_cb=1786952519946 
+

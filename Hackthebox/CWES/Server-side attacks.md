@@ -1,4 +1,4 @@
-#CWES 
+#CWES #SSTI #SSRF
 
 #### Lessons:
 - Inline js code can be useful for finding vulnerabilities, dont overlook them 
@@ -82,6 +82,7 @@ Exploiting templating engines and server-side templates to generate responses, e
 
 - Template engines: Software that combines pre-defined templates with dynamically generated data. Engine examples: Jinja=python/flask/django and Twig
 - SSTI occurs when the attack can inject code into the template via a template parameter, which is later rendered on the server. This might make the server execute the code we injected.
+- If we need more testing cases, it works well to search for ssti payloads
 
 First step i checking if it is vulnerable or not, and then check what template engine it is. We have a payload map which can help us deduce this:
 ![[Pasted image 20260507050724.png]]

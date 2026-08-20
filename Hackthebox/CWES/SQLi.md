@@ -5,6 +5,7 @@
 - Be very aware of which schemes you are working in
 - group_concat() is very usefull in union based sqli, it lets us get multiples table/column names in one query.
 - Care aboute the comment-type we use, we can get different responses based on if we use `-- or -- - or #` as comment
+- When manually looking for columns in a table with union select, remember that we have to use the same datatype as the other select statement. Easy way to do this is to use the `null` value or the "order-by" trick.
 
 
 NOTE on comments in SQL:
