@@ -1,4 +1,4 @@
-#CWES #fuzz
+#CWES #fuzz #vhost #enumeration
 
 **Fuzzing:** Give unexpected input to an application and see how it responds, goal is to find hints at vulnerabilities.  
 
@@ -27,6 +27,19 @@ Even small hidden stuff could be useful, and help a pentester see the bigger pic
 ![[Pasted image 20260110150432.png]]
 
 #### Directive fuzzing:
+
+**Basic directory fuzzing:**
+```shell
+ffuf -w /usr/share/seclists/Discovery/Web-Content/DirBuster-2007_directory-list-2.3-medium.txt -u http://IP:PORT/FUZZ
+```
+
+
+**file fuzzing:**
+```shell
+ffuf -w /usr/share/seclists/Discovery/Web-Content/common.txt -u http://IP:PORT/w2ksvrus/FUZZ -e .php,.html,.txt,.bak,.js -v
+```
+
+
 **Recursive directory fuzzing:**
 Example:
 ```shell

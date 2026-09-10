@@ -1,8 +1,13 @@
 #CWES #XSS #Cross-site-scripting #OWASP10
 
+#### Lessons:
+- When initially testing for xss, try to enter a normal input and check how it changes the source code on the page. Then do the necessary escapes to execute code. This is easier then reading the code and visualizing how it will render - but ofc you can do both.
+
+
 
 #### General:
 - XSS vulnerabilities found on the client side, and do not effect backend server, unless it is a stored XSS vulnerability.  
+- When running the JS code in a XSS, it is contained to running that code in the client browser and in that specific domain.
 - Typical: low impact + high probability = medium risk type of vulnerability. 
 - Modern web pages use Cross-domain IFrames to handle user input, this affects the way XXS works?
 
@@ -30,8 +35,10 @@ Case study: https://en.wikipedia.org/wiki/Samy_(computer_worm)
 
 
 #### Reflected XSS:
+ - XSS which gets processes by the backend server and returned to the frontend without being filtered or sanitized. 
 - Non persistent, but processed on the back-end server.
 - Give aways / hints of XSS:  Our input gets returned to us in its entirety, ex. error or confirmation messages  
+
 
 **How to exploit a non-persistent XSS to attack a target:**
 - Depends on the HTTP request type 
@@ -44,6 +51,9 @@ http://83.136.251.105:46543/index.php?task=%3Cscript%3Ealert%28document.cookie%2
 - DOM = Document object model
 - Example: We make an input to the site, it makes no http requests, but it changes the content of the site - it changes the DOM. 
 - Non persistent, processes only by on the client side
+
+**Source:** JS object that takes the user input, example a input parameter which takes in a url from the user 
+**Sink:** Function that writes the user input to a DOM object 
 
 **JS function to change DOM**
 - `document.write()`
@@ -70,6 +80,9 @@ If "DOM-manipulator" functions are used and input is not being sanitized, then t
 - IDEA: Code review, if we have access to the code of the site, we can see how the code handles user input. 
 
 - Automated XSS tool: https://github.com/s0md3v/XSStrike.git
+```shell
+python xsstrike.py -u "http://SERVER_IP:PORT/index.php?task=test"
+```
 
 #### Exploitation of XSS:
 

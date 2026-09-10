@@ -44,6 +44,13 @@ Can be used for testing connectivity, or blocking unwanted domains to non-existi
 ![[Pasted image 20251201171457.png]]
 ![[Pasted image 20251201172317.png]]
 
+**Example:**
+```
+dnsenum --enum inlanefreight.com -f  /usr/share/seclists/Discovery/DNS/subdomains-top1million-20000.txt 
+```
+
+
+
 #### Subdomains:
 - We want to map these out, it can contain: Dev environments, hidden login portals, legacy applications, sensitive information. 
 

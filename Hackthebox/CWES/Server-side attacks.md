@@ -155,7 +155,8 @@ We can confim and exploit SSII by trying to execute commands via the directory:
 - Configure the web server to restrict the use of SSI to particular file extensions and even black/while list directives (ex. usually do not need the exec directory)
 
 
- **XSLT: Extensible stylesheet language transformations - server side injection** 
+
+**XSLT: Extensible stylesheet language transformations - server side injection** 
 XSTL is a language used to transform XML docs into other formats, example html. This vulnerability exploits this type of transformation. 
 
 - XSL can be used to process a xml document, with operations such as loops, if statements, sorting, and more. ex:

